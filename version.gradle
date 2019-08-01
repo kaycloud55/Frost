@@ -17,16 +17,17 @@ ext {
 
             Glide                  : '4.9.0',
             Gson                   : '2.8.5',
+            dagger                 : '2.15',
 
             MaterialDialogs        : '3.1.0',
             PhotoView              : '2.3.0',
             logger                 : '2.2.0',
-
+            baseRecyclerViewAdapterHelper : '2.9.45-androidx',
 
             work_manager           : '2.0.1',
             room                   : '2.1.0',
-            paging : '',
-            lifecycle : '2.0.0'
+            paging                 : '',
+            lifecycle              : '2.0.0'
 
     ]
 }
