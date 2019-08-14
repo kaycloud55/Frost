@@ -1,7 +1,6 @@
 package com.kaycloud.frost.data
 
 import androidx.lifecycle.LiveData
-import com.android.example.github.repository.NetworkBoundResource
 import com.kaycloud.framework.ext.TAG
 import com.kaycloud.frost.AppExecutors
 import com.kaycloud.frost.api.GANK_BASE_URL

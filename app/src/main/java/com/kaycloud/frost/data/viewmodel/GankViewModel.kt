@@ -28,26 +28,12 @@ class GankViewModel internal constructor(context: Context) : ViewModel() {
 
     private var welfare: LiveData<Resource<List<GankItem>>> = MutableLiveData()
 
-    private var test: MutableLiveData<String> = MutableLiveData()
-    private var result: MediatorLiveData<String> = MediatorLiveData()
-
-    fun getResult() = result
-
-    fun query(origin: String) {
-        test.value = origin
-        result.addSource(test) { str ->
-            com.orhanobut.logger.Logger.t(TAG).d("6666666")
-        }
-
-    }
-
     fun getWelfare(): LiveData<Resource<List<GankItem>>> {
         return welfare
     }
 
     fun loadWelfare(page: Int) {
-        val aa = gankRepository.getGankData(page)
-        welfare = aa
+        welfare = gankRepository.getGankData(page)
     }
 
 
