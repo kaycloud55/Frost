@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.kaycloud.frost.data
+package com.android.example.github.repository
 
-import androidx.annotation.MainThread
-import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.annotation.MainThread
+import androidx.annotation.WorkerThread
 import com.kaycloud.frost.AppExecutors
 import com.kaycloud.frost.api.ApiEmptyResponse
 import com.kaycloud.frost.api.ApiErrorResponse
@@ -36,11 +36,9 @@ import com.kaycloud.frost.vo.Resource
  * @param <ResultType>
  * @param <RequestType>
 </RequestType></ResultType> */
-abstract class NetworkBoundResource<ResultType, RequestType> {
+abstract class NetworkBoundResource<ResultType, RequestType>
+@MainThread constructor(private val appExecutors: AppExecutors) {
 
-    // MediatorLiveData有合并多个流的功能
-    // LiveData子类，它可以观察其他LiveData对象并对它们的OnChanged事件做出反应。
-    // 主要用来做多个LiveData的融合
     private val result = MediatorLiveData<Resource<ResultType>>()
 
     init {
@@ -77,9 +75,9 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
             result.removeSource(dbSource)
             when (response) {
                 is ApiSuccessResponse -> {
-                    AppExecutors.getInstance().getDiskIO().execute {
+                    appExecutors.getDiskIO().execute {
                         saveCallResult(processResponse(response))
-                        AppExecutors.getInstance().getMainThread().execute {
+                        appExecutors.getMainThread().execute {
                             // we specially request a new live data,
                             // otherwise we will get immediately last cached value,
                             // which may not be updated with latest results received from network.
@@ -90,7 +88,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                     }
                 }
                 is ApiEmptyResponse -> {
-                    AppExecutors.getInstance().getMainThread().execute {
+                    appExecutors.getMainThread().execute {
                         // reload from disk whatever we had
                         result.addSource(loadFromDb()) { newData ->
                             setValue(Resource.success(newData))

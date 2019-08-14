@@ -1,12 +1,16 @@
 package com.kaycloud.frost.data
 
 import androidx.lifecycle.LiveData
+import com.android.example.github.repository.NetworkBoundResource
 import com.kaycloud.framework.ext.TAG
+import com.kaycloud.frost.AppExecutors
 import com.kaycloud.frost.api.GANK_BASE_URL
 import com.kaycloud.frost.api.GankService
+import com.kaycloud.frost.util.LiveDataCallAdapterFactory
 import com.kaycloud.frost.vo.Resource
 import com.orhanobut.logger.Logger
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * Created by kaycloud on 2019-07-16
@@ -15,13 +19,9 @@ class GankRepository private constructor(
     private val gankDao: GankDao
 ) {
 
-    private val retrofit by lazy {
-        Retrofit.Builder().baseUrl(GANK_BASE_URL).build()
-    }
-
-    private val gankService by lazy {
-        retrofit.create(GankService::class.java)
-    }
+    private val gankService =
+        Retrofit.Builder().baseUrl(GANK_BASE_URL).addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(LiveDataCallAdapterFactory()).build().create(GankService::class.java)
 
     companion object {
 
@@ -35,7 +35,7 @@ class GankRepository private constructor(
 
     fun getGankData(page: Int): LiveData<Resource<List<GankItem>>> {
         Logger.t(TAG).d("getGankData,page:$page")
-        return object : NetworkBoundResource<List<GankItem>, List<GankItem>>() {
+        return object : NetworkBoundResource<List<GankItem>, List<GankItem>>(AppExecutors.getInstance()) {
             override fun saveCallResult(item: List<GankItem>) {
                 gankDao.insertAll(item)
             }
