@@ -1,6 +1,8 @@
 package com.kaycloud.frost.data
 
 import androidx.room.*
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 /**
  * Created by kaycloud on 2019-07-16
@@ -11,18 +13,34 @@ import androidx.room.*
 data class GankResponse(@Ignore val error: Boolean, private val results: List<GankItem>)
 
 @Entity(tableName = "gank_data")
+@TypeConverters(ImageConverters::class)
 data class GankItem(
-    @PrimaryKey
-    val id: String? = null,
+    @PrimaryKey val id: String,
     @ColumnInfo(name = "created_at")
-    val createdAt: String? = null,
+    val createdAt: String?,
     @ColumnInfo(name = "published_at")
-    val publishedAt: String? = null,
-    val source: String? = null,
-    val used: String? = null,
-    val type: String? = null,
-    val url: String? = null,
-    val desc: String? = null,
-    val who: String? = null,
-    val images: List<String>? = null
+    val publishedAt: String?,
+    val source: String?,
+    val used: String?,
+    val type: String?,
+    val url: String?,
+    val desc: String?,
+    val who: String?,
+    val images: List<String>?
 )
+
+class ImageConverters {
+
+    @TypeConverter
+    fun stringToObject(value: String): List<String> {
+        val listType = object : TypeToken<List<String>>() {
+
+        }.type
+        return Gson().fromJson(value, listType)
+    }
+
+    @TypeConverter
+    fun objectToString(list: List<String>): String {
+        return Gson().toJson(list)
+    }
+}

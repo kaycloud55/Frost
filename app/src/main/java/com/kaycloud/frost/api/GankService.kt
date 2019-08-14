@@ -8,6 +8,7 @@ import retrofit2.http.Path
 
 /**
  * Created by kaycloud on 2019-07-08
+ * http://gank.io/api/data/福利/10/1
  */
 interface GankService {
 

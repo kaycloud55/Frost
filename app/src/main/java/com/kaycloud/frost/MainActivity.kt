@@ -1,10 +1,7 @@
 package com.kaycloud.frost
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.core.view.GravityCompat
-import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -12,25 +9,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kaycloud.frost.data.*
 import com.kaycloud.frost.data.viewmodel.GankViewModel
+import com.kaycloud.frost.data.viewmodel.GankViewModelFactory
 import com.kaycloud.frost.ui.HomeAdapter
-import dagger.android.HasActivityInjector
-import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     lateinit var gankViewModel: GankViewModel
 
-    @Inject
-    lateinit var appExecutors: AppExecutors
+    lateinit var homeAdapter: HomeAdapter
 
     private var mDataList: MutableList<GankItem> = mutableListOf()
 
@@ -44,37 +35,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
-        val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        navView.setNavigationItemSelectedListener(this)
+//        val fab: FloatingActionButton = findViewById(R.id.fab)
+//        fab.setOnClickListener { view ->
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+//        }
+//        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+//        val navView: NavigationView = findViewById(R.id.nav_view)
+//        val toggle = ActionBarDrawerToggle(
+//            this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+//        )
+//        drawerLayout.addDrawerListener(toggle)
+//        toggle.syncState()
+//
+//        navView.setNavigationItemSelectedListener(this)
 
         val recyclerView: RecyclerView = findViewById(R.id.rv_main)
         recyclerView.layoutManager = GridLayoutManager(this, 2)
 
-        val homeAdapter = HomeAdapter(R.layout.item_home_list, mDataList, this)
+        homeAdapter = HomeAdapter(R.layout.item_home_list, mDataList, this)
         homeAdapter.openLoadAnimation()
         homeAdapter.notifyDataSetChanged()
         recyclerView.adapter = homeAdapter
 
 
-        gankViewModel = ViewModelProviders.of(this, viewModelFactory).get(GankViewModel::class.java)
-        gankViewModel.getWelfares().observe(this, Observer {
-            mDataList.addAll(it)
+        initData()
+
+    }
+
+    private fun initData() {
+        gankViewModel = ViewModelProviders.of(this, GankViewModelFactory(application))[GankViewModel::class.java]
+        gankViewModel.getWelfare().observe(this, Observer {
+            mDataList.addAll(it.data!!)
             homeAdapter.notifyDataSetChanged()
         })
-
-
+        gankViewModel.loadWelfare(0)
     }
 
     override fun onBackPressed() {

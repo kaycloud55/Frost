@@ -43,4 +43,10 @@ dependencies {
     api "com.google.dagger:dagger-android-support:${rootProject.versions.dagger}" // if you use the support libraries
     kapt "com.google.dagger:dagger-android-processor:${rootProject.versions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${rootProject.versions.dagger}"
+
+    //jetpack-room
+    api "androidx.room:room-runtime:${rootProject.versions.room}"
+    kapt "androidx.room:room-compiler:${rootProject.versions.room}"
+    api "androidx.room:room-ktx:${rootProject.versions.room}"
+    api "androidx.room:room-rxjava2:${rootProject.versions.room}"
 }

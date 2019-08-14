@@ -5,10 +5,16 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.ListenableWorker
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
+import com.kaycloud.framework.ext.TAG
+import com.kaycloud.frost.AppExecutors
 import com.kaycloud.frost.DATABASE_NAME
-import com.kaycloud.frost.workers.GankDatabaseWorker
+import com.kaycloud.frost.GANK_DATA_FILENAME
+import com.orhanobut.logger.Logger
+import java.lang.Exception
 
 /**
  * Created by kaycloud on 2019-07-16
@@ -21,7 +27,7 @@ import com.kaycloud.frost.workers.GankDatabaseWorker
 @Database(entities = [GankItem::class], version = 1, exportSchema = false)
 abstract class AppDataBase : RoomDatabase() {
 
-    abstract fun GankDataDao(): GankDao
+    abstract fun gankDao(): GankDao
 
     companion object {
 
@@ -39,9 +45,22 @@ abstract class AppDataBase : RoomDatabase() {
             return Room.databaseBuilder(context, AppDataBase::class.java, DATABASE_NAME)
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
-                        super.onCreate(db)
-                        val request = OneTimeWorkRequestBuilder<GankDatabaseWorker>().build()
-                        WorkManager.getInstance().enqueue(request)
+                        AppExecutors.getInstance().getDiskIO().execute {
+                            try {
+                                context.assets.open(GANK_DATA_FILENAME).use { inputSteam ->
+                                    JsonReader(inputSteam.reader()).use { jsonReader: JsonReader ->
+                                        val gankType = object : TypeToken<List<GankItem>>() {}.type
+                                        val gankList: List<GankItem> = Gson().fromJson(jsonReader, gankType)
+                                        val database = AppDataBase.getInstance(context)
+                                        database.gankDao().insertAll(gankList)
+                                        ListenableWorker.Result.success()
+                                    }
+                                }
+                            } catch (ex: Exception) {
+                                Logger.t(TAG).e("Error seeding databse", ex)
+                                ListenableWorker.Result.failure()
+                            }
+                        }
                     }
                 }).build()
         }
