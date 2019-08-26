@@ -50,7 +50,8 @@ abstract class AppDataBase : RoomDatabase() {
                                 context.assets.open(GANK_DATA_FILENAME).use { inputSteam ->
                                     JsonReader(inputSteam.reader()).use { jsonReader: JsonReader ->
                                         val gankType = object : TypeToken<List<GankItem>>() {}.type
-                                        val gankList: List<GankItem> = Gson().fromJson(jsonReader, gankType)
+                                        val gankList: List<GankItem> =
+                                            Gson().fromJson(jsonReader, gankType)
                                         val database = AppDataBase.getInstance(context)
                                         database.gankDao().insertAll(gankList)
                                         ListenableWorker.Result.success()

@@ -79,4 +79,8 @@ dependencies {
 
     //recyclerview
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:${rootProject.versions.baseRecyclerViewAdapterHelper}"
+
+    api "com.squareup.okhttp3:logging-interceptor:4.1.0"
+
+    debugApi 'com.amitshekhar.android:debug-db:1.0.6'
 }

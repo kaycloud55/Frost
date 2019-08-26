@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.kaycloud.frost.util
+package com.kaycloud.frost.network.adapter
 
 import androidx.lifecycle.LiveData
-import com.kaycloud.frost.api.ApiResponse
+import com.kaycloud.frost.network.ApiResponse
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback

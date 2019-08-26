@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kaycloud.frost.vo
+package com.kaycloud.frost.network
 
 /**
  * Status of a resource that is provided to the UI.

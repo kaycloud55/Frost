@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.kaycloud.frost.util
+package com.kaycloud.frost.network.adapter
 
-import com.kaycloud.frost.api.ApiResponse
+import com.kaycloud.frost.network.ApiResponse
 
 import androidx.lifecycle.LiveData
 import retrofit2.CallAdapter
@@ -45,4 +45,5 @@ class LiveDataCallAdapterFactory : Factory() {
         val bodyType = Factory.getParameterUpperBound(0, observableType)
         return LiveDataCallAdapter<Any>(bodyType)
     }
+
 }

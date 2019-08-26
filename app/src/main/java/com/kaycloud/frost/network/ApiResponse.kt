@@ -1,4 +1,4 @@
-package com.kaycloud.frost.api
+package com.kaycloud.frost.network
 
 /*
  * Copyright (C) 2017 The Android Open Source Project
@@ -22,7 +22,7 @@ import java.util.regex.Pattern
 
 /**
  * Common class used by API responses.
- * @param <T> the type of the response object
+ * @param <T> response的具体类型
 </T> */
 @Suppress("unused") // T is used in extending classes
 sealed class ApiResponse<T> {
@@ -31,9 +31,13 @@ sealed class ApiResponse<T> {
             return ApiErrorResponse(error.message ?: "unknown error")
         }
 
+        /**
+         * @param response 这里的参数是Retrofit的Response，目的是封装成自定义的形式
+         */
         fun <T> create(response: Response<T>): ApiResponse<T> {
             return if (response.isSuccessful) {
                 val body = response.body()
+
                 if (body == null || response.code() == 204) {
                     ApiEmptyResponse()
                 } else {
@@ -56,14 +60,15 @@ sealed class ApiResponse<T> {
 }
 
 /**
- * separate class for HTTP 204 responses so that we can make ApiSuccessResponse's body non-null.
+ * 单独抽离204，这样可以保证ApiSuccessResponse一定是non-null的
  */
 class ApiEmptyResponse<T> : ApiResponse<T>()
 
-data class ApiSuccessResponse<T>(
-    val body: T,
-    val links: Map<String, String>
-) : ApiResponse<T>() {
+/**
+ * @param links 这个参数的作用在于根据response.headers抽取出请求的链接，供nextPage()方法调用
+ */
+data class ApiSuccessResponse<T>(val body: T, val links: Map<String, String>) : ApiResponse<T>() {
+
     constructor(body: T, linkHeader: String?) : this(
         body = body,
         links = linkHeader?.extractLinks() ?: emptyMap()
@@ -87,7 +92,7 @@ data class ApiSuccessResponse<T>(
 
     companion object {
         private val LINK_PATTERN = Pattern.compile("<([^>]*)>[\\s]*;[\\s]*rel=\"([a-zA-Z0-9]+)\"")
-        private val PAGE_PATTERN = Pattern.compile("\\bpage=(\\d+)")
+        private val PAGE_PATTERN = Pattern.compile("\\bpage=(\\d+)") //匹配类似"page=1"这样的格式
         private const val NEXT_LINK = "next"
 
         private fun String.extractLinks(): Map<String, String> {

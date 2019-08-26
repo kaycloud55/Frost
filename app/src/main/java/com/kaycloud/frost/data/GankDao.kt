@@ -9,7 +9,7 @@ import androidx.room.*
 @Dao
 interface GankDao {
 
-    @Query("SELECT * FROM gank_data ORDER BY created_at")
+    @Query("SELECT * FROM gank_data")
     fun getAll(): LiveData<List<GankItem>>
 
     @Query("SELECT * FROM gank_data WHERE id IN (:ids)")

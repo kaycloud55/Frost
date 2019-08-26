@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package com.kaycloud.frost.data
+package com.kaycloud.frost.network
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import com.kaycloud.frost.AppExecutors
-import com.kaycloud.frost.api.ApiEmptyResponse
-import com.kaycloud.frost.api.ApiErrorResponse
-import com.kaycloud.frost.api.ApiResponse
-import com.kaycloud.frost.api.ApiSuccessResponse
-import com.kaycloud.frost.vo.Resource
 
 /**
  * A generic class that can provide a resource backed by both the sqlite database and the network.
@@ -45,17 +40,16 @@ abstract class NetworkBoundResource<ResultType, RequestType>
         result.value = Resource.loading(null)
         @Suppress("LeakingThis")
         val dbSource = loadFromDb()
-//        result.addSource(dbSource) { data ->
-//            result.removeSource(dbSource)
-//            if (shouldFetch(data)) {
-//                fetchFromNetwork(dbSource)
-//            } else {
-//                result.addSource(dbSource) { newData ->
-//                    setValue(Resource.success(newData))
-//                }
-//            }
-//        }
-        fetchFromNetwork(dbSource)
+        result.addSource(dbSource) { data ->
+            result.removeSource(dbSource)
+            if (shouldFetch(data)) {
+                fetchFromNetwork(dbSource)
+            } else {
+                result.addSource(dbSource) { newData ->
+                    setValue(Resource.success(newData))
+                }
+            }
+        }
     }
 
     @MainThread

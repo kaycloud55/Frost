@@ -2,15 +2,13 @@ package com.kaycloud.frost.data.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.kaycloud.framework.ext.TAG
 import com.kaycloud.frost.data.AppDataBase
 import com.kaycloud.frost.data.GankItem
 import com.kaycloud.frost.data.GankRepository
-import com.kaycloud.frost.vo.Resource
-import java.util.logging.Logger
+import com.kaycloud.frost.network.Resource
 
 /**
  * Created by kaycloud on 2019-07-17
@@ -24,17 +22,23 @@ import java.util.logging.Logger
  */
 class GankViewModel internal constructor(context: Context) : ViewModel() {
 
-    private val gankRepository = GankRepository.getInstance(AppDataBase.getInstance(context).gankDao())
+    private val gankRepository =
+        GankRepository.getInstance(AppDataBase.getInstance(context).gankDao())
 
-    private var welfare: LiveData<Resource<List<GankItem>>> = MutableLiveData()
+    private val _page: MutableLiveData<Int> = MutableLiveData()
 
-    fun getWelfare(): LiveData<Resource<List<GankItem>>> {
-        return welfare
+    val page: LiveData<Int>
+        get() = _page
+
+    private var welfare: LiveData<Resource<List<GankItem>>> =
+        Transformations.switchMap(_page) { input -> gankRepository.getGankData(input) }
+
+    fun setPage(newValue: Int) {
+        if (this._page.value == newValue) {
+            return
+        }
+        _page.value = newValue
     }
 
-    fun loadWelfare(page: Int) {
-        welfare = gankRepository.getGankData(page)
-    }
-
-
+    fun getWelfare() = welfare
 }

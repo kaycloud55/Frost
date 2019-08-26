@@ -2,7 +2,7 @@ package com.kaycloud.frost.api
 
 import androidx.lifecycle.LiveData
 import com.kaycloud.frost.data.GankItem
-import com.kaycloud.frost.data.GankResponse
+import com.kaycloud.frost.network.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
