@@ -8,7 +8,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kaycloud.frost.data.GankItem
 import com.kaycloud.frost.data.viewmodel.GankViewModel
 import com.kaycloud.frost.data.viewmodel.GankViewModelFactory
@@ -33,7 +35,8 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         val recyclerView: RecyclerView = findViewById(R.id.rv_main)
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         homeAdapter = HomeAdapter(R.layout.item_home_list, mDataList, this)
         homeAdapter.openLoadAnimation()
         homeAdapter.notifyDataSetChanged()

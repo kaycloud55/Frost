@@ -14,4 +14,10 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+
+    <string name="title_bottom_girl">妹纸</string>
+    <string name="title_bottom_news">新闻</string>
+    <string name="title_bottom_video">视频</string>
+    <string name="title_bottom_my">我的</string>
+
 </resources>
