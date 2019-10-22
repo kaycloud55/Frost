@@ -54,7 +54,6 @@ class GankRepository private constructor(
 
             override fun shouldFetch(data: List<GankItem>?): Boolean {
                 Logger.t(TAG).d("shouldFetch")
-//                return data == null || data.isEmpty()
                 return true
             }
 
@@ -63,8 +62,6 @@ class GankRepository private constructor(
             }
 
             override fun createCall() = gankService.getWelfare(page)
-
-
         }.asLiveData()
     }
 }

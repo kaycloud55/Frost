@@ -2,7 +2,6 @@ package com.kaycloud.frost.data
 
 import androidx.room.*
 import com.google.gson.Gson
-import com.google.gson.annotations.JsonAdapter
 import com.google.gson.reflect.TypeToken
 
 /**
@@ -11,8 +10,6 @@ import com.google.gson.reflect.TypeToken
  * 默认情况下，Room使用类名作为数据库表名。如果希望表具有不同的名称，可以设置@Entity注解的tableName属性。（表名不区分大小写）
  * 默认情况下，Room使用字段名称作为数据库中的列名。如果希望列具有不同的名称，可以使用@ColumnInfo注解字段。
  */
-data class GankResponse(@Ignore val error: Boolean, val results: String)
-
 @Entity(tableName = "gank_data")
 @TypeConverters(ImageConverters::class)
 data class GankItem(
@@ -35,9 +32,7 @@ class ImageConverters {
 
     @TypeConverter
     fun stringToObject(value: String): List<String>? {
-        val listType = object : TypeToken<List<String>?>() {
-
-        }.type
+        val listType = object : TypeToken<List<String>?>() {}.type
         return Gson().fromJson(value, listType)
     }
 

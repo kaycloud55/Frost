@@ -30,6 +30,9 @@ class GankViewModel internal constructor(context: Context) : ViewModel() {
     val page: LiveData<Int>
         get() = _page
 
+    /**
+     * 这里观察了`_page`的值，发生变化就去调用getGankData
+     */
     private var welfare: LiveData<Resource<List<GankItem>>> =
         Transformations.switchMap(_page) { input -> gankRepository.getGankData(input) }
 

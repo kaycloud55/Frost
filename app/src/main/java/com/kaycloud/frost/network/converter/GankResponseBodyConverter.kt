@@ -1,32 +1,40 @@
 package com.kaycloud.frost.network.converter
 
 import com.google.gson.Gson
-import com.google.gson.JsonIOException
 import com.google.gson.TypeAdapter
-import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonToken
-import com.kaycloud.frost.data.GankResponse
+import com.kaycloud.frost.BuildConfig
+import com.orhanobut.logger.Logger
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Converter
+import java.io.ByteArrayInputStream
+import java.io.InputStreamReader
+
 
 /**
  * Created by kaycloud on 2019-08-21
  */
-class GankResponseBodyConverter<T> constructor(val gson: Gson, val adapter: TypeAdapter<T>) :
-    Converter<ResponseBody, String> {
+class GankResponseBodyConverter<T> constructor(
+    private val gson: Gson,
+    private val adapter: TypeAdapter<T>
+) : Converter<ResponseBody, T> {
 
-    override fun convert(value: ResponseBody): String? {
-        val jsonReader = gson.newJsonReader(value.charStream())
-        val adapter = gson.getAdapter(TypeToken.get(GankResponse::class.java))
+    override fun convert(value: ResponseBody): T? {
         value.use { value ->
+            val responseString = value.string() //把responseBody转为string
+            val jsonObject = JSONObject(responseString)
+            val jsonResult = jsonObject.optString("results")
+            if (BuildConfig.DEBUG) {
+                Logger.t(BuildConfig.APPLICATION_ID).d(responseString)
+            }
+            val inputStream = ByteArrayInputStream(jsonResult.toByteArray())
+            val jsonReader = gson.newJsonReader(InputStreamReader(inputStream))
             val result = adapter.read(jsonReader)
-            val results = result.results
             if (jsonReader.peek() != JsonToken.END_DOCUMENT) {
                 throw Throwable("JSON document was not fully consumed.")
             }
-            return results
+            return result
         }
     }
-
-
 }
