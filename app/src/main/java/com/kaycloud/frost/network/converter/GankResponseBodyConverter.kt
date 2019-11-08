@@ -24,7 +24,10 @@ class GankResponseBodyConverter<T> constructor(
         value.use { value ->
             val responseString = value.string() //把responseBody转为string
             val jsonObject = JSONObject(responseString)
-            val jsonResult = jsonObject.optString("results")
+            var jsonResult = jsonObject.optString("results")
+            if (jsonResult.isNullOrEmpty()) {
+                jsonResult = jsonObject.optString("data")
+            }
             if (BuildConfig.DEBUG) {
                 Logger.t(BuildConfig.APPLICATION_ID).d(responseString)
             }

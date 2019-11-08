@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.kaycloud.frost.data.AppDataBase
-import com.kaycloud.frost.data.GankItem
+import com.kaycloud.frost.data.entity.GankItemEntity
 import com.kaycloud.frost.data.GankRepository
 import com.kaycloud.frost.network.Resource
 
@@ -33,7 +33,7 @@ class GankViewModel internal constructor(context: Context) : ViewModel() {
     /**
      * 这里观察了`_page`的值，发生变化就去调用getGankData
      */
-    private var welfare: LiveData<Resource<List<GankItem>>> =
+    private var welfare: LiveData<Resource<List<GankItemEntity>>> =
         Transformations.switchMap(_page) { input -> gankRepository.getGankData(input) }
 
     fun setPage(newValue: Int) {

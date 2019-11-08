@@ -5,3 +5,12 @@ package com.kaycloud.frost
  */
 const val DATABASE_NAME = "frost-db"
 const val GANK_DATA_FILENAME = "gank.json"
+
+const val WALLHEAVEN_APIKEY = "LjWrHrZv6N4KIzOgbS9ZbHu1WeoUHS0G"
+
+
+object DatabaseConstant {
+
+    const val TABLE_GANK = "gank_data"
+    const val TABLE_WALLHAVEN = "wallhaven_data"
+}

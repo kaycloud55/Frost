@@ -1,6 +1,7 @@
 package com.kaycloud.frost
 
 import android.app.Application
+import com.facebook.stetho.Stetho
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 
@@ -13,7 +14,6 @@ class FrostApp : Application() {
         super.onCreate()
 
         Logger.addLogAdapter(AndroidLogAdapter())
+        Stetho.initializeWithDefaults(this)
     }
-
-
 }

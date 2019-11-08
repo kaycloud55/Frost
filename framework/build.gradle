@@ -75,7 +75,9 @@ dependencies {
     //log
     api "com.orhanobut:logger:${rootProject.versions.logger}"
 
-
+    //stetho调试
+    api "com.facebook.stetho:stetho:${rootProject.versions.stetho}"
+    api "com.facebook.stetho:stetho-okhttp3:${rootProject.versions.stetho}"
 
     //recyclerview
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:${rootProject.versions.baseRecyclerViewAdapterHelper}"
