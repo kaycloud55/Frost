@@ -39,7 +39,7 @@ class GankRepository private constructor(
                 AppExecutors.getInstance()
             ) {
             override fun saveCallResult(itemEntity: List<GankItemEntity>) {
-                Logger.t(TAG).d(itemEntity)
+                Logger.t(TAG).d("%s", itemEntity)
                 gankDao.insertAll(itemEntity)
             }
 

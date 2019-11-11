@@ -11,10 +11,9 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.kaycloud.frost.R
 import com.kaycloud.frost.data.entity.WallhavenItemEntity
 
-class MainActivity : AppCompatActivity(), GankListFragment.OnListFragmentInteractionListener,
-    WallhavenListFragment.OnListFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
 
-    override fun onListFragmentInteraction(item: WallhavenItemEntity) {
+    override fun onFragmentInteraction(item: WallhavenItemEntity) {
     }
 
     private var ahBottomNavigation: AHBottomNavigation? = null

@@ -19,21 +19,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kaycloud.framework.ext.TAG
 import com.kaycloud.frost.R
 import com.kaycloud.frost.data.entity.GankItemEntity
-import com.kaycloud.frost.data.entity.WallhavenItemEntity
 import com.kaycloud.frost.data.viewmodel.GankViewModel
 import com.kaycloud.frost.data.viewmodel.GankViewModelFactory
 import com.kaycloud.frost.network.Status
 import com.kaycloud.frost.ui.adapter.GankListAdapter
 import com.orhanobut.logger.Logger
 
-/**
- * author: kaycloud
- * Created_at: 2019-11-08
- */
 class GankListFragment : Fragment() {
 
     private var columnCount = 1
-    private var listener: OnListFragmentInteractionListener? = null
+    private var listener: OnFragmentInteractionListener? = null
     private val mItemList: MutableList<GankItemEntity> = mutableListOf()
 
     private var mAdapter: GankListAdapter? = null
@@ -84,7 +79,7 @@ class GankListFragment : Fragment() {
             if (it.status == Status.SUCCESS && it.data != null) {
                 mItemList.clear()
                 mItemList.addAll(it.data)
-                Logger.t(TAG).i("", mItemList)
+                Logger.t(TAG).i("%s", mItemList)
                 mAdapter?.notifyDataSetChanged()
             }
         })
@@ -94,7 +89,7 @@ class GankListFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnListFragmentInteractionListener) {
+        if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
             throw RuntimeException(
@@ -106,21 +101,6 @@ class GankListFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson
-     * [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: WallhavenItemEntity)
     }
 
     companion object {

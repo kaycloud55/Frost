@@ -29,7 +29,7 @@ class WallhavenListFragment : Fragment() {
 
     private var columnCount = 1
 
-    private var listener: OnListFragmentInteractionListener? = null
+    private var listener: OnFragmentInteractionListener? = null
     private lateinit var viewModel: WallhavenViewModel
 
     private val mItemList: MutableList<WallhavenItemEntity> = mutableListOf()
@@ -84,7 +84,7 @@ class WallhavenListFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnListFragmentInteractionListener) {
+        if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
             throw RuntimeException(
@@ -98,27 +98,10 @@ class WallhavenListFragment : Fragment() {
         listener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson
-     * [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: WallhavenItemEntity)
-    }
-
     companion object {
 
-        // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
 
-        // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
             WallhavenListFragment().apply {

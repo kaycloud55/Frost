@@ -1,5 +1,6 @@
 package com.kaycloud.frost.network
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.kaycloud.frost.BuildConfig
 import com.kaycloud.frost.network.adapter.LiveDataCallAdapterFactory
 import com.kaycloud.frost.network.converter.GankConverterFactory
@@ -21,6 +22,7 @@ object NetworkRequester {
                     level = HttpLoggingInterceptor.Level.BODY
                 }
             })
+            .addInterceptor(StethoInterceptor())
             .readTimeout(10, TimeUnit.SECONDS)
             .connectTimeout(10, TimeUnit.SECONDS)
             .build()

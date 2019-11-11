@@ -29,7 +29,7 @@ class GankResponseBodyConverter<T> constructor(
                 jsonResult = jsonObject.optString("data")
             }
             if (BuildConfig.DEBUG) {
-                Logger.t(BuildConfig.APPLICATION_ID).d(responseString)
+                Logger.t("HttpResponse").d(responseString)
             }
             val inputStream = ByteArrayInputStream(jsonResult.toByteArray())
             val jsonReader = gson.newJsonReader(InputStreamReader(inputStream))
