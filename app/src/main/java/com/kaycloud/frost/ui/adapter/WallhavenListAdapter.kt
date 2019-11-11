@@ -1,6 +1,7 @@
 package com.kaycloud.frost.ui.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -9,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.kaycloud.frost.R
 import com.kaycloud.frost.data.entity.WallhavenItemEntity
+import com.kaycloud.frost.ui.PhotoDetailActivity
 
 /**
  * author: kaycloud
@@ -29,6 +31,11 @@ class WallhavenListAdapter(
                     .override(Target.SIZE_ORIGINAL)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
+            }
+            img?.setOnClickListener {
+                context.startActivity(Intent(context, PhotoDetailActivity::class.java).apply {
+                    putExtra("url", item.path)
+                })
             }
         }
     }

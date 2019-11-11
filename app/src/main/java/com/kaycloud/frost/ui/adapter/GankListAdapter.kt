@@ -1,6 +1,7 @@
 package com.kaycloud.frost.ui.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -9,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.kaycloud.frost.R
 import com.kaycloud.frost.data.entity.GankItemEntity
+import com.kaycloud.frost.ui.PhotoDetailActivity
 
 /**
  * Created by kaycloud on 2019-07-17
@@ -27,6 +29,11 @@ class GankListAdapter(layoutId: Int, data: List<GankItemEntity>, private val con
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(it)
                 }
+            }
+            img?.setOnClickListener {
+                context.startActivity(Intent(context, PhotoDetailActivity::class.java).apply {
+                    putExtra("url", itemEntity.url)
+                })
             }
         }
     }
