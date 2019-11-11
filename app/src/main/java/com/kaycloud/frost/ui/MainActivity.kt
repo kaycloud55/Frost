@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity(), GankListFragment.OnListFragmentInterac
             }
             return@setOnTabSelectedListener true
         }
+        ahBottomNavigation?.currentItem = 0
     }
 
     private fun replaceFragment(fragment: Fragment) {
