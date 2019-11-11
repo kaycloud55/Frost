@@ -19,6 +19,9 @@ class MainActivity : AppCompatActivity(), GankListFragment.OnListFragmentInterac
 
     private var ahBottomNavigation: AHBottomNavigation? = null
 
+    private val gankListFragment = GankListFragment.newInstance(2)
+    private val wallhavenListFragment = WallhavenListFragment.newInstance(2)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,8 +36,8 @@ class MainActivity : AppCompatActivity(), GankListFragment.OnListFragmentInterac
         navigationAdapter.setupWithBottomNavigation(ahBottomNavigation)
         ahBottomNavigation?.setOnTabSelectedListener { position, wasSelected ->
             when (position) {
-                0 -> replaceFragment(GankListFragment.newInstance(1))
-                1 -> replaceFragment(WallhavenListFragment.newInstance(1))
+                0 -> replaceFragment(gankListFragment)
+                1 -> replaceFragment(wallhavenListFragment)
                 else -> {
                 }
             }

@@ -27,7 +27,6 @@ import com.kaycloud.frost.ui.adapter.WallhavenListAdapter
  */
 class WallhavenListFragment : Fragment() {
 
-    // TODO: Customize parameters
     private var columnCount = 1
 
     private var listener: OnListFragmentInteractionListener? = null
