@@ -6,7 +6,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.kaycloud.frost.R
 import com.kaycloud.frost.data.entity.WallhavenItemEntity
 
@@ -14,10 +15,9 @@ class MainActivity : AppCompatActivity(), GankListFragment.OnListFragmentInterac
     WallhavenListFragment.OnListFragmentInteractionListener {
 
     override fun onListFragmentInteraction(item: WallhavenItemEntity) {
-
     }
 
-    private var bottomNavigationView: BottomNavigationView? = null
+    private var ahBottomNavigation: AHBottomNavigation? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,17 +28,17 @@ class MainActivity : AppCompatActivity(), GankListFragment.OnListFragmentInterac
     private fun initView() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        bottomNavigationView = findViewById(R.id.bottom_navigation)
-        bottomNavigationView?.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.item_girl -> {
-                    replaceFragment(GankListFragment.newInstance(1))
-                }
-                R.id.item_news -> {
-                    replaceFragment(WallhavenListFragment.newInstance(1))
+        ahBottomNavigation = findViewById(R.id.bottom_navigation)
+        val navigationAdapter = AHBottomNavigationAdapter(this, R.menu.bottom_navigation)
+        navigationAdapter.setupWithBottomNavigation(ahBottomNavigation)
+        ahBottomNavigation?.setOnTabSelectedListener { position, wasSelected ->
+            when (position) {
+                0 -> replaceFragment(GankListFragment.newInstance(1))
+                1 -> replaceFragment(WallhavenListFragment.newInstance(1))
+                else -> {
                 }
             }
-            return@setOnNavigationItemSelectedListener false
+            return@setOnTabSelectedListener true
         }
     }
 

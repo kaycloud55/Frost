@@ -1,33 +1,33 @@
 ext {
     versions = [
-            compileSdkVersion      : 28,
-            minSdkVersion          : 21,
-            targetSdkVersion       : 28,
+            compileSdkVersion            : 28,
+            minSdkVersion                : 21,
+            targetSdkVersion             : 28,
 
-            appCompatVersion       : '1.0.2',
-            constraintLayoutVersion: '2.0.0-beta1',
+            appCompatVersion             : '1.0.2',
+            constraintLayoutVersion      : '2.0.0-beta1',
 
-            stetho                 : '1.5.1',
+            stetho                       : '1.5.1',
+            ahBottomNavigation           : '2.3.4',
+            Retrofit                     : '2.6.0',
+            Koin                         : '2.0.1',
+            RxAndroid                    : '2.1.1',
+            Rxjava                       : '2.2.10',
+            RxPermissions                : '0.10.2',
 
-            Retrofit               : '2.6.0',
-            Koin                   : '2.0.1',
-            RxAndroid              : '2.1.1',
-            Rxjava                 : '2.2.10',
-            RxPermissions          : '0.10.2',
+            Glide                        : '4.9.0',
+            Gson                         : '2.8.5',
+            dagger                       : '2.15',
 
-            Glide                  : '4.9.0',
-            Gson                   : '2.8.5',
-            dagger                 : '2.15',
+            MaterialDialogs              : '3.1.0',
+            PhotoView                    : '2.3.0',
+            logger                       : '2.2.0',
+            baseRecyclerViewAdapterHelper: '2.9.45-androidx',
 
-            MaterialDialogs        : '3.1.0',
-            PhotoView              : '2.3.0',
-            logger                 : '2.2.0',
-            baseRecyclerViewAdapterHelper : '2.9.45-androidx',
-
-            work_manager           : '2.0.1',
-            room                   : '2.1.0',
-            paging                 : '',
-            lifecycle              : '2.0.0'
+            work_manager                 : '2.0.1',
+            room                         : '2.1.0',
+            paging                       : '',
+            lifecycle                    : '2.0.0'
 
     ]
 }

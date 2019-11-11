@@ -79,6 +79,9 @@ dependencies {
     api "com.facebook.stetho:stetho:${rootProject.versions.stetho}"
     api "com.facebook.stetho:stetho-okhttp3:${rootProject.versions.stetho}"
 
+    //ui
+    api "com.aurelhubert:ahbottomnavigation:${rootProject.versions.ahBottomNavigation}"
+
     //recyclerview
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:${rootProject.versions.baseRecyclerViewAdapterHelper}"
 
