@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.PhotoDetailActivity"></activity>
+        <activity android:name=".ui.PhotoDetailActivity"
+            android:parentActivityName=".ui.MainActivity"></activity>
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
