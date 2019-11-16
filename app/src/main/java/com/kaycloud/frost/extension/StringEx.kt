@@ -7,3 +7,7 @@ package com.kaycloud.frost.extension
  */
 
 fun String.Companion.empty() = ""
+
+fun String?.isNotNullOrEmpty(): Boolean {
+    return this != null && this.isNotEmpty()
+}

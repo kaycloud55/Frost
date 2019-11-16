@@ -1,6 +1,7 @@
 package com.kaycloud.frost.audio.state
 
-import com.kaycloud.frost.ui.AudioPlayActivity
+import com.kaycloud.frost.audio.AudioPlayActivity
+
 
 /**
  * Created by jiangyunkai on 2019/11/15

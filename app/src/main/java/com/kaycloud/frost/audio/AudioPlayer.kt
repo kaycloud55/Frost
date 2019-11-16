@@ -1,51 +1,49 @@
-package com.kaycloud.frost.audio
+package com.yy.hiyo.camera.audio
 
-/**
- * Created by jiangyunkai on 2019/11/15
- */
 import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
-import com.yy.appbase.extensions.isNotNullOrEmpty
-import com.yy.base.taskexecutor.YYTaskExecutor
+import com.kaycloud.framework.ext.TAG
+import com.kaycloud.framework.ext.isNotNullOrEmpty
+import com.kaycloud.frost.AppExecutors
+import com.kaycloud.frost.audio.IAudioHandler
 import java.io.IOException
 import java.util.Timer
 import java.util.TimerTask
 
+/**
+ * author: jiangyunkai
+ * Created_at: 2019-11-14
+ */
 class AudioPlayer(val context: Context, val uri: Uri, val callback: PlayCallback) :
     IAudioHandler {
 
-    override fun getCurrentPosition(): Int {
-        return mediaPlayer?.currentPosition ?: 0
-    }
-
-    private var mediaPlayer: MediaPlayer? = null
-
+    private var mMediaPlayer: MediaPlayer? = null
     private var isInitialized = false
     private var mTimer: Timer? = null
-    private var mFilePath: String? = null
-    private var lastPlayProgess: Int = 0
+    private var lastPlayProgress: Int = 0
 
     init {
-        YYTaskExecutor.execute {
-            mediaPlayer = MediaPlayer.create(context, uri)
+        AppExecutors.getInstance().getDiskIO().execute {
+            mMediaPlayer = MediaPlayer.create(context, uri)
             isInitialized = true
-            mediaPlayer?.setOnCompletionListener {
+            mMediaPlayer?.setOnCompletionListener {
                 callback.onCompleted()
+                it.reset()
+                callback.onProgress(0, it.duration)
             }
             mTimer = Timer()
         }
     }
 
     override fun playMusic(path: String) {
-        mediaPlayer?.let {
+        mMediaPlayer?.let {
             if (!isInitialized || it.isPlaying) {
                 return
             }
             try {
                 if (path.isNotNullOrEmpty()) {
-                    mFilePath = path
                     it.reset()
                     it.setDataSource(path)
                     it.prepare()
@@ -59,10 +57,9 @@ class AudioPlayer(val context: Context, val uri: Uri, val callback: PlayCallback
                 this.schedule(object : TimerTask() {
                     override fun run() {
                         if (it.isPlaying) {
-                            val pos = it.currentPosition
-                            YYTaskExecutor.postToMainThread {
-                                lastPlayProgess = pos
-                                callback.onProgress(pos.toLong())
+                            AppExecutors.getInstance().getMainThread().execute {
+                                lastPlayProgress = it.currentPosition
+                                callback.onProgress(it.currentPosition, it.duration)
                             }
                         }
                     }
@@ -72,54 +69,54 @@ class AudioPlayer(val context: Context, val uri: Uri, val callback: PlayCallback
     }
 
     override fun pauseMusic() {
-        mediaPlayer?.let {
+        mMediaPlayer?.let {
             if (it.isPlaying) {
                 it.pause()
-                lastPlayProgess = it.currentPosition
+                lastPlayProgress = it.currentPosition
                 callback.onPause()
             }
         }
     }
 
     override fun stopMusic() {
-        mediaPlayer?.let {
-            if (it.isPlaying) {
-                it.stop()
-                it.reset()
-                lastPlayProgess = 0
-            }
+        mMediaPlayer?.apply {
+            stop()
+            reset()
+            lastPlayProgress = 0
         }
         onDestroyed()
     }
 
-    private fun onDestroyed() {
-        mediaPlayer?.apply {
-            stop()
-            release()
-            mediaPlayer = null
+    fun reset() {
+        mMediaPlayer?.let {
+            it.stop()
+            it.reset()
+            lastPlayProgress = 0
         }
+    }
+
+    private fun onDestroyed() {
         mTimer?.cancel()
-        mTimer = null
+        mMediaPlayer?.release()
+        mMediaPlayer = null
         isInitialized = false
-        lastPlayProgess = 0
     }
 
     override fun resumeMusic() {
-        mediaPlayer?.apply {
-            seekTo(lastPlayProgess)
+        mMediaPlayer?.apply {
+            seekTo(lastPlayProgress)
             start()
         }
     }
 
-    override fun isPlaying(): Boolean {
-        mediaPlayer?.let {
-            return it.isPlaying
-        }
-        return false
-    }
+    override fun isPlaying() = mMediaPlayer?.isPlaying ?: false
 
     override fun seekTo(progress: Int) {
-        mediaPlayer?.seekTo(progress)
+        mMediaPlayer?.seekTo(progress)
+    }
+
+    override fun getCurrentPosition(): Int {
+        return mMediaPlayer?.currentPosition ?: 0
     }
 }
 
@@ -129,7 +126,7 @@ interface PlayCallback {
 
     fun onError()
 
-    fun onProgress(progress: Long)
+    fun onProgress(currentMs: Int, totalMs: Int)
 
     fun onPause()
 

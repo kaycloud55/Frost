@@ -28,16 +28,12 @@ object AudioHelper {
     fun getArtist(path: String): String? {
         mediaMetadataRetriever.setDataSource(path)
         return mediaMetadataRetriever.extractMetadata(
-            MediaMetadataRetriever.METADATA_KEY_ARTIST)
+            MediaMetadataRetriever.METADATA_KEY_ARTIST
+        )
     }
 
     fun getDuration(path: String): String? {
         mediaMetadataRetriever.setDataSource(path)
-        val duration =
-            mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-        if (duration.isNotNullOrEmpty()) {
-            return TimeUtils.getFormatTimeString(duration.toLong(), "min:sec")
-        }
-        return ""
+        return mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
     }
 }
