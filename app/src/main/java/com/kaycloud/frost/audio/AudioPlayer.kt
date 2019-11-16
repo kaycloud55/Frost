@@ -5,9 +5,9 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
 import com.kaycloud.framework.ext.TAG
-import com.kaycloud.framework.ext.isNotNullOrEmpty
 import com.kaycloud.frost.AppExecutors
 import com.kaycloud.frost.audio.IAudioHandler
+import com.kaycloud.frost.extension.isNotNullOrEmpty
 import java.io.IOException
 import java.util.Timer
 import java.util.TimerTask

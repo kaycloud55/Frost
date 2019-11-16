@@ -7,23 +7,32 @@
     android:layout_height="match_parent"
     android:background="#9b9b9b">
 
-    <ImageView
+    <com.kaycloud.framework.blur.BlurLayout
         android:id="@+id/bg_blur_album"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/bg_audio_player"
         android:scaleType="centerCrop"
+        android:src="@drawable/bg_audio_player"
+        app:blk_blurRadius="15"
+        app:blk_fps="60"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_blur_album"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.kaycloud.framework.blur.BlurLayout>
 
     <ImageView
         android:id="@+id/bg_all"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/bg_audio_player"
         android:scaleType="centerCrop"
+        android:src="@drawable/bg_audio_player"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,11 +42,11 @@
         android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="35dp"
         android:layout_marginStart="@dimen/dp_10"
-        android:src="@drawable/md_nav_back"/>
+        android:layout_marginTop="35dp"
+        android:src="@drawable/md_nav_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_audio_name"
@@ -79,49 +88,49 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.33" />
 
-    <ImageView
+    <com.kaycloud.framework.widght.CircleImageView
         android:id="@+id/iv_cover"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        app:layout_constraintStart_toStartOf="@id/bg_cd"
-        app:layout_constraintEnd_toEndOf="@id/bg_cd"
-        app:layout_constraintTop_toTopOf="@id/bg_cd"
+        android:src="@drawable/icon_default_audio_cover"
         app:layout_constraintBottom_toBottomOf="@id/bg_cd"
-        android:src="@drawable/icon_default_audio_cover"/>
+        app:layout_constraintEnd_toEndOf="@id/bg_cd"
+        app:layout_constraintStart_toStartOf="@id/bg_cd"
+        app:layout_constraintTop_toTopOf="@id/bg_cd" />
 
     <ImageView
         android:id="@+id/progress_wave"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_marginTop="50dp"
         android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="@dimen/dp_10"
         android:scaleType="centerCrop"
         android:src="@drawable/icon_audio_wave_background"
         app:layout_constraintEnd_toStartOf="@id/tv_duration"
         app:layout_constraintStart_toEndOf="@id/tv_progress"
-        app:layout_constraintTop_toBottomOf="@id/bg_cd"/>
+        app:layout_constraintTop_toBottomOf="@id/bg_cd" />
 
     <ImageView
         android:id="@+id/progress"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_marginTop="50dp"
         android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="@dimen/dp_10"
         android:scaleType="centerCrop"
         android:src="@drawable/clip_auto_progress"
         app:layout_constraintEnd_toStartOf="@id/tv_duration"
         app:layout_constraintStart_toEndOf="@id/tv_progress"
-        app:layout_constraintTop_toBottomOf="@id/bg_cd"/>
+        app:layout_constraintTop_toBottomOf="@id/bg_cd" />
 
     <TextView
         android:id="@+id/tv_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:textColor="#9b9b9b"
         android:text="00:00"
+        android:textColor="#9b9b9b"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@id/progress_wave"
         app:layout_constraintStart_toStartOf="parent"
@@ -155,9 +164,9 @@
         android:layout_height="50dp"
         android:layout_marginEnd="30dp"
         android:src="@drawable/icon_audio_play"
+        app:layout_constraintBottom_toBottomOf="@id/iv_play"
         app:layout_constraintEnd_toStartOf="@id/iv_play"
-        app:layout_constraintTop_toTopOf="@id/iv_play"
-        app:layout_constraintBottom_toBottomOf="@id/iv_play" />
+        app:layout_constraintTop_toTopOf="@id/iv_play" />
 
     <ImageView
         android:id="@+id/iv_next"
@@ -165,9 +174,9 @@
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:src="@drawable/icon_audio_play"
+        app:layout_constraintBottom_toBottomOf="@id/iv_play"
         app:layout_constraintStart_toEndOf="@id/iv_play"
-        app:layout_constraintTop_toTopOf="@id/iv_play"
-        app:layout_constraintBottom_toBottomOf="@id/iv_play"/>
+        app:layout_constraintTop_toTopOf="@id/iv_play" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

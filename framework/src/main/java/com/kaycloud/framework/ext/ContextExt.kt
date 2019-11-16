@@ -3,6 +3,7 @@ package com.kaycloud.framework.ext
 import android.content.Context
 import android.util.DisplayMetrics
 import android.view.WindowManager
+import android.widget.Toast
 import kotlin.math.roundToInt
 
 /**
@@ -45,4 +46,8 @@ fun Context.getScreenWidth(): Int {
 fun Context.dpToPx(dp: Int): Float {
     val displayMetrics = resources.displayMetrics
     return (dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt().toFloat()
+}
+
+fun Context.toast(text: String) {
+    Toast.makeText(this, text, Toast.LENGTH_SHORT)
 }

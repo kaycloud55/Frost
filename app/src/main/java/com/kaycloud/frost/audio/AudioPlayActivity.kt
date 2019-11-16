@@ -1,25 +1,28 @@
 package com.kaycloud.frost.audio
 
+import android.Manifest
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.graphics.Color
+import android.content.pm.PackageManager
 import android.graphics.drawable.ClipDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
-import androidx.appcompat.app.AppCompatActivity
-import com.kaycloud.framework.ext.isNotNullOrEmpty
+import android.widget.ImageView
+import com.kaycloud.framework.ext.getFileNameFromUri
+import com.kaycloud.framework.ext.toast
+import com.kaycloud.framework.util.TimeUtils
 import com.kaycloud.frost.AppExecutors
 import com.kaycloud.frost.R
 import com.kaycloud.frost.audio.state.StateContext
 import com.kaycloud.frost.audio.util.AudioHelper
 import com.kaycloud.frost.audio.util.MusicUtils
 import com.kaycloud.frost.audio.util.RealPathUtil
+import com.kaycloud.frost.extension.isNotNullOrEmpty
+import com.kaycloud.frost.ui.BaseActivity
+import com.orhanobut.logger.Logger
 import com.yy.hiyo.camera.audio.AudioPlayer
 import com.yy.hiyo.camera.audio.PlayCallback
 import kotlinx.android.synthetic.main.activity_audio_play.*
@@ -28,7 +31,7 @@ import kotlinx.android.synthetic.main.activity_audio_play.*
  * author: jiangyunkai
  * Created_at: 2019-11-14
  */
-class AudioPlayActivity : AppCompatActivity() {
+class AudioPlayActivity : BaseActivity() {
 
     private val TAG = "AudioPlayActivity"
 
@@ -40,6 +43,7 @@ class AudioPlayActivity : AppCompatActivity() {
     private lateinit var mCoverRotateAnimator: ObjectAnimator
     private var mPlayer: AudioPlayer? = null
 
+    private var mIvPlay: ImageView? = null
     /**
      * 播放器回调
      */
@@ -70,14 +74,15 @@ class AudioPlayActivity : AppCompatActivity() {
         }
 
         override fun onProgress(currentMs: Int, totalMs: Int) {
-            Log.d(TAG, "onAudioFilePlayProgress:$progress")
-//            tv_progress.text = TimeUtils.getFormatTimeString(currentMs.toLong(), "min:sec")
+            tv_progress.text = TimeUtils.millis2String(currentMs.toLong(), "mm:ss")
             val drawable = progress.drawable as ClipDrawable
             drawable.level = ((currentMs * 1f / totalMs) * 10000).toInt()
         }
     }
 
     private fun changeMusic(index: Int) {
+        toast("changeMusic")
+
         if (mPlayer == null) {
             initPlayerAndState()
         }
@@ -95,12 +100,12 @@ class AudioPlayActivity : AppCompatActivity() {
             }
             mPath = item.path
             mPlayer?.reset()
-            if (mPath!!.isNotNullOrEmpty()) {
+            if (mPath.isNotNullOrEmpty()) {
                 stateContext.play(mPath!!)
                 showAudioInfo(item)
             }
         } else {
-//            toast("播放失败")
+            toast("播放失败")
         }
     }
 
@@ -110,16 +115,6 @@ class AudioPlayActivity : AppCompatActivity() {
         setImmersive()
         initUI()
         prepareAudio(savedInstanceState)
-    }
-
-    private fun setImmersive() {
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View
-            .SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = Color.TRANSPARENT
-            window.navigationBarColor = Color.TRANSPARENT
-        }
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     private fun initUI() {
@@ -159,34 +154,28 @@ class AudioPlayActivity : AppCompatActivity() {
      * 检查权限、解析播放信息、初始化播放器等
      */
     private fun prepareAudio(savedInstanceState: Bundle?) {
-//        PermissionHelper.checkStoragePermission(this, object : IPermissionListener {
-//
-//            override fun onPermissionGranted(permission: Array<out String>) {
-//                Log.d(TAG, "有权限")
-//                parseAudioInfo(savedInstanceState)
-//            }
-//
-//            override fun onPermissionDenied(permission: Array<out String>) {
-//                PermissionHelper.showStorageRemindDialog(this@AudioPlayActivity,
-//                    object : IPermissionListener {
-//                        override fun onPermissionGranted(permission: Array<out String>) {
-//                            Log.d(TAG, "有权限")
-//                            parseAudioInfo(savedInstanceState)
-//                        }
-//
-//                        override fun onPermissionDenied(permission: Array<out String>) {
-//                            Log.d(TAG, "无权限")
-//                            toast(R.string.no_storage_permissions)
-//                        }
-//                    })
-//            }
-//        })
+        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, object : PermissionCallback {
+            override fun onRequestPermissionsResult(
+                requestCode: Int,
+                permissions: Array<out String>,
+                grantResults: IntArray
+            ) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    parseAudioInfo()
+                } else {
+                    Logger.t(TAG).i("无权限")
+                    parseAudioInfo()
+                }
+            }
+
+        })
+
     }
 
-    private fun parseAudioInfo(savedInstanceState: Bundle? = null) {
+    private fun parseAudioInfo() {
 
         fun buildUpAudio() {
-//            val fileName = getFilenameFromUri(mUri!!)
+            val fileName = getFileNameFromUri(mUri)
             val filePath = RealPathUtil.getPath(this, mUri)
             val artist = AudioHelper.getArtist(filePath)
             val duration = AudioHelper.getDuration(filePath)
@@ -218,21 +207,18 @@ class AudioPlayActivity : AppCompatActivity() {
         val album = AudioHelper.getAlbumArt(music.path)
         if (album != null) {
             iv_cover.setImageBitmap(album)
-            AppExecutors.getInstance().getDiskIO().execute {
-                //                val bitmap = BlurProcess.blur(album, 50, false)
-//                AppExecutors.getInstance().getMainThread().execute {
-//                    bg_blur_album.setImageBitmap(bitmap)
-//                }
-            }
+            iv_blur_album.setImageBitmap(album)
+            bg_blur_album.startBlur()
         } else {
             iv_cover.setImageDrawable(
                 resources.getDrawable(R.drawable.icon_default_audio_cover)
             )
-            bg_blur_album.setImageResource(0)
+            bg_blur_album.pauseBlur()
+            iv_blur_album.setImageResource(0)
         }
 
         tv_author.text = music.artist
-//        tv_duration.text = TimeUtils.getFormatTimeString(music.duration, "min:sec")
+        tv_duration.text = TimeUtils.millis2String(music.duration, "mm:ss")
         tv_audio_name.text = music.title
     }
 
@@ -258,17 +244,13 @@ class AudioPlayActivity : AppCompatActivity() {
             }
         }
         if (rotate) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && mCoverRotateAnimator!!.isPaused) {
-                mCoverRotateAnimator?.resume()
+            if (mCoverRotateAnimator.isPaused) {
+                mCoverRotateAnimator.resume()
             } else {
-                mCoverRotateAnimator?.start()
+                mCoverRotateAnimator.start()
             }
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                mCoverRotateAnimator?.pause()
-            } else {
-                mCoverRotateAnimator?.cancel()
-            }
+            mCoverRotateAnimator.pause()
         }
     }
 }
