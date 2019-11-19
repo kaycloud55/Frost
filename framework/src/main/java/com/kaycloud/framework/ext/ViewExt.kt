@@ -21,3 +21,8 @@ fun View.setGone() {
     this.visibility = View.GONE
 }
 
+fun View.showSnackbar(msgId: Int, length: Int) {
+//    showSnackbar(context.getString(msgId), length)
+}
+
+

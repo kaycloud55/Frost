@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.kaycloud.framework.ext.TAG
 import com.kaycloud.frost.R
 import com.kaycloud.frost.data.entity.WallhavenItemEntity
@@ -51,7 +52,6 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
         Logger.t(TAG).i("getFilesDir():$filesDir")
         Logger.t(TAG).i("getFileslist():${fileList()}")
         Logger.t(TAG).i("getcacheDir():${cacheDir}")
-
 
         Logger.t(TAG)
             .i("getExternalStorageDir():${getExternalFilesDir(Environment.DIRECTORY_DCIM)}")
