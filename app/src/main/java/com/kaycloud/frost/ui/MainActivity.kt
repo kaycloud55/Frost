@@ -1,6 +1,7 @@
 package com.kaycloud.frost.ui
 
 import android.os.Bundle
+import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -8,8 +9,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
+import com.kaycloud.framework.ext.TAG
 import com.kaycloud.frost.R
 import com.kaycloud.frost.data.entity.WallhavenItemEntity
+import com.orhanobut.logger.Logger
 
 class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
 
@@ -43,6 +46,16 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
             return@setOnTabSelectedListener true
         }
         ahBottomNavigation?.currentItem = 0
+
+
+        Logger.t(TAG).i("getFilesDir():$filesDir")
+        Logger.t(TAG).i("getFileslist():${fileList()}")
+        Logger.t(TAG).i("getcacheDir():${cacheDir}")
+
+
+        Logger.t(TAG)
+            .i("getExternalStorageDir():${getExternalFilesDir(Environment.DIRECTORY_DCIM)}")
+
     }
 
     private fun replaceFragment(fragment: Fragment) {
