@@ -18,16 +18,15 @@ import com.kaycloud.frost.ui.PhotoDetailActivity
  */
 class WallhavenListAdapter(
     layoutId: Int,
-    data: List<WallhavenItemEntity>,
     private val context: Context
-) : BaseQuickAdapter<WallhavenItemEntity, BaseViewHolder>(layoutId, data) {
+) : BaseQuickAdapter<WallhavenItemEntity, BaseViewHolder>(layoutId, null) {
 
     override fun convert(helper: BaseViewHolder?, item: WallhavenItemEntity?) {
         val img = helper?.getView<ImageView>(R.id.iv_img)
         item?.let {
             img?.apply {
                 Glide.with(context)
-                    .load(it.thumbs.large)
+                    .load(it.thumbs.original)
                     .override(Target.SIZE_ORIGINAL)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)

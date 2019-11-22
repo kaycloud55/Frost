@@ -49,7 +49,7 @@ class GankRepository private constructor(
             }
 
             override fun loadFromDb(): LiveData<List<GankItemEntity>> {
-                return gankDao.getAll()
+                return gankDao.loadAllByPages(20, (page - 1) * 20)
             }
 
             override fun createCall() = mGankService.getWelfare(page)

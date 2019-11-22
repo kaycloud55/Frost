@@ -16,8 +16,8 @@ interface WallhavenDao {
     @Query("SELECT * FROM ${DatabaseConstant.TABLE_WALLHAVEN}")
     fun getAll(): LiveData<List<WallhavenItemEntity>>
 
-    @Query("SELECT * FROM ${DatabaseConstant.TABLE_WALLHAVEN} WHERE id IN (:ids)")
-    fun loadAllByPages(ids: List<String>): LiveData<List<WallhavenItemEntity>>
+    @Query("SELECT * FROM ${DatabaseConstant.TABLE_WALLHAVEN} LIMIT :limit OFFSET :offset")
+    fun loadAllByPages(limit: Int, offset: Int): LiveData<List<WallhavenItemEntity>>
 
     @Query("SELECT * FROM ${DatabaseConstant.TABLE_WALLHAVEN} WHERE id = :id")
     fun getWallhavenItem(id: String): LiveData<WallhavenItemEntity>

@@ -44,4 +44,13 @@ class GankViewModel internal constructor(context: Context) : ViewModel() {
     }
 
     fun getWelfare() = welfare
+
+    fun nextPage() {
+        if (welfare.value == null) {
+            return
+        }
+        if (welfare.hasObservers()) {
+            _page.value = _page.value?.plus(1)
+        }
+    }
 }

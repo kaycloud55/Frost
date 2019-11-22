@@ -16,7 +16,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.kaycloud.framework.ext.TAG
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.kaycloud.framework.log.KLog
 import com.kaycloud.frost.R
 import com.kaycloud.frost.data.entity.GankItemEntity
 import com.kaycloud.frost.data.viewmodel.GankViewModel
@@ -25,7 +26,9 @@ import com.kaycloud.frost.network.Status
 import com.kaycloud.frost.ui.adapter.GankListAdapter
 import com.orhanobut.logger.Logger
 
+
 class GankListFragment : Fragment() {
+    private val TAG = "GankListFragment"
 
     private var columnCount = 1
     private var listener: OnFragmentInteractionListener? = null
@@ -55,17 +58,28 @@ class GankListFragment : Fragment() {
             with(view) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
+                    else -> StaggeredGridLayoutManager(
+                        columnCount,
+                        StaggeredGridLayoutManager.VERTICAL
+                    )
                 }
                 mAdapter =
                     GankListAdapter(
                         R.layout.item_home_list,
                         mItemList,
                         activity as Context
-                    )
+                    ).apply {
+                        setOnLoadMoreListener({
+                            viewModel.nextPage()
+                            KLog.i(TAG, "currentpge: ${viewModel.page.value}")
+                        }, this@with)
+
+                    }
                 adapter = mAdapter
+
             }
         }
+
         return view
     }
 
@@ -77,13 +91,11 @@ class GankListFragment : Fragment() {
         )[GankViewModel::class.java]
         viewModel.getWelfare().observe(this, Observer {
             if (it.status == Status.SUCCESS && it.data != null) {
-                mItemList.clear()
-                mItemList.addAll(it.data)
+                mAdapter?.addData(it.data)
+                mAdapter?.loadMoreComplete()
                 Logger.t(TAG).i("%s", mItemList)
-                mAdapter?.notifyDataSetChanged()
             }
         })
-
         viewModel.setPage(0)
     }
 

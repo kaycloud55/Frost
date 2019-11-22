@@ -11,12 +11,15 @@ import com.kaycloud.frost.network.NetworkBoundResource
 import com.kaycloud.frost.network.NetworkRequester
 import com.kaycloud.frost.network.Resource
 import com.orhanobut.logger.Logger
+import okhttp3.HttpUrl
 
 /**
  * author: kaycloud
  * Created_at: 2019-11-08
  */
 class WallhavenRepository private constructor(private val wallhavenDao: WallhavenDao) {
+
+    private val TAG = "WallhavenRepository"
 
     private val mWallhavenService = NetworkRequester.getRequestClient(WALL_HAVEN_URL).create(
         WallhavenService::class.java
@@ -32,7 +35,7 @@ class WallhavenRepository private constructor(private val wallhavenDao: Wallhave
         }
     }
 
-    fun getWallhavenData(searchOptions: Map<String, String>):
+    fun getWallhavenData(searchOptions: Map<String, String>, page: Int? = null):
             LiveData<Resource<List<WallhavenItemEntity>>> {
         Logger.t(TAG).d("getGankData,page:$searchOptions")
         return object :
@@ -50,10 +53,10 @@ class WallhavenRepository private constructor(private val wallhavenDao: Wallhave
             }
 
             override fun loadFromDb(): LiveData<List<WallhavenItemEntity>> {
-                return wallhavenDao.getAll()
+                return wallhavenDao.loadAllByPages(24, ((page ?: 1) - 1) * 24)
             }
 
-            override fun createCall() = mWallhavenService.search(searchOptions)
+            override fun createCall() = mWallhavenService.search(searchOptions, page)
         }.asLiveData()
     }
 }

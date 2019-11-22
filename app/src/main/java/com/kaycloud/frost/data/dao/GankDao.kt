@@ -13,13 +13,13 @@ interface GankDao {
     @Query("SELECT * FROM gank_data")
     fun getAll(): LiveData<List<GankItemEntity>>
 
-    @Query("SELECT * FROM gank_data WHERE id IN (:ids)")
-    fun loadAllByPages(ids: List<String>): LiveData<List<GankItemEntity>>
+    @Query("SELECT * FROM gank_data LIMIT :limit OFFSET :offset")
+    fun loadAllByPages(limit: Int, offset: Int): LiveData<List<GankItemEntity>>
 
     @Query("SELECT * FROM gank_data WHERE id = :id")
     fun getGankItem(id: String): LiveData<GankItemEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(data: List<GankItemEntity>)
 
     @Delete

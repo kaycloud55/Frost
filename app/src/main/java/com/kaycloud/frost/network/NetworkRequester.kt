@@ -4,6 +4,7 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.kaycloud.frost.BuildConfig
 import com.kaycloud.frost.network.adapter.LiveDataCallAdapterFactory
 import com.kaycloud.frost.network.converter.GankConverterFactory
+import com.orhanobut.logger.Logger
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,12 +18,16 @@ object NetworkRequester {
 
     private val sOkHttpClient by lazy {
         OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply {
+            .addInterceptor(HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+                override fun log(message: String) {
+                    Logger.t("Okhttp").i(message)
+                }
+            }).apply {
                 if (BuildConfig.DEBUG) {
-                    level = HttpLoggingInterceptor.Level.BODY
+                    level = HttpLoggingInterceptor.Level.HEADERS
                 }
             })
-            .addInterceptor(StethoInterceptor())
+            .addNetworkInterceptor(StethoInterceptor())
             .readTimeout(10, TimeUnit.SECONDS)
             .connectTimeout(10, TimeUnit.SECONDS)
             .build()

@@ -11,11 +11,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.kaycloud.framework.ext.TAG
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.kaycloud.framework.log.KLog
 import com.kaycloud.frost.R
 import com.kaycloud.frost.data.DisplayType
 import com.kaycloud.frost.data.WallHavenSearchOptions
-import com.kaycloud.frost.data.entity.WallhavenItemEntity
 import com.kaycloud.frost.data.viewmodel.WallhavenViewModel
 import com.kaycloud.frost.data.viewmodel.WallhavenViewModelFactory
 import com.kaycloud.frost.network.Status
@@ -25,20 +25,22 @@ import com.kaycloud.frost.ui.adapter.WallhavenListAdapter
  * author: kaycloud
  * Created_at: 2019-11-08
  */
+
 class WallhavenListFragment : Fragment() {
+
+    private val TAG = "WallhavenListFragment"
 
     private var columnCount = 1
 
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var viewModel: WallhavenViewModel
 
-    private val mItemList: MutableList<WallhavenItemEntity> = mutableListOf()
     private var mAdapter: WallhavenListAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            columnCount = it.getInt(WallhavenListFragment.ARG_COLUMN_COUNT)
+            columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
     }
 
@@ -54,10 +56,21 @@ class WallhavenListFragment : Fragment() {
             with(view) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
+                    else -> StaggeredGridLayoutManager(
+                        columnCount,
+                        StaggeredGridLayoutManager.VERTICAL
+                    )
                 }
                 mAdapter =
-                    WallhavenListAdapter(R.layout.item_home_list, mItemList, activity as Context)
+                    WallhavenListAdapter(
+                        R.layout.item_home_list,
+                        activity as Context
+                    ).apply {
+                        setOnLoadMoreListener({
+                            KLog.i(TAG, "loadmore")
+                            viewModel.nextPage()
+                        }, this@with)
+                    }
                 adapter = mAdapter
             }
         }
@@ -72,14 +85,13 @@ class WallhavenListFragment : Fragment() {
         )[WallhavenViewModel::class.java]
         viewModel.getSearchResult().observe(this, Observer {
             if (it.status == Status.SUCCESS && it.data != null) {
-                mItemList.clear()
-                mItemList.addAll(it.data)
-                com.orhanobut.logger.Logger.t(TAG).i("sssssssssssss,%d", mItemList.size)
-                mAdapter?.notifyDataSetChanged()
+                mAdapter?.addData(it.data)
+                mAdapter?.loadMoreComplete()
+//                Logger.t(TAG).i("%s", it.data)
             }
         })
 
-        viewModel.search(WallHavenSearchOptions(DisplayType.TOPLIST).toQueryMap())
+        viewModel.search(WallHavenSearchOptions(DisplayType.TOPLIST).toQueryMap(), 1)
     }
 
     override fun onAttach(context: Context) {
