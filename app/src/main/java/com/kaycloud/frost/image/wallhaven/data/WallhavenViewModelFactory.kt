@@ -1,4 +1,4 @@
-package com.kaycloud.frost.data.viewmodel
+package com.kaycloud.frost.image.wallhaven.data
 
 import android.app.Application
 import androidx.lifecycle.ViewModel

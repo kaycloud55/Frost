@@ -1,9 +1,4 @@
-package com.kaycloud.frost.ui
-
-/**
- * author: kaycloud
- * Created_at: 2019-11-08
- */
+package com.kaycloud.frost.image.wallhaven.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -13,31 +8,33 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kaycloud.framework.log.KLog
 import com.kaycloud.frost.R
-import com.kaycloud.frost.data.entity.GankItemEntity
-import com.kaycloud.frost.data.viewmodel.GankViewModel
-import com.kaycloud.frost.data.viewmodel.GankViewModelFactory
+import com.kaycloud.frost.image.wallhaven.data.DisplayType
+import com.kaycloud.frost.image.wallhaven.data.WallHavenSearchOptions
+import com.kaycloud.frost.image.wallhaven.data.WallhavenViewModel
+import com.kaycloud.frost.image.wallhaven.data.WallhavenViewModelFactory
 import com.kaycloud.frost.network.Status
-import com.kaycloud.frost.ui.adapter.GankListAdapter
-import com.orhanobut.logger.Logger
+import com.kaycloud.frost.base.OnFragmentInteractionListener
 
+/**
+ * author: kaycloud
+ * Created_at: 2019-11-08
+ */
 
-class GankListFragment : Fragment() {
-    private val TAG = "GankListFragment"
+class WallhavenListFragment : Fragment() {
+
+    private val TAG = "WallhavenListFragment"
 
     private var columnCount = 1
+
     private var listener: OnFragmentInteractionListener? = null
-    private val mItemList: MutableList<GankItemEntity> = mutableListOf()
+    private lateinit var viewModel: WallhavenViewModel
 
-    private var mAdapter: GankListAdapter? = null
-
-    private lateinit var viewModel: GankViewModel
-
+    private var mAdapter: WallhavenListAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -64,22 +61,18 @@ class GankListFragment : Fragment() {
                     )
                 }
                 mAdapter =
-                    GankListAdapter(
+                    WallhavenListAdapter(
                         R.layout.item_home_list,
-                        mItemList,
                         activity as Context
                     ).apply {
                         setOnLoadMoreListener({
+                            KLog.i(TAG, "loadmore")
                             viewModel.nextPage()
-                            KLog.i(TAG, "currentpge: ${viewModel.page.value}")
                         }, this@with)
-
                     }
                 adapter = mAdapter
-
             }
         }
-
         return view
     }
 
@@ -87,16 +80,17 @@ class GankListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(
             this,
-            GankViewModelFactory(activity!!.application)
-        )[GankViewModel::class.java]
-        viewModel.getWelfare().observe(this, Observer {
+            WallhavenViewModelFactory(activity!!.application)
+        )[WallhavenViewModel::class.java]
+        viewModel.getSearchResult().observe(this, Observer {
             if (it.status == Status.SUCCESS && it.data != null) {
                 mAdapter?.addData(it.data)
                 mAdapter?.loadMoreComplete()
-                Logger.t(TAG).i("%s", mItemList)
+//                Logger.t(TAG).i("%s", it.data)
             }
         })
-        viewModel.setPage(0)
+
+        viewModel.search(WallHavenSearchOptions(DisplayType.TOPLIST).toQueryMap(), 1)
     }
 
     override fun onAttach(context: Context) {
@@ -121,7 +115,7 @@ class GankListFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(columnCount: Int) =
-            GankListFragment().apply {
+            WallhavenListFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                 }

@@ -1,17 +1,13 @@
-package com.kaycloud.frost.data
+package com.kaycloud.frost.image.wallhaven.data
 
 import androidx.lifecycle.LiveData
 import com.kaycloud.framework.ext.TAG
 import com.kaycloud.frost.AppExecutors
 import com.kaycloud.frost.api.WALL_HAVEN_URL
-import com.kaycloud.frost.api.WallhavenService
-import com.kaycloud.frost.data.dao.WallhavenDao
-import com.kaycloud.frost.data.entity.WallhavenItemEntity
 import com.kaycloud.frost.network.NetworkBoundResource
 import com.kaycloud.frost.network.NetworkRequester
 import com.kaycloud.frost.network.Resource
 import com.orhanobut.logger.Logger
-import okhttp3.HttpUrl
 
 /**
  * author: kaycloud
@@ -30,9 +26,11 @@ class WallhavenRepository private constructor(private val wallhavenDao: Wallhave
         @Volatile
         private var instance: WallhavenRepository? = null
 
-        fun getInstance(wallhavenDao: WallhavenDao) = instance ?: synchronized(this) {
-            instance ?: WallhavenRepository(wallhavenDao).also { instance = it }
-        }
+        fun getInstance(wallhavenDao: WallhavenDao) = instance
+            ?: synchronized(this) {
+                instance
+                    ?: WallhavenRepository(wallhavenDao).also { instance = it }
+            }
     }
 
     fun getWallhavenData(searchOptions: Map<String, String>, page: Int? = null):

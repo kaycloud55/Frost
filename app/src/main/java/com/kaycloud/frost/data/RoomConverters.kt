@@ -1,4 +1,4 @@
-package com.kaycloud.frost.data.entity
+package com.kaycloud.frost.data
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson

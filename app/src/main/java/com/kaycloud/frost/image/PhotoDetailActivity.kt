@@ -1,4 +1,4 @@
-package com.kaycloud.frost.ui
+package com.kaycloud.frost.image
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

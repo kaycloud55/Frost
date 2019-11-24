@@ -1,6 +1,6 @@
-package com.kaycloud.frost.ui
+package com.kaycloud.frost.base
 
-import com.kaycloud.frost.data.entity.WallhavenItemEntity
+import com.kaycloud.frost.image.wallhaven.data.WallhavenItemEntity
 
 /**
  * author: kaycloud

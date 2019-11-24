@@ -1,4 +1,4 @@
-package com.kaycloud.frost.data.entity
+package com.kaycloud.frost.image.wallhaven.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -6,6 +6,7 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.google.gson.Gson
 import com.kaycloud.frost.DatabaseConstant
+import com.kaycloud.frost.data.RoomListToStringConverters
 
 /**
  * author: kaycloud

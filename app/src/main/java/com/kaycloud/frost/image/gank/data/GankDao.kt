@@ -1,8 +1,7 @@
-package com.kaycloud.frost.data.dao
+package com.kaycloud.frost.image.gank.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.kaycloud.frost.data.entity.GankItemEntity
 
 /**
  * Created by kaycloud on 2019-07-16

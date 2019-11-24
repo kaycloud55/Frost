@@ -1,12 +1,10 @@
-package com.kaycloud.frost.data.viewmodel
+package com.kaycloud.frost.image.wallhaven.data
 
 import android.content.Context
 import androidx.lifecycle.*
 import com.kaycloud.framework.ext.TAG
 import com.kaycloud.framework.log.KLog
 import com.kaycloud.frost.data.AppDataBase
-import com.kaycloud.frost.data.WallhavenRepository
-import com.kaycloud.frost.data.entity.WallhavenItemEntity
 import com.kaycloud.frost.network.Resource
 
 /**

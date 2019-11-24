@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.kaycloud.frost.DATABASE_NAME
-import com.kaycloud.frost.data.dao.GankDao
-import com.kaycloud.frost.data.dao.WallhavenDao
-import com.kaycloud.frost.data.entity.GankItemEntity
-import com.kaycloud.frost.data.entity.WallhavenItemEntity
+import com.kaycloud.frost.image.gank.data.GankDao
+import com.kaycloud.frost.image.wallhaven.data.WallhavenDao
+import com.kaycloud.frost.image.gank.data.GankItemEntity
+import com.kaycloud.frost.image.wallhaven.data.WallhavenItemEntity
 
 /**
  * Created by kaycloud on 2019-07-16

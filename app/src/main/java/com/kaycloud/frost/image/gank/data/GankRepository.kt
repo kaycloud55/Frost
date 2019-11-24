@@ -1,12 +1,9 @@
-package com.kaycloud.frost.data
+package com.kaycloud.frost.image.gank.data
 
 import androidx.lifecycle.LiveData
 import com.kaycloud.framework.ext.TAG
 import com.kaycloud.frost.AppExecutors
 import com.kaycloud.frost.api.GANK_BASE_URL
-import com.kaycloud.frost.api.GankService
-import com.kaycloud.frost.data.dao.GankDao
-import com.kaycloud.frost.data.entity.GankItemEntity
 import com.kaycloud.frost.network.NetworkBoundResource
 import com.kaycloud.frost.network.NetworkRequester
 import com.kaycloud.frost.network.Resource
@@ -27,9 +24,11 @@ class GankRepository private constructor(
         @Volatile
         private var instance: GankRepository? = null
 
-        fun getInstance(gankDao: GankDao) = instance ?: synchronized(this) {
-            instance ?: GankRepository(gankDao).also { instance = it }
-        }
+        fun getInstance(gankDao: GankDao) = instance
+            ?: synchronized(this) {
+                instance
+                    ?: GankRepository(gankDao).also { instance = it }
+            }
     }
 
     fun getGankData(page: Int): LiveData<Resource<List<GankItemEntity>>> {

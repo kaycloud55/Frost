@@ -1,4 +1,4 @@
-package com.kaycloud.frost.data.viewmodel
+package com.kaycloud.frost.image.gank.data
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.kaycloud.frost.data.AppDataBase
-import com.kaycloud.frost.data.entity.GankItemEntity
-import com.kaycloud.frost.data.GankRepository
+import com.kaycloud.frost.image.gank.data.GankItemEntity
+import com.kaycloud.frost.image.gank.data.GankRepository
 import com.kaycloud.frost.network.Resource
 
 /**

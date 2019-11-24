@@ -21,7 +21,7 @@ import com.kaycloud.frost.audio.util.AudioHelper
 import com.kaycloud.frost.audio.util.MusicUtils
 import com.kaycloud.frost.audio.util.RealPathUtil
 import com.kaycloud.frost.extension.isNotNullOrEmpty
-import com.kaycloud.frost.ui.BaseActivity
+import com.kaycloud.frost.base.BaseActivity
 import com.orhanobut.logger.Logger
 import com.yy.hiyo.camera.audio.AudioPlayer
 import com.yy.hiyo.camera.audio.PlayCallback

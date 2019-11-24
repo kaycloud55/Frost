@@ -1,7 +1,6 @@
-package com.kaycloud.frost.api
+package com.kaycloud.frost.image.wallhaven.data
 
 import androidx.lifecycle.LiveData
-import com.kaycloud.frost.data.entity.WallhavenItemEntity
 import com.kaycloud.frost.network.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -1,10 +1,11 @@
-package com.kaycloud.frost.data.entity
+package com.kaycloud.frost.image.gank.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.kaycloud.frost.DatabaseConstant
+import com.kaycloud.frost.data.RoomListToStringConverters
 
 /**
  * Created by kaycloud on 2019-07-16

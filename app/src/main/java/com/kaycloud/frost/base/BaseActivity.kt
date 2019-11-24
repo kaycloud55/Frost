@@ -1,4 +1,4 @@
-package com.kaycloud.frost.ui
+package com.kaycloud.frost.base
 
 import android.content.pm.PackageManager
 import android.graphics.Color

@@ -1,4 +1,4 @@
-package com.kaycloud.frost.ui.adapter
+package com.kaycloud.frost.image.gank.ui
 
 import android.content.Context
 import android.content.Intent
@@ -9,8 +9,8 @@ import com.bumptech.glide.request.target.Target
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.kaycloud.frost.R
-import com.kaycloud.frost.data.entity.GankItemEntity
-import com.kaycloud.frost.ui.PhotoDetailActivity
+import com.kaycloud.frost.image.gank.data.GankItemEntity
+import com.kaycloud.frost.image.PhotoDetailActivity
 
 /**
  * Created by kaycloud on 2019-07-17

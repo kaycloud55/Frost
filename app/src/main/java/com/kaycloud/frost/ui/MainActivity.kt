@@ -9,10 +9,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
-import com.google.android.material.snackbar.Snackbar
 import com.kaycloud.framework.ext.TAG
 import com.kaycloud.frost.R
-import com.kaycloud.frost.data.entity.WallhavenItemEntity
+import com.kaycloud.frost.base.OnFragmentInteractionListener
+import com.kaycloud.frost.image.wallhaven.data.WallhavenItemEntity
+import com.kaycloud.frost.image.gank.ui.GankListFragment
+import com.kaycloud.frost.image.wallhaven.ui.WallhavenListFragment
 import com.orhanobut.logger.Logger
 
 class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
