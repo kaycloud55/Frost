@@ -87,5 +87,7 @@ dependencies {
 
     api "com.squareup.okhttp3:logging-interceptor:4.1.0"
 
+    api 'com.tencent.bugly:crashreport:latest.release'
+
     debugApi 'com.amitshekhar.android:debug-db:1.0.6'
 }

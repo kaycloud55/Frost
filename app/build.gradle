@@ -5,6 +5,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
+apply plugin: 'bugly'
+
+bugly {
+    appId = '' // 注册时分配的App ID
+    appKey = '<APP_KEY>' // 注册时分配的App Key
+}
 
 android {
     compileSdkVersion 28
@@ -54,3 +60,4 @@ dependencies {
     api "androidx.room:room-ktx:${rootProject.versions.room}"
     api "androidx.room:room-rxjava2:${rootProject.versions.room}"
 }
+
