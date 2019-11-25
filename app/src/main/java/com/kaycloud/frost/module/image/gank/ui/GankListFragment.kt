@@ -43,6 +43,7 @@ class GankListFragment : Fragment() {
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
+        viewModel = ViewModelProviders.of(this)[GankViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -83,18 +84,30 @@ class GankListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(
-            this,
-            GankViewModelFactory(activity!!.application)
-        )[GankViewModel::class.java]
+        subscribeUi()
+        viewModel.setPage(0)
+    }
+
+    private fun subscribeUi() {
         viewModel.getWelfare().observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+
+                }
+                Status.LOADING -> {
+
+                }
+                Status.ERROR -> {
+
+                }
+
+            }
             if (it.status == Status.SUCCESS && it.data != null) {
                 mAdapter?.addData(it.data)
                 mAdapter?.loadMoreComplete()
                 Logger.t(TAG).i("%s", mItemList)
             }
         })
-        viewModel.setPage(0)
     }
 
     override fun onAttach(context: Context) {

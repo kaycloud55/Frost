@@ -1,10 +1,8 @@
 package com.kaycloud.frost.module.image.gank.data
 
+import android.app.Application
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.kaycloud.frost.data.AppDataBase
 import com.kaycloud.frost.network.Resource
 
@@ -18,10 +16,10 @@ import com.kaycloud.frost.network.Resource
  *
  * 也就是说，如果定义了这个权限控制，即时当前module作为另一个module的依赖，这个类在宿主module中也是不可用的
  */
-class GankViewModel internal constructor(context: Context) : ViewModel() {
+class GankViewModel internal constructor(application: Application) : AndroidViewModel(application) {
 
     private val gankRepository =
-        GankRepository.getInstance(AppDataBase.getInstance(context).gankDao())
+        GankRepository.getInstance(AppDataBase.getInstance(application).gankDao())
 
     private val _page: MutableLiveData<Int> = MutableLiveData()
 
