@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.kaycloud.frost.audio.PermissionCallback
 import com.orhanobut.logger.Logger
+import com.umeng.analytics.MobclickAgent
 
 /**
  * Created by jiangyunkai on 2019/11/16
@@ -21,6 +22,16 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     private var mPermissionCallback: PermissionCallback? = null
+
+    override fun onResume() {
+        super.onResume()
+        MobclickAgent.onResume(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        MobclickAgent.onPause(this)
+    }
 
     /**
      * 权限检查

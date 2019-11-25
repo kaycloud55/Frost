@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
         android:name=".FrostApplication"
@@ -20,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".image.PhotoDetailActivity"
+            android:name="com.kaycloud.frost.module.image.PhotoDetailActivity"
             android:parentActivityName=".ui.MainActivity"></activity>
         <activity
             android:name=".ui.MainActivity"
@@ -42,6 +43,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <!--value的值填写你在友盟后台申请的应用Appkey-->
+        <meta-data android:value="5ddb5d1a0cafb249fe0003d5" android:name="UMENG_APPKEY"/>
+        <!--value的值填写渠道名称，例如yingyongbao。这里设置动态渠道名称变量-->
+        <meta-data android:value="official" android:name="UMENG_CHANNEL"/>
     </application>
+
+
 
 </manifest>

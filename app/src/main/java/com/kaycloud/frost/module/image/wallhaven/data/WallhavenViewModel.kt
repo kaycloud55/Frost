@@ -1,5 +1,6 @@
-package com.kaycloud.frost.image.wallhaven.data
+package com.kaycloud.frost.module.image.wallhaven.data
 
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.*
 import com.kaycloud.framework.ext.TAG
@@ -10,14 +11,16 @@ import com.kaycloud.frost.network.Resource
 /**
  * author: kaycloud
  * Created_at: 2019-11-08
+ * 传入的Context决定了它绑定哪个生命周期
  */
-class WallhavenViewModel internal constructor(context: Context) : ViewModel() {
+class WallhavenViewModel internal constructor(application: Application) :
+    AndroidViewModel(application) {
 
     private val TAG = "WallhavenViewModel"
 
     private val mWallhavenRepository = WallhavenRepository.getInstance(
         AppDataBase.getInstance
-            (context).wallhavenDao()
+            (application).wallhavenDao()
     )
 
     private val _queryOptions: MutableLiveData<MutableMap<String, String>> = MutableLiveData()

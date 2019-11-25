@@ -1,8 +1,9 @@
-package com.kaycloud.frost.image.wallhaven.data
+package com.kaycloud.frost.module.image.wallhaven.data.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.kaycloud.frost.DatabaseConstant
+import com.kaycloud.frost.module.image.wallhaven.data.WallhavenItemEntity
 
 /**
  * author: kaycloud

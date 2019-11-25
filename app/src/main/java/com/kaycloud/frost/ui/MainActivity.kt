@@ -2,7 +2,6 @@ package com.kaycloud.frost.ui
 
 import android.os.Bundle
 import android.os.Environment
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -11,13 +10,14 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.kaycloud.framework.ext.TAG
 import com.kaycloud.frost.R
+import com.kaycloud.frost.base.BaseActivity
 import com.kaycloud.frost.base.OnFragmentInteractionListener
-import com.kaycloud.frost.image.wallhaven.data.WallhavenItemEntity
-import com.kaycloud.frost.image.gank.ui.GankListFragment
-import com.kaycloud.frost.image.wallhaven.ui.WallhavenListFragment
+import com.kaycloud.frost.module.image.wallhaven.data.WallhavenItemEntity
+import com.kaycloud.frost.module.image.gank.ui.GankListFragment
+import com.kaycloud.frost.module.image.wallhaven.ui.WallhavenListFragment
 import com.orhanobut.logger.Logger
 
-class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
+class MainActivity : BaseActivity(), OnFragmentInteractionListener {
 
     override fun onFragmentInteraction(item: WallhavenItemEntity) {
     }

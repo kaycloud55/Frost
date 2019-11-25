@@ -1,4 +1,4 @@
-package com.kaycloud.frost.image.gank.data
+package com.kaycloud.frost.module.image.gank.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

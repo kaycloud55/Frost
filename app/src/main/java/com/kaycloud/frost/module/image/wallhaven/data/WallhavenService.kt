@@ -1,4 +1,4 @@
-package com.kaycloud.frost.image.wallhaven.data
+package com.kaycloud.frost.module.image.wallhaven.data
 
 import androidx.lifecycle.LiveData
 import com.kaycloud.frost.network.ApiResponse

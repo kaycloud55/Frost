@@ -59,5 +59,9 @@ dependencies {
     kapt "androidx.room:room-compiler:${rootProject.versions.room}"
     api "androidx.room:room-ktx:${rootProject.versions.room}"
     api "androidx.room:room-rxjava2:${rootProject.versions.room}"
+
+    //umeng
+    implementation  'com.umeng.umsdk:analytics:8.0.0'
+    implementation  'com.umeng.umsdk:common:2.0.0'
 }
 

@@ -1,4 +1,9 @@
-package com.kaycloud.frost.image.wallhaven.ui
+package com.kaycloud.frost.module.image.gank.ui
+
+/**
+ * author: kaycloud
+ * Created_at: 2019-11-08
+ */
 
 import android.content.Context
 import android.os.Bundle
@@ -13,28 +18,25 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kaycloud.framework.log.KLog
 import com.kaycloud.frost.R
-import com.kaycloud.frost.image.wallhaven.data.DisplayType
-import com.kaycloud.frost.image.wallhaven.data.WallHavenSearchOptions
-import com.kaycloud.frost.image.wallhaven.data.WallhavenViewModel
-import com.kaycloud.frost.image.wallhaven.data.WallhavenViewModelFactory
+import com.kaycloud.frost.module.image.gank.data.GankItemEntity
+import com.kaycloud.frost.module.image.gank.data.GankViewModel
+import com.kaycloud.frost.module.image.gank.data.GankViewModelFactory
 import com.kaycloud.frost.network.Status
 import com.kaycloud.frost.base.OnFragmentInteractionListener
+import com.orhanobut.logger.Logger
 
-/**
- * author: kaycloud
- * Created_at: 2019-11-08
- */
 
-class WallhavenListFragment : Fragment() {
-
-    private val TAG = "WallhavenListFragment"
+class GankListFragment : Fragment() {
+    private val TAG = "GankListFragment"
 
     private var columnCount = 1
-
     private var listener: OnFragmentInteractionListener? = null
-    private lateinit var viewModel: WallhavenViewModel
+    private val mItemList: MutableList<GankItemEntity> = mutableListOf()
 
-    private var mAdapter: WallhavenListAdapter? = null
+    private var mAdapter: GankListAdapter? = null
+
+    private lateinit var viewModel: GankViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -61,18 +63,21 @@ class WallhavenListFragment : Fragment() {
                     )
                 }
                 mAdapter =
-                    WallhavenListAdapter(
+                    GankListAdapter(
                         R.layout.item_home_list,
+                        mItemList,
                         activity as Context
                     ).apply {
                         setOnLoadMoreListener({
-                            KLog.i(TAG, "loadmore")
                             viewModel.nextPage()
+                            KLog.i(TAG, "currentpge: ${viewModel.page.value}")
                         }, this@with)
                     }
                 adapter = mAdapter
+
             }
         }
+
         return view
     }
 
@@ -80,17 +85,16 @@ class WallhavenListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(
             this,
-            WallhavenViewModelFactory(activity!!.application)
-        )[WallhavenViewModel::class.java]
-        viewModel.getSearchResult().observe(this, Observer {
+            GankViewModelFactory(activity!!.application)
+        )[GankViewModel::class.java]
+        viewModel.getWelfare().observe(this, Observer {
             if (it.status == Status.SUCCESS && it.data != null) {
                 mAdapter?.addData(it.data)
                 mAdapter?.loadMoreComplete()
-//                Logger.t(TAG).i("%s", it.data)
+                Logger.t(TAG).i("%s", mItemList)
             }
         })
-
-        viewModel.search(WallHavenSearchOptions(DisplayType.TOPLIST).toQueryMap(), 1)
+        viewModel.setPage(0)
     }
 
     override fun onAttach(context: Context) {
@@ -115,7 +119,7 @@ class WallhavenListFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(columnCount: Int) =
-            WallhavenListFragment().apply {
+            GankListFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                 }

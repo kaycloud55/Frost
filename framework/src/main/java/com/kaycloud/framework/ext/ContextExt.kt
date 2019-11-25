@@ -49,5 +49,5 @@ fun Context.dpToPx(dp: Int): Float {
 }
 
 fun Context.toast(text: String) {
-    Toast.makeText(this, text, Toast.LENGTH_SHORT)
+    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
