@@ -19,21 +19,21 @@ class GankListAdapter(layoutId: Int, data: List<GankItemEntity>, private val con
     BaseQuickAdapter<GankItemEntity, BaseViewHolder>(layoutId, data) {
 
     override fun convert(helper: BaseViewHolder?, itemEntity: GankItemEntity?) {
-        val img = helper?.getView<ImageView>(R.id.iv_img)
-        if (itemEntity != null) {
-            if (itemEntity.url?.endsWith(".jpg") == true) {
-                img?.let {
-                    Glide.with(context)
-                        .load(itemEntity.url)
-                        .override(Target.SIZE_ORIGINAL)
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .into(it)
+        val imageView = helper?.getView<ImageView>(R.id.iv_img)
+        imageView?.let {
+            if (itemEntity == null) {
+                Glide.with(context).clear(imageView)
+            } else {
+                Glide.with(context)
+                    .load(itemEntity.url)
+                    .override(Target.SIZE_ORIGINAL)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(it)
+                it.setOnClickListener {
+                    context.startActivity(Intent(context, PhotoDetailActivity::class.java).apply {
+                        putExtra("url", itemEntity.url)
+                    })
                 }
-            }
-            img?.setOnClickListener {
-                context.startActivity(Intent(context, PhotoDetailActivity::class.java).apply {
-                    putExtra("url", itemEntity.url)
-                })
             }
         }
     }

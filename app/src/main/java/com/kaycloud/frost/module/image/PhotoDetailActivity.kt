@@ -20,7 +20,8 @@ class PhotoDetailActivity : BaseActivity() {
         val photoView = findViewById<PhotoView>(R.id.photo_view)
 
         Glide.with(this)
-            .load(url).into(photoView)
+            .load(url)
+            .into(photoView)
 
     }
 }
