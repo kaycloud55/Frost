@@ -1,7 +1,6 @@
 package com.kaycloud.framework.image.config
 
 import android.widget.ImageView
-import okhttp3.internal.cache.CacheStrategy
 
 /**
  * author: jiangyunkai
@@ -10,6 +9,7 @@ import okhttp3.internal.cache.CacheStrategy
 class GlideImageConfig private constructor(
     url: String?,
     target: ImageView?,
+    val cacheStrategy: CacheStrategy = CacheStrategy.NONE,
     val fallback: String? = null,
     val imageRadius: Int = 0, //图片圆角大小
     val blurValue: Int = 0, //高斯模糊程度
@@ -23,10 +23,23 @@ class GlideImageConfig private constructor(
         inline fun build(block: Builder.() -> Unit) = Builder().apply(block).build()
     }
 
-    private constructor(builder: Builder) : this(builder.url, builder.imageView)
+    private constructor(builder: Builder) : this(
+        builder.url,
+        builder.imageView,
+        cacheStrategy = builder.cacheStrategy,
+        fallback = builder.fallback,
+        imageRadius = builder.imageRadius,
+        blurValue = builder.blurValue,
+        isCircle = builder.isCircle,
+        isClearMemory = builder.isClearMemory,
+        isCenterCrop = builder.isCenterCrop,
+        isClearDiskCache = builder.isClearDiskCache
+    )
 
     class Builder {
         var imageView: ImageView? = null
+            private set
+        var cacheStrategy: CacheStrategy = CacheStrategy.NONE
             private set
         var fallback: String? = null
             private set
@@ -62,6 +75,9 @@ class GlideImageConfig private constructor(
         fun isClearDiskCache(isClearDiskCache: Boolean) = apply { this.isClearDiskCache = isCircle }
 
         fun isCenterCrop(isCircle: Boolean) = apply { this.isCenterCrop = isCircle }
+
+        fun cacheStrategy(cacheStrategy: CacheStrategy) =
+            apply { this.cacheStrategy = cacheStrategy }
 
         fun build() = GlideImageConfig(this)
     }
