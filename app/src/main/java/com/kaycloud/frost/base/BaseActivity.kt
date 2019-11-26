@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.kaycloud.frost.audio.PermissionCallback
+import com.kaycloud.frost.base.loading.LoadingManager
 import com.orhanobut.logger.Logger
 import com.umeng.analytics.MobclickAgent
 
@@ -16,6 +17,8 @@ import com.umeng.analytics.MobclickAgent
  * Created by jiangyunkai on 2019/11/16
  */
 open class BaseActivity : AppCompatActivity() {
+
+    protected var mLoadingHolder: LoadingManager.Companion.Holder? = null
 
     companion object {
         const val PERMISSION_REQUEST_CODE = 100
@@ -32,6 +35,16 @@ open class BaseActivity : AppCompatActivity() {
         super.onPause()
         MobclickAgent.onPause(this)
     }
+
+    protected open fun initLoadingStatusViewIfNeed() {
+        if (mLoadingHolder == null) {
+            mLoadingHolder = LoadingManager.getDefault().wrap(this).withRetry {
+                onLoadRetry()
+            }
+        }
+    }
+
+    protected open fun onLoadRetry() {}
 
     /**
      * 权限检查
@@ -90,4 +103,28 @@ open class BaseActivity : AppCompatActivity() {
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+
+    /**————————————————————————————————loading start————————————————————————————*/
+    fun showLoading() {
+        initLoadingStatusViewIfNeed()
+        mLoadingHolder?.showLoading()
+    }
+
+    fun showLoadSuccess() {
+        initLoadingStatusViewIfNeed()
+        mLoadingHolder?.showLoadSuccess()
+    }
+
+    fun showLoadFailed() {
+        initLoadingStatusViewIfNeed()
+        mLoadingHolder?.showLoadFailed()
+    }
+
+    fun showEmpty() {
+        initLoadingStatusViewIfNeed()
+        mLoadingHolder?.showEmpty()
+    }
+    /**————————————————————————————————loading end————————————————————————————*/
+
+
 }

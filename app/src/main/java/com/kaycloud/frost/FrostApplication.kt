@@ -2,6 +2,8 @@ package com.kaycloud.frost
 
 import android.app.Application
 import com.facebook.stetho.Stetho
+import com.kaycloud.frost.base.loading.DefaultLoadAdapter
+import com.kaycloud.frost.base.loading.LoadingManager
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.tencent.bugly.crashreport.CrashReport
@@ -20,5 +22,8 @@ class FrostApplication : Application() {
         CrashReport.initCrashReport(applicationContext, BUGLY_APPID, true)
         UMConfigure.init(this, UMENG_APPKEY, "official", UMConfigure.DEVICE_TYPE_PHONE, "")
         UMConfigure.setLogEnabled(true)
+
+        LoadingManager.initDefault(DefaultLoadAdapter())
+
     }
 }

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kaycloud.framework.log.KLog
 import com.kaycloud.frost.R
+import com.kaycloud.frost.base.BaseFragment
 import com.kaycloud.frost.module.image.gank.data.GankItemEntity
 import com.kaycloud.frost.module.image.gank.data.GankViewModel
 import com.kaycloud.frost.module.image.gank.data.GankViewModelFactory
@@ -26,9 +27,10 @@ import com.kaycloud.frost.base.OnFragmentInteractionListener
 import com.orhanobut.logger.Logger
 
 
-class GankListFragment : Fragment() {
+class GankListFragment : BaseFragment() {
     private val TAG = "GankListFragment"
 
+    private var rootView: View? = null
     private var columnCount = 1
     private var listener: OnFragmentInteractionListener? = null
     private val mItemList: MutableList<GankItemEntity> = mutableListOf()
@@ -52,7 +54,7 @@ class GankListFragment : Fragment() {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_wallhavenitementity_list, container, false)
-
+        initLoading(view)
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
@@ -79,7 +81,7 @@ class GankListFragment : Fragment() {
             }
         }
 
-        return view
+        return getLoadingHolder()?.getWrapper()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -88,24 +90,31 @@ class GankListFragment : Fragment() {
         viewModel.setPage(0)
     }
 
+    override fun onLoadRetry() {
+
+    }
+
     private fun subscribeUi() {
         viewModel.getWelfare().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
-
+                    if (it.data != null) {
+                        showContent()
+                        mAdapter?.addData(it.data)
+                        mAdapter?.loadMoreComplete()
+                        Logger.t(TAG).i("%s", mItemList)
+                    } else {
+                        showEmpty()
+                    }
                 }
                 Status.LOADING -> {
-
+                    showLoading()
+                    KLog.i(TAG, "isLoading")
                 }
                 Status.ERROR -> {
-
+                    showLoadFailed()
                 }
 
-            }
-            if (it.status == Status.SUCCESS && it.data != null) {
-                mAdapter?.addData(it.data)
-                mAdapter?.loadMoreComplete()
-                Logger.t(TAG).i("%s", mItemList)
             }
         })
     }

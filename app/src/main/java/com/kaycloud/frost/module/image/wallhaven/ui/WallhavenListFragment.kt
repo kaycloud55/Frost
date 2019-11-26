@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kaycloud.framework.ext.toast
 import com.kaycloud.framework.log.KLog
 import com.kaycloud.frost.R
+import com.kaycloud.frost.base.BaseFragment
 import com.kaycloud.frost.module.image.wallhaven.data.DisplayType
 import com.kaycloud.frost.module.image.wallhaven.data.WallHavenSearchOptions
 import com.kaycloud.frost.module.image.wallhaven.data.WallhavenViewModel
@@ -27,7 +28,7 @@ import java.lang.Exception
  * Created_at: 2019-11-08
  */
 
-class WallhavenListFragment : Fragment() {
+class WallhavenListFragment : BaseFragment() {
 
     private val TAG = "WallhavenListFragment"
 
@@ -53,17 +54,20 @@ class WallhavenListFragment : Fragment() {
                 Status.SUCCESS -> {
                     if (it.data != null) {
                         mAdapter?.addData(it.data)
+                        showContent()
                     } else {
                         activity?.toast("数据为空")
+                        showEmpty()
                         KLog.i(TAG, "load success! data is null!!!!")
                     }
                 }
                 Status.ERROR -> {
                     activity?.toast("加载错误")
                     KLog.i(TAG, "load error:${it.message}")
+                    showLoadFailed()
                 }
                 Status.LOADING -> {
-
+                    showLoading()
                 }
             }
         })
@@ -75,7 +79,7 @@ class WallhavenListFragment : Fragment() {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_wallhavenitementity_list, container, false)
-
+        initLoading(view)
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
@@ -99,7 +103,7 @@ class WallhavenListFragment : Fragment() {
                 adapter = mAdapter
             }
         }
-        return view
+        return getLoadingHolder()?.getWrapper()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

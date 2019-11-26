@@ -1,31 +1,34 @@
 package com.kaycloud.frost.base
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.kaycloud.frost.base.loading.DefaultLoadAdapter
+import com.kaycloud.frost.base.loading.LoadingManager
 
 /**
  * Created by jiangyunkai on 2019/11/25
  */
 abstract class BaseFragment : Fragment() {
 
-    private var mHolder: Gloading.Holder? = null
+    private var mHolder: LoadingManager.Companion.Holder? = null
 
-    protected fun shouldInitLoadingStatusView(): Boolean = true
+    protected fun getLoadingHolder() = mHolder
 
-    private fun initLoadingStatusView() {
+    protected fun initLoading(view: View) {
         if (mHolder == null) {
-            mHolder = Gloading.getDefault().wrap(activity).withRetry(onLoadRetry)
+            mHolder = LoadingManager.of(DefaultLoadAdapter()).wrap(view)
+                .withRetry {
+                    onLoadRetry()
+                }
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (shouldInitLoadingStatusView()) {
+    open fun onLoadRetry() {
 
-        }
     }
-
-    abstract var onLoadRetry: () -> Unit
 
     fun showLoading() {
         mHolder?.showLoading()

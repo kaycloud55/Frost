@@ -54,6 +54,8 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:${rootProject.versions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${rootProject.versions.dagger}"
 
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+
     //jetpack-room
     api "androidx.room:room-runtime:${rootProject.versions.room}"
     kapt "androidx.room:room-compiler:${rootProject.versions.room}"
