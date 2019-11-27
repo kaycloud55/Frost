@@ -2,7 +2,7 @@ package com.kaycloud.frost.module.image.wallhaven.data
 
 import androidx.lifecycle.LiveData
 import com.kaycloud.framework.ext.TAG
-import com.kaycloud.frost.AppExecutors
+import com.kaycloud.framework.AppExecutors
 import com.kaycloud.frost.api.WALL_HAVEN_URL
 import com.kaycloud.frost.module.image.wallhaven.data.db.WallhavenDao
 import com.kaycloud.frost.network.NetworkBoundResource

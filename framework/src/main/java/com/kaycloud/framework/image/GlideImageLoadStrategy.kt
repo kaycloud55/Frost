@@ -2,6 +2,7 @@ package com.kaycloud.framework.image
 
 import android.content.Context
 import com.bumptech.glide.Glide
+import com.kaycloud.framework.AppExecutors
 import com.kaycloud.framework.image.config.GlideImageConfig
 import com.kaycloud.framework.util.Preconditions
 
@@ -10,16 +11,58 @@ import com.kaycloud.framework.util.Preconditions
  * Created_at: 2019-11-26
  */
 class GlideImageLoadStrategy : BaseImageLoaderStrategy<GlideImageConfig> {
+
     override fun loadImage(context: Context, config: GlideImageConfig) {
         Preconditions.checkNotNull(context, "Context is Required!!!")
         Preconditions.checkNotNull(config, "config is Required!!!")
         Preconditions.checkNotNull(config.imageView, "Context is Required!!!")
 
-        Glide.with(context)
+        var requestBuilder = Glide.with(context).load(config.url)
+
+        if (config.placeHolder != 0) {
+            requestBuilder = requestBuilder.placeholder(config.placeHolder)
+        }
+
+        if (config.errorPic != 0) {
+            requestBuilder = requestBuilder.error(config.errorPic)
+        }
+
+        if (config.fallback != null) {
+            requestBuilder = requestBuilder.fallback(config.fallback)
+        }
+
+        if (config.isCircle) {
+            requestBuilder = requestBuilder.circleCrop()
+        }
+
+        if (config.isCenterCrop) {
+            requestBuilder = requestBuilder.centerCrop()
+        }
+
+
+
+        requestBuilder.into(config.imageView)
+
     }
 
     override fun clear(context: Context, config: GlideImageConfig) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Preconditions.checkNotNull(context, "Context is Required!!!")
+        Preconditions.checkNotNull(config, "config is Required!!!")
+        Preconditions.checkNotNull(config.imageView, "Context is Required!!!")
+
+        Glide.with(context).clear(config.imageView)
+
+        if (config.isClearDiskCache) {
+            AppExecutors.getInstance().getDiskIO().execute {
+                //TODO:clear diskCache
+            }
+        }
+
+        if (config.isClearMemory) {
+            AppExecutors.getInstance().getDiskIO().execute {
+                //TODO:clear memory cache
+            }
+        }
     }
 
 }

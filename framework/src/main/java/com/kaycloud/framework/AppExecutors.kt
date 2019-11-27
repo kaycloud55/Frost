@@ -1,4 +1,4 @@
-package com.kaycloud.frost
+package com.kaycloud.framework
 
 import android.os.Handler
 import android.os.Looper
@@ -34,7 +34,8 @@ class AppExecutors {
         private var instance: AppExecutors? = null
 
         fun getInstance() = instance ?: synchronized(this) {
-            instance ?: AppExecutors().also { instance = it }
+            instance
+                ?: AppExecutors().also { instance = it }
         }
     }
 

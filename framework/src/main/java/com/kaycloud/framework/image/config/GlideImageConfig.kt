@@ -1,5 +1,6 @@
 package com.kaycloud.framework.image.config
 
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
 
 /**
@@ -8,15 +9,18 @@ import android.widget.ImageView
  */
 class GlideImageConfig private constructor(
     url: String?,
-    target: ImageView?,
+    target: ImageView,
     val cacheStrategy: CacheStrategy = CacheStrategy.NONE,
-    val fallback: String? = null,
+    val fallback: Drawable? = null,
     val imageRadius: Int = 0, //图片圆角大小
     val blurValue: Int = 0, //高斯模糊程度
     val isCircle: Boolean = false, //是否裁剪为圆形
     val isClearMemory: Boolean = false, //清除内存缓存
     val isClearDiskCache: Boolean = false, //清除磁盘缓存
-    val isCenterCrop: Boolean = false
+    val isCenterCrop: Boolean = false,
+    val onlyRetriveFromCache: Boolean = false, //仅从缓存中加载，如果缓存中没有则直接失败（省流量模式）
+    val skipMemoryCache: Boolean = false, //跳过内存缓存（图片验证码）
+    val skipDiskCache: Boolean = false //跳过磁盘缓存（图片验证码）
 ) : ImageConfig(url, target) {
 
     companion object {
@@ -37,11 +41,11 @@ class GlideImageConfig private constructor(
     )
 
     class Builder {
-        var imageView: ImageView? = null
+        lateinit var imageView: ImageView
             private set
         var cacheStrategy: CacheStrategy = CacheStrategy.NONE
             private set
-        var fallback: String? = null
+        var fallback: Drawable? = null
             private set
         var url: String? = null
             private set
@@ -58,9 +62,9 @@ class GlideImageConfig private constructor(
         var isCenterCrop: Boolean = false
             private set
 
-        fun fallback(fallback: String) = apply { this.fallback = fallback }
+        fun fallback(fallback: Drawable) = apply { this.fallback = fallback }
 
-        fun url(url: String) = apply { this.url = url }
+        fun url(url: String?) = apply { this.url = url }
 
         fun into(imageView: ImageView) = apply { this.imageView = imageView }
 
@@ -70,11 +74,11 @@ class GlideImageConfig private constructor(
 
         fun isCircle(isCircle: Boolean) = apply { this.isCircle = isCircle }
 
-        fun isClearMemory(isClearMemory: Boolean) = apply { this.isClearMemory = isClearMemory }
+        fun clearMemoryCache() = apply { this.isClearMemory = true }
 
-        fun isClearDiskCache(isClearDiskCache: Boolean) = apply { this.isClearDiskCache = isCircle }
+        fun clearDiskCache() = apply { this.isClearDiskCache = true }
 
-        fun isCenterCrop(isCircle: Boolean) = apply { this.isCenterCrop = isCircle }
+        fun centerCrop() = apply { this.isCenterCrop = true }
 
         fun cacheStrategy(cacheStrategy: CacheStrategy) =
             apply { this.cacheStrategy = cacheStrategy }

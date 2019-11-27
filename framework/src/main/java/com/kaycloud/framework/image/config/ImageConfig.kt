@@ -9,7 +9,7 @@ import android.widget.ImageView
  */
 open class ImageConfig(
     val url: String?,
-    val imageView: ImageView?,
+    val imageView: ImageView,
     val placeHolder: Int = 0,
     var errorPic: Int = 0
 )

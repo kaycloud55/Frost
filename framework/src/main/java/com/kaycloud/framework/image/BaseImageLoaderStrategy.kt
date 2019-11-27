@@ -8,7 +8,7 @@ import com.kaycloud.framework.image.config.ImageConfig
  * Created_at: 2019-11-26
  * 图片加载策略基础功能
  */
-interface BaseImageLoaderStrategy<T : ImageConfig> {
+interface BaseImageLoaderStrategy<in T : ImageConfig> {
 
     /**
      * 加载图片

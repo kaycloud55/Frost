@@ -1,7 +1,11 @@
 package com.kaycloud.frost
 
 import android.app.Application
+import com.bumptech.glide.Glide
 import com.facebook.stetho.Stetho
+import com.kaycloud.framework.image.GlideImageLoadStrategy
+import com.kaycloud.framework.image.ImageLoader
+import com.kaycloud.framework.image.config.GlideImageConfig
 import com.kaycloud.frost.base.loading.DefaultLoadAdapter
 import com.kaycloud.frost.base.loading.LoadingManager
 import com.orhanobut.logger.AndroidLogAdapter
@@ -25,5 +29,7 @@ class FrostApplication : Application() {
 
         LoadingManager.initDefault(DefaultLoadAdapter())
 
+        //init Glide
+        ImageLoader.getInstantce().setLoadStrategy(GlideImageLoadStrategy())
     }
 }

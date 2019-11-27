@@ -11,7 +11,17 @@ import com.kaycloud.framework.util.Preconditions
  *  1.获得对图片加载模块的控制权，如果以后要替换Glide，不要更改调用层代码
  *  2.方便扩展能力
  */
-class ImageLoader {
+class ImageLoader private constructor() {
+
+    companion object {
+        val instance = ImageLoaderHolder.imageLoader
+
+        fun getInstantce() = instance
+    }
+
+    private object ImageLoaderHolder {
+        val imageLoader = ImageLoader()
+    }
 
     private var mStrategy: BaseImageLoaderStrategy<ImageConfig>? = null
 
@@ -47,7 +57,7 @@ class ImageLoader {
         mStrategy?.clear(context, config)
     }
 
-    fun setLoadStrategy(strategy: BaseImageLoaderStrategy<ImageConfig>) {
+    fun <T : ImageConfig, E : BaseImageLoaderStrategy<T>> setLoadStrategy(strategy: E) {
         Preconditions.checkNotNull(mStrategy, "strategy == null")
         mStrategy = strategy
     }

@@ -2,7 +2,7 @@ package com.kaycloud.frost.module.image.gank.data
 
 import androidx.lifecycle.LiveData
 import com.kaycloud.framework.ext.TAG
-import com.kaycloud.frost.AppExecutors
+import com.kaycloud.framework.AppExecutors
 import com.kaycloud.frost.api.GANK_BASE_URL
 import com.kaycloud.frost.network.NetworkBoundResource
 import com.kaycloud.frost.network.NetworkRequester
