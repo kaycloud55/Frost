@@ -2,6 +2,9 @@ package com.kaycloud.framework.image.config
 
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import com.bumptech.glide.TransitionOptions
+import com.bumptech.glide.load.Transformation
+import com.bumptech.glide.load.resource.bitmap.DrawableTransformation
 
 /**
  * author: jiangyunkai
@@ -18,6 +21,8 @@ class GlideImageConfig private constructor(
     val isClearMemory: Boolean = false, //清除内存缓存
     val isClearDiskCache: Boolean = false, //清除磁盘缓存
     val isCenterCrop: Boolean = false,
+    val fitCenter: Boolean = false,
+    val transition: TransitionOptions<*, in Drawable>? = null,
     val onlyRetriveFromCache: Boolean = false, //仅从缓存中加载，如果缓存中没有则直接失败（省流量模式）
     val skipMemoryCache: Boolean = false, //跳过内存缓存（图片验证码）
     val skipDiskCache: Boolean = false //跳过磁盘缓存（图片验证码）
@@ -61,6 +66,10 @@ class GlideImageConfig private constructor(
             private set
         var isCenterCrop: Boolean = false
             private set
+        var fitCenter: Boolean = false
+            private set
+        var transition: TransitionOptions<*, in Drawable>? = null
+            private set
 
         fun fallback(fallback: Drawable) = apply { this.fallback = fallback }
 
@@ -82,6 +91,11 @@ class GlideImageConfig private constructor(
 
         fun cacheStrategy(cacheStrategy: CacheStrategy) =
             apply { this.cacheStrategy = cacheStrategy }
+
+        fun fitCenter() = apply { this.fitCenter = true }
+
+        fun transition(transition: TransitionOptions<*, in Drawable>) =
+            apply { this.transition = transition }
 
         fun build() = GlideImageConfig(this)
     }

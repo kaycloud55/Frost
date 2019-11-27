@@ -24,8 +24,8 @@ class MainActivity : BaseActivity(), OnFragmentInteractionListener {
 
     private var ahBottomNavigation: AHBottomNavigation? = null
 
-    private val gankListFragment = GankListFragment.newInstance(2)
-    private val wallhavenListFragment = WallhavenListFragment.newInstance(2)
+    private val gankListFragment = GankListFragment.newInstance(1)
+    private val wallhavenListFragment = WallhavenListFragment.newInstance(1)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

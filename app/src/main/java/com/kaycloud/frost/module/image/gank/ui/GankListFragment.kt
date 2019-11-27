@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kaycloud.framework.log.KLog
 import com.kaycloud.frost.R
 import com.kaycloud.frost.base.BaseFragment
+import com.kaycloud.frost.base.FrostLoadMoreView
 import com.kaycloud.frost.module.image.gank.data.GankItemEntity
 import com.kaycloud.frost.module.image.gank.data.GankViewModel
 import com.kaycloud.frost.module.image.gank.data.GankViewModelFactory
@@ -75,6 +76,7 @@ class GankListFragment : BaseFragment() {
                             viewModel.nextPage()
                             KLog.i(TAG, "currentpge: ${viewModel.page.value}")
                         }, this@with)
+                        setLoadMoreView(FrostLoadMoreView())
                     }
                 adapter = mAdapter
 

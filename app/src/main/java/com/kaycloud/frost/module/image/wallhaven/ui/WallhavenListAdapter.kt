@@ -8,6 +8,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.kaycloud.framework.image.ImageLoader
+import com.kaycloud.framework.image.config.GlideImageConfig
 import com.kaycloud.frost.R
 import com.kaycloud.frost.module.image.wallhaven.data.WallhavenItemEntity
 import com.kaycloud.frost.module.image.PhotoDetailActivity
@@ -25,11 +27,7 @@ class WallhavenListAdapter(
         val img = helper?.getView<ImageView>(R.id.iv_img)
         item?.let {
             img?.apply {
-                Glide.with(context)
-                    .load(it.thumbs.original)
-                    .override(Target.SIZE_ORIGINAL)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(this)
+                ImageLoader.loadImage(context, this, it.thumbs.original)
             }
             img?.setOnClickListener {
                 context.startActivity(Intent(context, PhotoDetailActivity::class.java).apply {

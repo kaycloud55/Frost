@@ -1,6 +1,7 @@
 package com.kaycloud.framework.image
 
 import android.content.Context
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.kaycloud.framework.AppExecutors
 import com.kaycloud.framework.image.config.GlideImageConfig
@@ -11,6 +12,10 @@ import com.kaycloud.framework.util.Preconditions
  * Created_at: 2019-11-26
  */
 class GlideImageLoadStrategy : BaseImageLoaderStrategy<GlideImageConfig> {
+
+    override fun loadImage(context: Context, imageView: ImageView, url: String?) {
+        Glide.with(context).load(url).into(imageView)
+    }
 
     override fun loadImage(context: Context, config: GlideImageConfig) {
         Preconditions.checkNotNull(context, "Context is Required!!!")
@@ -39,7 +44,13 @@ class GlideImageLoadStrategy : BaseImageLoaderStrategy<GlideImageConfig> {
             requestBuilder = requestBuilder.centerCrop()
         }
 
+        if (config.fitCenter) {
+            requestBuilder = requestBuilder.fitCenter()
+        }
 
+        if (config.transition != null) {
+            requestBuilder = requestBuilder.transition(config.transition)
+        }
 
         requestBuilder.into(config.imageView)
 

@@ -8,6 +8,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.kaycloud.framework.image.ImageLoader
 import com.kaycloud.frost.R
 import com.kaycloud.frost.module.image.gank.data.GankItemEntity
 import com.kaycloud.frost.module.image.PhotoDetailActivity
@@ -24,11 +25,8 @@ class GankListAdapter(layoutId: Int, data: List<GankItemEntity>, private val con
             if (itemEntity == null) {
                 Glide.with(context).clear(imageView)
             } else {
-                Glide.with(context)
-                    .load(itemEntity.url)
-                    .override(Target.SIZE_ORIGINAL)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(it)
+                ImageLoader.loadImage(context, it, itemEntity.url)
+
                 it.setOnClickListener {
                     context.startActivity(Intent(context, PhotoDetailActivity::class.java).apply {
                         putExtra("url", itemEntity.url)
@@ -37,4 +35,5 @@ class GankListAdapter(layoutId: Int, data: List<GankItemEntity>, private val con
             }
         }
     }
+
 }

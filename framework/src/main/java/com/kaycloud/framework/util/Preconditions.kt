@@ -36,7 +36,7 @@ class Preconditions {
          */
         fun <T> checkNotNull(reference: T?, errorMessage: Any): T {
             if (reference == null) {
-                throw NullPointerException(errorMessage.toString())
+                throw Throwable(errorMessage.toString())
             }
             return reference
         }
