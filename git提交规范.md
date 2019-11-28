@@ -93,3 +93,7 @@ BREAKING CHANGE: isolate scope bindings definition has changed.
 
 Closes #123, #245, #992
 ```
+
+
+
+##### ***使用插件`Git Commit Template`进行提交。***
