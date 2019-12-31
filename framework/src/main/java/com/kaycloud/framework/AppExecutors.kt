@@ -30,6 +30,7 @@ class AppExecutors {
 
     companion object {
 
+        //DCL写法
         @Volatile
         private var instance: AppExecutors? = null
 

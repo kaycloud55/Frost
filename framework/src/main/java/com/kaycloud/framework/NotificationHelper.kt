@@ -11,6 +11,8 @@ import android.os.Build
  */
 internal class NotificationHelper(ctx: Context) : ContextWrapper(ctx) {
 
+    private val VALUE_TEST = 1_000_000
+
     private val manager: NotificationManager by lazy {
         getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
