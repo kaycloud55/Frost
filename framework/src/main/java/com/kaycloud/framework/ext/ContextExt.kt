@@ -1,6 +1,9 @@
 package com.kaycloud.framework.ext
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import android.widget.Toast
@@ -50,4 +53,17 @@ fun Context.dpToPx(dp: Int): Float {
 
 fun Context.toast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+}
+
+/**
+ * 实化类型参数的示例
+ * 调用方式 startActivity<MainActivity>()
+ */
+inline fun <reified T : Activity> Context.startActivity(extras: Bundle? = null) {
+    val intent = Intent(this, T::class.java).apply {
+        extras?.let {
+            putExtras(it)
+        }
+    }
+    startActivity(intent)
 }

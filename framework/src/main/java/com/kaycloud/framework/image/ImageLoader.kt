@@ -24,6 +24,15 @@ object ImageLoader {
 //        val imageLoader = ImageLoader()
 //    }
 
+    /**
+     * 从类型上来说，这里期望的是BaseImageLoaderStrategy<ImageConfig>，如果泛型不声明成out的话，
+     * 赋值GlideImageLoaderStrategy<GlideImageConfig>就不行了，因为它不是子类型。
+     *
+     * BaseImageLoaderStrategy<Glide> 是 BaseImageLoaderStrategy<ImageConfig>的子类型
+     * GlideImageLoader是BaseImageLoaderStrategy的子类型，GlideImageLoader<Glide>是BaseImageLoaderStrategy<Glide>的子类型，
+     * 所以GlideImageLoader<Glide>是BaseImageLoaderStrategy<ImageConfig>的子类型
+     *
+     */
     private var mStrategy: BaseImageLoaderStrategy<ImageConfig>? = null
 
     /**
@@ -65,7 +74,7 @@ object ImageLoader {
      * @param context
      * @param T
      */
-    fun <T : ImageConfig> clear(context: Context, config: T) {
+    fun clear(context: Context, config: ImageConfig) {
         Preconditions.checkNotNull(
             mStrategy,
             "Please implement BaseImageLoaderStrategy and " +
@@ -75,7 +84,10 @@ object ImageLoader {
         mStrategy?.clear(context, config)
     }
 
-    fun <T : ImageConfig> setLoadStrategy(strategy: BaseImageLoaderStrategy<T>) {
+    /**
+     * 由于BaseImageLoaderStrategy类型形参说明在了out位置，所以这里传入类型实参的时候，可以是ImageConfig的子类
+     */
+    fun setLoadStrategy(strategy: BaseImageLoaderStrategy<ImageConfig>) {
         Preconditions.checkNotNull(strategy, "strategy == null")
         mStrategy = strategy
     }

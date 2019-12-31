@@ -15,7 +15,7 @@ import com.kaycloud.framework.image.config.ImageConfig
  *  [GlideImageConfig]，可能方法都被覆盖了，调用就是不安全的。
  */
 
-interface BaseImageLoaderStrategy<out T : ImageConfig> {
+interface BaseImageLoaderStrategy<out T> {
 
     /**
      * 加载图片
