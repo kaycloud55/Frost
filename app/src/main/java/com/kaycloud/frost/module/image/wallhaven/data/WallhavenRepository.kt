@@ -18,7 +18,7 @@ class WallhavenRepository private constructor(private val wallhavenDao: Wallhave
 
     private val TAG = "WallhavenRepository"
 
-    private val mWallhavenService = NetworkRequester.getRequestClient(WALL_HAVEN_URL).create(
+    private val mWallhavenService = NetworkRequester.getRetrofitClient(WALL_HAVEN_URL).create(
         WallhavenService::class.java
     )
 

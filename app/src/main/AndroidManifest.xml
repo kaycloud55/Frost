@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name=".FrostApplication"
@@ -20,9 +20,10 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".module.toplist.TopListActivity"></activity>
         <activity
-            android:name="com.kaycloud.frost.module.image.PhotoDetailActivity"
-            android:parentActivityName=".ui.MainActivity"></activity>
+            android:name=".module.image.PhotoDetailActivity"
+            android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -39,16 +40,18 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
+
                 <data android:mimeType="audio/*" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        <!--value的值填写你在友盟后台申请的应用Appkey-->
-        <meta-data android:value="5ddb5d1a0cafb249fe0003d5" android:name="UMENG_APPKEY"/>
-        <!--value的值填写渠道名称，例如yingyongbao。这里设置动态渠道名称变量-->
-        <meta-data android:value="official" android:name="UMENG_CHANNEL"/>
+        </activity> <!-- value的值填写你在友盟后台申请的应用Appkey -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5ddb5d1a0cafb249fe0003d5" /> <!-- value的值填写渠道名称，例如yingyongbao。这里设置动态渠道名称变量 -->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="official" />
     </application>
-
-
 
 </manifest>

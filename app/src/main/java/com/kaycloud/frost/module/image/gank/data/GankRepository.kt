@@ -17,7 +17,7 @@ class GankRepository private constructor(
 ) {
 
     private val mGankService =
-        NetworkRequester.getRequestClient(GANK_BASE_URL).create(GankService::class.java)
+        NetworkRequester.getRetrofitClient(GANK_BASE_URL).create(GankService::class.java)
 
     companion object {
 

@@ -14,13 +14,15 @@ import java.util.concurrent.TimeUnit
  * author: kaycloud
  * Created_at: 2019-11-07
  */
+private const val TAG = "NetworkRequester"
+
 object NetworkRequester {
 
     private val sOkHttpClient by lazy {
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
                 override fun log(message: String) {
-                    Logger.t("Okhttp").i(message)
+                    Logger.t(TAG).i(message)
                 }
             }).apply {
                 if (BuildConfig.DEBUG) {
@@ -33,11 +35,13 @@ object NetworkRequester {
             .build()
     }
 
-    fun getRequestClient(baseUrl: String): Retrofit {
+    fun getRetrofitClient(baseUrl: String): Retrofit {
         return Retrofit.Builder().baseUrl(baseUrl)
             .client(sOkHttpClient)
             .addConverterFactory(GankConverterFactory.create())
             .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .build()
     }
+
+    fun getOkhttpClient() = sOkHttpClient
 }
