@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 class TopListViewModel : ViewModel() {
     // TODO: Implement the ViewModel
     var toplistCategories: MediatorLiveData<List<TopListCategory>> = MediatorLiveData()
+    var toplistItems: MediatorLiveData<List<ToplistItem>> = MediatorLiveData()
 
     fun getTopListCategory() {
         toplistCategories.removeSource(TopListRepository.getInstance().topListCategory)
@@ -20,6 +21,15 @@ class TopListViewModel : ViewModel() {
         }
         TopListRepository.getInstance().getTopListCategory()
     }
+
+    fun getTopListItems(id: String) {
+        toplistItems.removeSource(TopListRepository.getInstance().topListItems)
+        toplistItems.addSource(TopListRepository.getInstance().topListItems) {
+            toplistItems.value = it
+        }
+        TopListRepository.getInstance().getTopListItems(id)
+    }
+
 
 }
 

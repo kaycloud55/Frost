@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.kaycloud.framework.AppExecutors
 import com.kaycloud.framework.log.KLog
 import com.kaycloud.frost.network.NetworkRequester
 import kotlinx.coroutines.CoroutineScope
@@ -21,10 +22,12 @@ import java.io.IOException
 private const val TAG = "TopListRepository"
 
 private const val TOP_LIST_URL = "https://www.tophub.fun:8080/GetType"
+private const val TOP_LIST_ITEMS = "https://www.tophub.fun:8888/GetAllInfoGzip?id=%s"
 
 class TopListRepository private constructor() {
 
     val topListCategory: MutableLiveData<List<TopListCategory>> = MutableLiveData()
+    val topListItems: MutableLiveData<List<ToplistItem>> = MutableLiveData()
 
     companion object {
 
@@ -54,7 +57,33 @@ class TopListRepository private constructor() {
                     response.body!!.string(),
                     listType
                 )
-                topListCategory.value = result.data
+                AppExecutors.getInstance().getMainThread().execute {
+                    topListCategory.value = result.data
+                }
+            }
+
+        })
+    }
+
+    fun getTopListItems(id: String) {
+        val request = Request.Builder().url(String.format(TOP_LIST_ITEMS, id)).build()
+        NetworkRequester.getOkhttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                KLog.e(TAG, "getTopListItems Error:$e")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                KLog.i(TAG, "getTopListItems success")
+                if (!response.isSuccessful) throw IOException("response error:$response")
+                val listType =
+                    object : TypeToken<TopListResponse<ToplistItem>>() {}.type
+                val result = Gson().fromJson<TopListResponse<ToplistItem>>(
+                    response.body!!.string(),
+                    listType
+                )
+                AppExecutors.getInstance().getMainThread().execute {
+                    topListItems.value = result.data
+                }
             }
 
         })

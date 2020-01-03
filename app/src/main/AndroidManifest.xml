@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".module.toplist.TopListActivity"></activity>
+        <activity android:name=".base.WebviewActivity"></activity>
+        <activity android:name=".module.toplist.TopListActivity" />
         <activity
             android:name=".module.image.PhotoDetailActivity"
             android:parentActivityName=".ui.MainActivity" />

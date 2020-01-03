@@ -1,7 +1,10 @@
 package com.kaycloud.frost.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -15,6 +18,8 @@ import com.kaycloud.frost.base.OnFragmentInteractionListener
 import com.kaycloud.frost.module.image.wallhaven.data.WallhavenItemEntity
 import com.kaycloud.frost.module.image.gank.ui.GankListFragment
 import com.kaycloud.frost.module.image.wallhaven.ui.WallhavenListFragment
+import com.kaycloud.frost.module.toplist.TopListActivity
+import com.kaycloud.frost.module.toplist.ui.toplist.TopListFragment
 import com.orhanobut.logger.Logger
 
 class MainActivity : BaseActivity(), OnFragmentInteractionListener {
@@ -23,9 +28,11 @@ class MainActivity : BaseActivity(), OnFragmentInteractionListener {
     }
 
     private var ahBottomNavigation: AHBottomNavigation? = null
+    private var toolbar: Toolbar? = null
 
     private val gankListFragment = GankListFragment.newInstance(1)
     private val wallhavenListFragment = WallhavenListFragment.newInstance(1)
+    private val topListFragment = TopListFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +41,7 @@ class MainActivity : BaseActivity(), OnFragmentInteractionListener {
     }
 
     private fun initView() {
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         ahBottomNavigation = findViewById(R.id.bottom_navigation)
         val navigationAdapter = AHBottomNavigationAdapter(this, R.menu.bottom_navigation)
@@ -43,6 +50,7 @@ class MainActivity : BaseActivity(), OnFragmentInteractionListener {
             when (position) {
                 0 -> replaceFragment(gankListFragment)
                 1 -> replaceFragment(wallhavenListFragment)
+                2 -> replaceFragment(topListFragment)
                 else -> {
                 }
             }
@@ -73,5 +81,18 @@ class MainActivity : BaseActivity(), OnFragmentInteractionListener {
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item?.let {
+            if (it.itemId == R.id.action_settings) {
+                startActivity(Intent(this, TopListActivity::class.java))
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
