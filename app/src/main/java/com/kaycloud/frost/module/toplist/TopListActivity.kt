@@ -1,6 +1,7 @@
 package com.kaycloud.frost.module.toplist
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.AttributeSet
@@ -10,9 +11,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kaycloud.frost.R
+import com.kaycloud.frost.base.WebviewActivity
+import com.kaycloud.frost.module.image.PhotoDetailActivity
 import com.kaycloud.frost.module.toplist.ui.toplist.TopListFragment
 import com.kaycloud.frost.module.toplist.ui.toplist.TopListItemAdapter
 import com.kaycloud.frost.module.toplist.ui.toplist.TopListViewModel
+import com.kaycloud.frost.module.toplist.ui.toplist.ToplistItem
 
 class TopListActivity : AppCompatActivity() {
 
@@ -31,6 +35,15 @@ class TopListActivity : AppCompatActivity() {
             adapter =
                 TopListItemAdapter(R.layout.item_top_list_category, this@TopListActivity).also {
                     mAdapter = it
+                    it.setOnItemClickListener { adapter, view, position ->
+                        context.startActivity(
+                            Intent(
+                                context,
+                                WebviewActivity::class.java
+                            ).apply {
+                                putExtra("url", (adapter.data[position] as ToplistItem).Url)
+                            })
+                    }
                 }
             layoutManager =
                 LinearLayoutManager(this@TopListActivity, LinearLayoutManager.VERTICAL, false)

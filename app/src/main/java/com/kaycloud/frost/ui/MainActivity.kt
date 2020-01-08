@@ -58,7 +58,6 @@ class MainActivity : BaseActivity(), OnFragmentInteractionListener {
         }
         ahBottomNavigation?.currentItem = 0
 
-
         Logger.t(TAG).i("getFilesDir():$filesDir")
         Logger.t(TAG).i("getFileslist():${fileList()}")
         Logger.t(TAG).i("getcacheDir():${cacheDir}")

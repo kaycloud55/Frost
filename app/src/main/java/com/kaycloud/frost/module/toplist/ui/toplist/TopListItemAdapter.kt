@@ -19,11 +19,7 @@ class TopListItemAdapter(layoutId: Int, val context: Context) :
         tvTitle?.let {
             it.text = item?.Title
         }
-        setOnItemChildClickListener { adapter, view, position ->
-            context.startActivity(Intent(context, PhotoDetailActivity::class.java).apply {
-                putExtra("url", item?.Url)
-            })
-        }
+
 
     }
 
