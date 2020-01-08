@@ -20,7 +20,17 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".base.WebviewActivity"></activity>
+        <activity
+            android:name=".module.MusicActivity"
+            android:label="@string/title_activity_music"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".base.WebviewActivity" />
         <activity android:name=".module.toplist.TopListActivity" />
         <activity
             android:name=".module.image.PhotoDetailActivity"
@@ -35,7 +45,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".audio.AudioPlayActivity"
+            android:name=".module.audio.AudioPlayActivity"
             android:label="Frost Player"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">

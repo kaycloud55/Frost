@@ -18,5 +18,6 @@
     <string name="title_bottom_news">新闻</string>
     <string name="title_bottom_video">视频</string>
     <string name="title_bottom_my">我的</string>
+    <string name="title_activity_music">MusicActivity</string>
 
 </resources>
