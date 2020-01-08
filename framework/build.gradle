@@ -90,5 +90,10 @@ dependencies {
     //loading
     api 'com.github.ybq:Android-SpinKit:1.4.0'
 
+    //viewpager indicator
+    implementation 'com.shizhefei:ViewPagerIndicator:1.1.9.androidx'
+
+    api "androidx.viewpager2:viewpager2:1.0.0"
+
     debugApi 'com.amitshekhar.android:debug-db:1.0.6'
 }
