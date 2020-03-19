@@ -19,5 +19,10 @@
     <string name="title_bottom_video">视频</string>
     <string name="title_bottom_my">我的</string>
     <string name="title_activity_music">MusicActivity</string>
+    <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="login_text">点击登录</string>
 
 </resources>

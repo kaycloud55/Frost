@@ -1,1 +1,1 @@
-include ':app', ':framework', ':network', ':toplist', ':audio', ':video'
+include ':app', ':framework', ':network', ':toplist', ':audio', ':video', ':navannotation', ':navcompiler'

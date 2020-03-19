@@ -15,15 +15,15 @@ import com.kaycloud.frost.module.image.wallhaven.data.WallhavenItemEntity
  * Created by kaycloud on 2019-07-16
  *
  * 标有 @Database注解的类需要具备以下特征：
- *      1. 继承RoomDatabase的抽象类
- *      2. 在注释中包括与数据库关联的实体列表（@Database(entities ={ })）
+ *      1. 必须是继承RoomDatabase的抽象类
+ *      2. 在注解中声明与数据库关联的实体列表（@Database(entities ={ })）
  *      3. 包含一个无参的抽象方法并返回一个使用@Dao注解的类
  *
  * Room不允许在主线程中访问数据库，除非在build的时候使用allowMainThreadQueries()方法
  */
 @Database(
     entities = [GankItemEntity::class, WallhavenItemEntity::class],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 abstract class AppDataBase : RoomDatabase() {
@@ -47,6 +47,9 @@ abstract class AppDataBase : RoomDatabase() {
         private fun buildDataBase(context: Context): AppDataBase {
             //context,
             return Room.databaseBuilder(context, AppDataBase::class.java, DATABASE_NAME)
+                //是否允许在主线程进行查询
+                .allowMainThreadQueries()
+                //数据库创建和打开后的回调
                 .addCallback(object : RoomDatabase.Callback() {
                     //重写`onCreate()`方法，在创建数据库的时候填充数据
                     override fun onCreate(db: SupportSQLiteDatabase) {
@@ -70,7 +73,18 @@ abstract class AppDataBase : RoomDatabase() {
 //                            }
 //                        }
                     }
-                }).build()
+                })
+                //设置查询的线程池
+                //.setQueryExecutor()
+                //.openHelperFactory()
+                //room的日志模式
+                //.setJournalMode()
+                //数据库升级异常之后的回滚
+                //.fallbackToDestructiveMigration()
+                //数据库升级异常后根据指定版本进行回滚
+                //.fallbackToDestructiveMigrationFrom()
+                // .addMigrations(CacheDatabase.sMigration)
+                .build()
         }
     }
 }

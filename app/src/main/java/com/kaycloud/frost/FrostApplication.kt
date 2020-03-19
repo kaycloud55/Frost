@@ -1,6 +1,7 @@
 package com.kaycloud.frost
 
 import android.app.Application
+import android.content.Context
 import com.facebook.stetho.Stetho
 import com.kaycloud.framework.image.GlideImageLoadStrategy
 import com.kaycloud.framework.image.ImageLoader
@@ -15,6 +16,18 @@ import com.umeng.commonsdk.UMConfigure
  * Created by kaycloud on 2019-07-17
  */
 class FrostApplication : Application() {
+
+    init {
+        instance = this
+    }
+
+    companion object {
+        private var instance: FrostApplication? = null
+
+        fun applicationContext(): Context {
+            return instance!!.applicationContext
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()

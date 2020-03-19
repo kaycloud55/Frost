@@ -6,8 +6,6 @@ package com.kaycloud.frost.extension
  * desc: String.class的扩展函数
  */
 
-fun String.Companion.empty() = ""
-
 fun String?.isNotNullOrEmpty(): Boolean {
     return this != null && this.isNotEmpty()
 }

@@ -1,13 +1,11 @@
 package com.kaycloud.frost.module.toplist.ui.toplist
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kaycloud.framework.AppExecutors
 import com.kaycloud.framework.log.KLog
 import com.kaycloud.frost.network.NetworkRequester
-import kotlinx.coroutines.CoroutineScope
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Request

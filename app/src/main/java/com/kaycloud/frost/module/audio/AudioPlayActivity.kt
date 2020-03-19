@@ -13,8 +13,8 @@ import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import com.kaycloud.framework.ext.getFileNameFromUri
 import com.kaycloud.framework.ext.toast
-import com.kaycloud.framework.util.TimeUtils
 import com.kaycloud.framework.AppExecutors
+import com.kaycloud.framework.util.util.TimeUtils
 import com.kaycloud.frost.R
 import com.kaycloud.frost.module.audio.state.StateContext
 import com.kaycloud.frost.module.audio.util.AudioHelper

@@ -28,6 +28,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -49,6 +53,9 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation project(path: ':framework')
+    implementation project(path: ':navannotation')
+
+    kapt project(":navcompiler")
 
     //dagger2
     api "com.google.dagger:dagger:${rootProject.versions.dagger}"
@@ -69,4 +76,10 @@ dependencies {
     //umeng
     implementation 'com.umeng.umsdk:analytics:8.0.0'
     implementation 'com.umeng.umsdk:common:2.0.0'
+
+    //refresh layout
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+
+    // paging分页
+    implementation "androidx.paging:paging-runtime:2.1.1"
 }

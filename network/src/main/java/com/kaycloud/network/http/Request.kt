@@ -1,18 +1,18 @@
 package com.kaycloud.network.http
 
-import java.net.URI
+import com.kaycloud.network.CacheStrategy
 
 /**
  * author: jiangyunkai
  * Created_at: 2019-12-31
  */
-interface Request {
+abstract class Request<T>(val url: String) : Cloneable {
 
-    fun getHeader()
+    private val headers: MutableMap<String, String> = mutableMapOf()
+    private val params: Map<String, Any> = mutableMapOf()
 
-    fun getBody()
+    private val cacheKey: String? = null
+    private val cacheStrategy: CacheStrategy = CacheStrategy.NET_ONLY
 
-    fun getMethod(): Method
 
-    fun getUri(): URI
 }
