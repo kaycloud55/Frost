@@ -2,7 +2,7 @@ package com.kaycloud.frost.module.image.gank.data
 
 import androidx.lifecycle.LiveData
 import com.kaycloud.framework.ext.TAG
-import com.kaycloud.framework.AppExecutors
+import com.kaycloud.framework.executor.AppTaskExecutor
 import com.kaycloud.frost.api.GANK_BASE_URL
 import com.kaycloud.frost.network.NetworkBoundResource
 import com.kaycloud.frost.network.NetworkRequester
@@ -35,7 +35,7 @@ class GankRepository private constructor(
         Logger.t(TAG).d("getGankData,page:$page")
         return object :
             NetworkBoundResource<List<GankItemEntity>, List<GankItemEntity>>(
-                AppExecutors.getInstance()
+                AppTaskExecutor.getInstance()
             ) {
             override fun saveCallResult(itemEntity: List<GankItemEntity>) {
                 Logger.t(TAG).d("%s", itemEntity)

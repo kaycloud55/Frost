@@ -2,7 +2,7 @@ package com.kaycloud.frost.module.image.wallhaven.data
 
 import androidx.lifecycle.LiveData
 import com.kaycloud.framework.ext.TAG
-import com.kaycloud.framework.AppExecutors
+import com.kaycloud.framework.executor.AppTaskExecutor
 import com.kaycloud.frost.api.WALL_HAVEN_URL
 import com.kaycloud.frost.module.image.wallhaven.data.db.WallhavenDao
 import com.kaycloud.frost.network.NetworkBoundResource
@@ -39,7 +39,7 @@ class WallhavenRepository private constructor(private val wallhavenDao: Wallhave
         Logger.t(TAG).d("getGankData,page:$searchOptions")
         return object :
             NetworkBoundResource<List<WallhavenItemEntity>, List<WallhavenItemEntity>>(
-                AppExecutors.getInstance()
+                AppTaskExecutor.getInstance()
             ) {
             override fun saveCallResult(itemEntity: List<WallhavenItemEntity>) {
                 Logger.t(TAG).d(itemEntity)

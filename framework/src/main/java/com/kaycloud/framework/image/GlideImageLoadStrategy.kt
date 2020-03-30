@@ -3,7 +3,7 @@ package com.kaycloud.framework.image
 import android.content.Context
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.kaycloud.framework.AppExecutors
+import com.kaycloud.framework.executor.AppTaskExecutor
 import com.kaycloud.framework.image.config.GlideImageConfig
 import com.kaycloud.framework.util.Preconditions
 
@@ -64,13 +64,13 @@ class GlideImageLoadStrategy : BaseImageLoaderStrategy<GlideImageConfig> {
         Glide.with(context).clear(config.imageView)
 
         if (config.isClearDiskCache) {
-            AppExecutors.getInstance().getDiskIO().execute {
-                //TODO:clear diskCache
+            AppTaskExecutor.getInstance().executeOnDiskIO {
+
             }
         }
 
         if (config.isClearMemory) {
-            AppExecutors.getInstance().getDiskIO().execute {
+            AppTaskExecutor.getInstance().executeOnDiskIO {
                 //TODO:clear memory cache
             }
         }

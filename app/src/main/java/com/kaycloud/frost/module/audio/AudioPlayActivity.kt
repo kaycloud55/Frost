@@ -13,7 +13,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import com.kaycloud.framework.ext.getFileNameFromUri
 import com.kaycloud.framework.ext.toast
-import com.kaycloud.framework.AppExecutors
+import com.kaycloud.framework.executor.AppTaskExecutor
 import com.kaycloud.framework.util.util.TimeUtils
 import com.kaycloud.frost.R
 import com.kaycloud.frost.module.audio.state.StateContext
@@ -187,18 +187,18 @@ class AudioPlayActivity : BaseActivity() {
             }
             mPlayList.add(music)
             mCurrentIndex = 0
-            AppExecutors.getInstance().getMainThread().execute {
+            AppTaskExecutor.getInstance().postToMainThread {
                 showAudioInfo(music)
             }
         }
 
         mUri = intent.data ?: return
 
-        AppExecutors.getInstance().getDiskIO().execute {
+        AppTaskExecutor.getInstance().executeOnDiskIO {
             initPlayerAndState()
             buildUpAudio()
         }
-        AppExecutors.getInstance().getDiskIO().execute {
+        AppTaskExecutor.getInstance().executeOnDiskIO {
             mPlayList.addAll(MusicUtils.scanMusic(this))
         }
     }

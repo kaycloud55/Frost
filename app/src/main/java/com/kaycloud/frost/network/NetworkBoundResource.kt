@@ -20,7 +20,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
-import com.kaycloud.framework.AppExecutors
+import com.kaycloud.framework.executor.AppTaskExecutor
 
 /**
  * A generic class that can provide a resource backed by both the sqlite database and the network.
@@ -32,7 +32,7 @@ import com.kaycloud.framework.AppExecutors
  * @param <RequestType>
 </RequestType></ResultType> */
 abstract class NetworkBoundResource<ResultType, RequestType>
-@MainThread constructor(private val appExecutors: AppExecutors) {
+@MainThread constructor(private val appTaskExecutor: AppTaskExecutor) {
 
     private val result = MediatorLiveData<Resource<ResultType>>()
 
@@ -70,9 +70,9 @@ abstract class NetworkBoundResource<ResultType, RequestType>
             result.removeSource(dbSource)
             when (response) {
                 is ApiSuccessResponse -> {
-                    appExecutors.getDiskIO().execute {
+                    appTaskExecutor.executeOnDiskIO {
                         saveCallResult(processResponse(response))
-                        appExecutors.getMainThread().execute {
+                        appTaskExecutor.executeOnMainThread {
                             // we specially request a new live data,
                             // otherwise we will get immediately last cached value,
                             // which may not be updated with latest results received from network.
@@ -83,7 +83,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
                     }
                 }
                 is ApiEmptyResponse -> {
-                    appExecutors.getMainThread().execute {
+                    appTaskExecutor.executeOnMainThread {
                         // reload from disk whatever we had
                         result.addSource(loadFromDb()) { newData ->
                             setValue(Resource.success(newData))

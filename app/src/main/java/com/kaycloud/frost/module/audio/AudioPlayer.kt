@@ -5,7 +5,7 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
 import com.kaycloud.framework.ext.TAG
-import com.kaycloud.framework.AppExecutors
+import com.kaycloud.framework.executor.AppTaskExecutor
 import com.kaycloud.frost.module.audio.IAudioHandler
 import com.kaycloud.frost.extension.isNotNullOrEmpty
 import java.io.IOException
@@ -25,7 +25,7 @@ class AudioPlayer(val context: Context, val uri: Uri, val callback: PlayCallback
     private var lastPlayProgress: Int = 0
 
     init {
-        AppExecutors.getInstance().getDiskIO().execute {
+        AppTaskExecutor.getInstance().executeOnDiskIO {
             mMediaPlayer = MediaPlayer.create(context, uri)
             isInitialized = true
             mMediaPlayer?.setOnCompletionListener {
@@ -57,7 +57,7 @@ class AudioPlayer(val context: Context, val uri: Uri, val callback: PlayCallback
                 this.schedule(object : TimerTask() {
                     override fun run() {
                         if (it.isPlaying) {
-                            AppExecutors.getInstance().getMainThread().execute {
+                            AppTaskExecutor.getInstance().postToMainThread {
                                 lastPlayProgress = it.currentPosition
                                 callback.onProgress(it.currentPosition, it.duration)
                             }

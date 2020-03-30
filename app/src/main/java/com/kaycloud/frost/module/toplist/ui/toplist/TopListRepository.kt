@@ -3,7 +3,7 @@ package com.kaycloud.frost.module.toplist.ui.toplist
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.kaycloud.framework.AppExecutors
+import com.kaycloud.framework.executor.AppTaskExecutor
 import com.kaycloud.framework.log.KLog
 import com.kaycloud.frost.network.NetworkRequester
 import okhttp3.Call
@@ -55,7 +55,7 @@ class TopListRepository private constructor() {
                     response.body!!.string(),
                     listType
                 )
-                AppExecutors.getInstance().getMainThread().execute {
+                AppTaskExecutor.getInstance().postToMainThread {
                     topListCategory.value = result.data
                 }
             }
@@ -79,7 +79,7 @@ class TopListRepository private constructor() {
                     response.body!!.string(),
                     listType
                 )
-                AppExecutors.getInstance().getMainThread().execute {
+                AppTaskExecutor.getInstance().postToMainThread {
                     topListItems.value = result.data
                 }
             }
