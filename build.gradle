@@ -1,7 +1,4 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-apply from: 'version.gradle'
-
 buildscript {
     ext.kotlin_version = '1.3.50'
     repositories {
@@ -16,6 +13,32 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+
+//这里有顺序要求，plugins插件前面只能有buildscript{}
+plugins {
+    id "com.gradle.build-scan" version "3.2.1" //Gradle扫描插件
+}
+
+apply from: 'version.gradle'
+
+subprojects {
+    afterEvaluate {
+        if (pluginManager.hasPlugin('com.android.application') || pluginManager.hasPlugin('com.android.library')) {
+            android.lintOptions {
+                abortOnError false
+            }
+        }
+    }
+}
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service" //同意scan的用户协议
+        termsOfServiceAgree = "yes"
+        publishAlways() //每次build都进行扫描
     }
 }
 
