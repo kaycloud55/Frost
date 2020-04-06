@@ -7,6 +7,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'bugly'
 
+apply from: '../buildtools.gradle'
+
 bugly {
     appId = '' // 注册时分配的App ID
     appKey = '<APP_KEY>' // 注册时分配的App Key
@@ -83,3 +85,25 @@ dependencies {
     // paging分页
     implementation "androidx.paging:paging-runtime:2.1.1"
 }
+
+/**
+ * 文件拷贝,接受一个闭包作为参数
+ */
+//copy {
+//    from file('.gitignore')
+//    into getRootProject().getBuildDir()
+//}
+
+//copy {
+//    into 'build/output'
+//    exclude '**/.svn/**'
+//    from('src/main/webapp') {
+//        include '**/*.jsp'
+//        filter(ReplaceTokes, tokes:[copyright:'2008',version:'2.3.1'])
+//    }
+//    from('src/main/js') {
+//        include '**/*.js'
+//    }
+//}
+
+

@@ -1,1 +1,5 @@
 include ':app', ':framework', ':network', ':toplist', ':audio', ':video', ':navannotation', ':navcompiler'
+
+
+println '初始化阶段开始执行'
+include ':gradleplugin'

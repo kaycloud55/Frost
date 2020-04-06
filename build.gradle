@@ -1,13 +1,21 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-apply from: 'version.gradle'
+apply from: 'version.gradle' //这里apply是一个接受map参数的函数，其中的key可以是from,plugin,to等，都是方法中定义了的，这里可以应用脚本，插件等
+apply plugin: 'com.kaycloud.plugin'
 
-buildscript {
-    ext.kotlin_version = '1.3.50'
-    repositories {
-        google()
+pluginManager //这里的调用其实和kotlin一样，getPluginManager()直接像属性一样使用
+
+println plugins
+
+//配置build脚本
+buildscript { //这里的参数也是Project project ->
+    ext.kotlin_version = '1.3.50' //这里相当于一个宏定义，设置了一个kotlin_version属性的值，这个属性是当前新加的
+    repositories { //repositories同样是一个方法，传入了一个闭包
+        google() //这里的google()就是一个方法调用
         jcenter()
         maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url uri('./repo') }
+        //调用的是maven(closure)方法，这个closure里面调用的是setUrl()方法，传入了一个url
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
@@ -16,9 +24,11 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.kaycloud.plugin:gradleplugin:1.0.0'
     }
 }
 
+//对所有工程进行配置
 allprojects {
     repositories {
         google()
@@ -27,8 +37,109 @@ allprojects {
         maven { url 'https://maven.google.com' }
         maven { url 'https://dl.bintray.com/umsdk/release' }
     }
+
+}
+
+//对子工程进行配置
+subprojects { Project project ->
+    if (project.pluginManager.hasPlugin('com.android.application') ) {
+    println "${project.name}'s plugins:${project.plugins}"
+    } else {
+        println "${project.name} is lib"
+    }
+}
+
+subprojects {
+    afterEvaluate {
+        if (plugins.hasPlugin('com.android.application') || plugins.hasPlugin('com.android.library')) {
+            project.android.lintOptions {
+                abortOnError false
+            }
+        }
+    }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+//对特定子工程进行配置
+project('app') {
+    //这里实际的调用应该是project.name，但是因为只有一个参数，可以像this一样，省略
+    println name
+    apply plugin: 'com.android.application'
+    //这里实际上应该是apply(plugin:'com.android.application'),apply(Map)是一个接受Map参数的方法，这里参数写到外面来了
+    group 'com.kaycoud' //类似的，其实是group('com.kaycloud')
+
+    dependencies {
+
+    } //同样的，这个方法的定义为void dependencies(Closure configureClosure);
+}
+
+
+/**
+ * 生命周期监听
+ */
+beforeEvaluate {
+    println "构建开始前。。"
+}
+gradle.beforeProject {} //和上面的一样效果
+
+afterEvaluate {
+    println '配置阶段执行完毕。。'
+}
+
+gradle.buildFinished {
+    println '执行阶段执行完毕。。'
+}
+gradle.afterProject {
+    //对子工程进行配置
+    subprojects { Project project ->
+        if (project.pluginManager.hasPlugin('com.android.application')) {
+            println "${project.name} is app"
+        } else {
+            println "${project.name} is lib"
+        }
+    }
+} //和上面的一样效果
+//另外一种添加监听方式
+gradle.addListener()
+gradle.addBuildListener()
+gradle.addProjectEvaluationListener()
+
+/**
+ * project相关api
+ */
+getAllprojects() //获取所有project
+getSubprojects() //获取所有的子project
+getParent() //获取父project
+def getProjects() {
+    println '--------------'
+    println 'Root Project'
+    println '--------------'
+    this.getAllprojects().eachWithIndex { Project project, int index ->
+        if (index == 0) {
+            println "Root Project: ${project.name}"
+        } else {
+            println "+--- project: ${project.name}"
+        }
+    }
+}
+
+getProjects()
+
+
+tasks.create('taskStudy') {
+    setGroup('kaycloud') //这里的配置会在右侧的gradle面板下展示
+    setDescription('study task')
+}
+
+//计算build执行时长
+def startBuildTime, endBuildTime
+
+task writeTask {
+//    inputs.property()
+//    inputs.properties()
+//    inputs.file()
+//    inputs.dir()
 }

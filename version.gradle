@@ -1,5 +1,6 @@
 ext {
 
+    //这里定义的其实是map
     android = [
             compileSdkVersion      : 28,
             minSdkVersion          : 21,
