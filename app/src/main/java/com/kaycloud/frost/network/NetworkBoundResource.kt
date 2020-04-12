@@ -70,7 +70,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
             result.removeSource(dbSource)
             when (response) {
                 is ApiSuccessResponse -> {
-                    appTaskExecutor.executeOnDiskIO {
+                    appTaskExecutor.execute {
                         saveCallResult(processResponse(response))
                         appTaskExecutor.executeOnMainThread {
                             // we specially request a new live data,

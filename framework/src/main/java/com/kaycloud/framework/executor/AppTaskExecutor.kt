@@ -23,22 +23,25 @@ class AppTaskExecutor {
     private var delegate: TaskExecutor = defaultTaskExecutor
 
 
+    /**
+     * 暴露给业务的接口，让外部进行线程池实现替换
+     * @param taskExecutor 外部实现的线程池
+     */
     fun setDelegate(@Nonnull taskExecutor: TaskExecutor) {
         delegate = taskExecutor
     }
 
     companion object {
 
-        val sMainThreadExecutor = Executor {
+        private val sMainThreadExecutor = Executor {
             getInstance()
                 .postToMainThread(it)
         }
 
-        val sIoThreadExecutor = Executor {
+        private val sIoThreadExecutor = Executor {
             getInstance()
-                .executeOnDiskIO(it)
+                .execute(it)
         }
-
 
         //DCL写法
         @Volatile
@@ -51,12 +54,12 @@ class AppTaskExecutor {
             }
     }
 
-    fun executeOnDiskIO(@NonNull runnable: Runnable) {
-        delegate.executeOnDiskIO(runnable)
+    fun execute(@NonNull runnable: Runnable) {
+        delegate.execute(runnable)
     }
 
-    fun executeOnDiskIO(command: () -> Unit) {
-        delegate.executeOnDiskIO(Runnable { command.invoke() })
+    fun execute(command: () -> Unit) {
+        delegate.execute(Runnable { command.invoke() })
     }
 
     fun executeOnMainThread(@NonNull runnable: Runnable) {
@@ -73,5 +76,13 @@ class AppTaskExecutor {
 
     fun postToMainThread(command: () -> Unit) {
         delegate.postToMainThread(Runnable { command.invoke() })
+    }
+
+    fun postToMainThreadDelay(command: () -> Unit, delay: Long) {
+        delegate.executeOnMainThreadDelay(Runnable { command.invoke() }, delay)
+    }
+
+    fun postToMainThreadDelay(command: Runnable, delayMills: Long) {
+        delegate.executeOnMainThreadDelay(command, delayMills)
     }
 }

@@ -29,6 +29,11 @@ class FrostApplication : Application() {
         }
     }
 
+
+    fun test() {
+
+    }
+
     override fun onCreate() {
         super.onCreate()
 

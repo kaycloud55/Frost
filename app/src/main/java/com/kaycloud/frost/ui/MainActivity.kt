@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.kaycloud.framework.ext.TAG
@@ -17,10 +18,12 @@ import com.kaycloud.frost.base.BaseActivity
 import com.kaycloud.frost.base.OnFragmentInteractionListener
 import com.kaycloud.frost.module.image.wallhaven.data.WallhavenItemEntity
 import com.kaycloud.frost.module.image.gank.ui.GankListFragment
+import com.kaycloud.frost.module.image.gank.ui.GankListFragmentDirections
 import com.kaycloud.frost.module.image.wallhaven.ui.WallhavenListFragment
 import com.kaycloud.frost.module.toplist.TopListActivity
 import com.kaycloud.frost.module.toplist.ui.toplist.TopListFragment
 import com.orhanobut.logger.Logger
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : BaseActivity(), OnFragmentInteractionListener {
 
@@ -49,7 +52,9 @@ class MainActivity : BaseActivity(), OnFragmentInteractionListener {
         ahBottomNavigation?.setOnTabSelectedListener { position, wasSelected ->
             when (position) {
                 0 -> replaceFragment(gankListFragment)
-                1 -> replaceFragment(wallhavenListFragment)
+                1 -> findNavController(R.id.home_nav_host_fragment).navigate(
+                    GankListFragmentDirections.actionGankListFragmentToWallhavenListFragment()
+                )
                 2 -> replaceFragment(topListFragment)
                 else -> {
                 }
@@ -68,9 +73,7 @@ class MainActivity : BaseActivity(), OnFragmentInteractionListener {
     }
 
     private fun replaceFragment(fragment: Fragment) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_content, fragment)
-        fragmentTransaction.commit()
+
     }
 
     override fun onBackPressed() {

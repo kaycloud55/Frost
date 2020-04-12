@@ -194,11 +194,11 @@ class AudioPlayActivity : BaseActivity() {
 
         mUri = intent.data ?: return
 
-        AppTaskExecutor.getInstance().executeOnDiskIO {
+        AppTaskExecutor.getInstance().execute {
             initPlayerAndState()
             buildUpAudio()
         }
-        AppTaskExecutor.getInstance().executeOnDiskIO {
+        AppTaskExecutor.getInstance().execute {
             mPlayList.addAll(MusicUtils.scanMusic(this))
         }
     }

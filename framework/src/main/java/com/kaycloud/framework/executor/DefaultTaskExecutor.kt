@@ -6,7 +6,9 @@ import android.os.Looper
 import java.lang.reflect.InvocationTargetException
 import java.util.concurrent.Executors
 import java.util.concurrent.ThreadFactory
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.concurrent.thread
 
 /**
  * author: jiangyunkai
@@ -15,9 +17,27 @@ import java.util.concurrent.atomic.AtomicInteger
  */
 class DefaultTaskExecutor : TaskExecutor() {
 
+    companion object {
+        private val CPU_COUNT = Runtime.getRuntime().availableProcessors()
+    }
+
     private val mLock = Any()
 
-    private val mDiskIO =
+    private val mScheduler = Executors.newScheduledThreadPool(CPU_COUNT, object : ThreadFactory {
+        private val THREAD_NAME_STEM = "app_scheduler_thread_%d"
+        private val mThreadId = AtomicInteger(0)
+
+        override fun newThread(r: Runnable?): Thread {
+            return thread(
+                name = String.format(THREAD_NAME_STEM, mThreadId.incrementAndGet())
+            ) {
+                r?.run()
+            }
+        }
+
+    })
+
+    private val mExecutor =
         Executors.newFixedThreadPool(4, object : ThreadFactory {
             private val THREAD_NAME_STEM = "app_disk_io_thread_%d"
             private val mThreadId = AtomicInteger(0)
@@ -32,15 +52,26 @@ class DefaultTaskExecutor : TaskExecutor() {
     @Volatile
     private var mMainHandler: Handler? = null
 
-    override fun postToMainThread(command: Runnable) {
-        mMainHandler ?: synchronized(mLock) {
+    private fun getMainThreadHandler(): Handler {
+        return mMainHandler ?: synchronized(mLock) {
             mMainHandler ?: createAsync(Looper.getMainLooper()).also { mMainHandler = it }
         }
-        mMainHandler!!.post(command)
     }
 
-    override fun executeOnDiskIO(command: Runnable) {
-        mDiskIO.execute(command)
+    override fun postToMainThread(command: Runnable) {
+        getMainThreadHandler().post(command)
+    }
+
+    override fun executeOnMainThreadDelay(command: Runnable, delayMills: Long) {
+        getMainThreadHandler().postDelayed(command, delayMills)
+    }
+
+    override fun execute(command: Runnable) {
+        mExecutor.execute(command)
+    }
+
+    override fun executeDelay(command: Runnable, delayMills: Long) {
+        mScheduler.schedule(command, delayMills, TimeUnit.MILLISECONDS)
     }
 
     override fun isMainThread() = Looper.getMainLooper().thread == Thread.currentThread()

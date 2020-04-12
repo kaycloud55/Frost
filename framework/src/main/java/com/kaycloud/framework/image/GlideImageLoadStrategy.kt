@@ -64,13 +64,13 @@ class GlideImageLoadStrategy : BaseImageLoaderStrategy<GlideImageConfig> {
         Glide.with(context).clear(config.imageView)
 
         if (config.isClearDiskCache) {
-            AppTaskExecutor.getInstance().executeOnDiskIO {
+            AppTaskExecutor.getInstance().execute {
 
             }
         }
 
         if (config.isClearMemory) {
-            AppTaskExecutor.getInstance().executeOnDiskIO {
+            AppTaskExecutor.getInstance().execute {
                 //TODO:clear memory cache
             }
         }

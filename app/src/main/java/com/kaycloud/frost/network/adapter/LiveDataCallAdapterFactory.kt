@@ -31,6 +31,7 @@ class LiveDataCallAdapterFactory : Factory() {
         annotations: Array<Annotation>,
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
+        //根据源码来说，这里应该校验returnType。
         if (Factory.getRawType(returnType) != LiveData::class.java) {
             return null
         }

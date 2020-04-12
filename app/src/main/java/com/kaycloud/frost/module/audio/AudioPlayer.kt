@@ -25,7 +25,7 @@ class AudioPlayer(val context: Context, val uri: Uri, val callback: PlayCallback
     private var lastPlayProgress: Int = 0
 
     init {
-        AppTaskExecutor.getInstance().executeOnDiskIO {
+        AppTaskExecutor.getInstance().execute {
             mMediaPlayer = MediaPlayer.create(context, uri)
             isInitialized = true
             mMediaPlayer?.setOnCompletionListener {

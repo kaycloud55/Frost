@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion rootProject.android.compileSdkVersion
 
@@ -96,4 +97,5 @@ dependencies {
     api "androidx.viewpager2:viewpager2:1.0.0"
 
     debugApi 'com.amitshekhar.android:debug-db:1.0.6'
+
 }

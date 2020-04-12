@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/gankListFragment">
+    <fragment
+        android:id="@+id/gankListFragment"
+        android:name="com.kaycloud.frost.module.image.gank.ui.GankListFragment"
+        android:label="GankListFragment"
+        tools:layout="@layout/fragment_wallhavenitementity_list">
+        <action
+            android:id="@+id/action_gankListFragment_to_wallhavenListFragment"
+            app:destination="@id/wallhavenListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wallhavenListFragment"
+        android:name="com.kaycloud.frost.module.image.wallhaven.ui.WallhavenListFragment"
+        android:label="WallhavenListFragment"
+        tools:layout="@layout/fragment_wallhavenitementity_list" />
+</navigation>
