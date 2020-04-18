@@ -3,13 +3,9 @@ package com.kaycloud.frost.module.image.wallhaven.ui
 import android.content.Context
 import android.content.Intent
 import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.target.Target
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.kaycloud.framework.image.ImageLoader
-import com.kaycloud.framework.image.config.GlideImageConfig
+import com.kaycloud.framework.image.imageloader.ImageLoader
 import com.kaycloud.frost.R
 import com.kaycloud.frost.module.image.wallhaven.data.WallhavenItemEntity
 import com.kaycloud.frost.module.image.PhotoDetailActivity

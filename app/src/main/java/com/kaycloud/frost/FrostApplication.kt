@@ -3,8 +3,9 @@ package com.kaycloud.frost
 import android.app.Application
 import android.content.Context
 import com.facebook.stetho.Stetho
-import com.kaycloud.framework.image.GlideImageLoadStrategy
-import com.kaycloud.framework.image.ImageLoader
+import com.kaycloud.framework.AppGlobals
+import com.kaycloud.framework.image.imageloader.GlideImageLoadStrategy
+import com.kaycloud.framework.image.imageloader.ImageLoader
 import com.kaycloud.frost.base.loading.DefaultLoadAdapter
 import com.kaycloud.frost.base.loading.LoadingManager
 import com.orhanobut.logger.AndroidLogAdapter
@@ -32,6 +33,11 @@ class FrostApplication : Application() {
 
     fun test() {
 
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        AppGlobals.sApplicationContext = base
     }
 
     override fun onCreate() {

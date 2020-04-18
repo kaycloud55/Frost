@@ -174,7 +174,8 @@ class LoadingManager {
                 addView(it, view.layoutParams)
             }
             Holder(mAdapter, view.context, wrapper)
-        } ?: throw RuntimeException("view has no parent to show gloading as cover!")
+        }
+            ?: throw RuntimeException("view has no parent to com.kaycloud.frost.util.show gloading as cover!")
     }
 
 

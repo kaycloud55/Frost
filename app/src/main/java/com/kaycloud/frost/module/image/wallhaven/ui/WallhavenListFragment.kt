@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,9 +17,7 @@ import com.kaycloud.frost.base.BaseFragment
 import com.kaycloud.frost.module.image.wallhaven.data.DisplayType
 import com.kaycloud.frost.module.image.wallhaven.data.WallHavenSearchOptions
 import com.kaycloud.frost.module.image.wallhaven.data.WallhavenViewModel
-import com.kaycloud.frost.module.image.wallhaven.data.WallhavenViewModelFactory
 import com.kaycloud.frost.network.Status
-import com.kaycloud.frost.base.OnFragmentInteractionListener
 import java.lang.Exception
 
 /**
@@ -34,7 +31,6 @@ class WallhavenListFragment : BaseFragment() {
 
     private var columnCount = 1
 
-    private var listener: OnFragmentInteractionListener? = null
     private lateinit var viewModel: WallhavenViewModel
 
     private var mAdapter: WallhavenListAdapter? = null
@@ -114,18 +110,10 @@ class WallhavenListFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(
-                "$context must implement OnListFragmentInteractionListener"
-            )
-        }
     }
 
     override fun onDetach() {
         super.onDetach()
-        listener = null
     }
 
     companion object {

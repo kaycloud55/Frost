@@ -68,3 +68,4 @@ data class WallhavenTagInfo(
     val name: String, // anime
     val purity: String // sfw
 )
+

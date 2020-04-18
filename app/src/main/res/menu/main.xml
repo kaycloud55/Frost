@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
-          android:orderInCategory="100"
-          app:showAsAction="ifRoom"/>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/gank"
+        android:title="Gank"
+        android:icon="@drawable/asl_my_courses" />
+
+    <item
+        android:id="@+id/wallhaven"
+        android:title="Wallhaven"
+        android:icon="@drawable/asl_featured" />
+
+    <item
+        android:id="@+id/topList"
+        android:title="TopList"
+        android:icon="@drawable/asl_search" />
+
 </menu>

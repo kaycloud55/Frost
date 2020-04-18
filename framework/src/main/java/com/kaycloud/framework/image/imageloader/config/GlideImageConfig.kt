@@ -1,10 +1,8 @@
-package com.kaycloud.framework.image.config
+package com.kaycloud.framework.image.imageloader.config
 
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.TransitionOptions
-import com.bumptech.glide.load.Transformation
-import com.bumptech.glide.load.resource.bitmap.DrawableTransformation
 
 /**
  * author: jiangyunkai

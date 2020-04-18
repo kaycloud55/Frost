@@ -2,7 +2,7 @@ package com.kaycloud.frost.module.image
 
 import android.os.Bundle
 import com.github.chrisbanes.photoview.PhotoView
-import com.kaycloud.framework.image.ImageLoader
+import com.kaycloud.framework.image.imageloader.ImageLoader
 import com.kaycloud.frost.R
 import com.kaycloud.frost.base.BaseActivity
 

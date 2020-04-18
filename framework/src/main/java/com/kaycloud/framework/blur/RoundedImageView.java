@@ -37,7 +37,7 @@ public class RoundedImageView extends AppCompatImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         Drawable myDrawable = getDrawable();
-        if (myDrawable!=null && myDrawable instanceof BitmapDrawable && mCornerRadius > 0) {
+        if (myDrawable instanceof BitmapDrawable && mCornerRadius > 0) {
             rectF.set(myDrawable.getBounds());
             int prevCount = canvas.saveLayer(rectF, null, Canvas.ALL_SAVE_FLAG);
             getImageMatrix().mapRect(rectF);

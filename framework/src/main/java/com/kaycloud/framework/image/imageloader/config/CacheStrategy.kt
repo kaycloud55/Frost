@@ -1,4 +1,4 @@
-package com.kaycloud.framework.image.config
+package com.kaycloud.framework.image.imageloader.config
 
 /**
  * Created by jiangyunkai on 2019/11/26

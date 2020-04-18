@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,9 +21,7 @@ import com.kaycloud.frost.base.BaseFragment
 import com.kaycloud.frost.base.FrostLoadMoreView
 import com.kaycloud.frost.module.image.gank.data.GankItemEntity
 import com.kaycloud.frost.module.image.gank.data.GankViewModel
-import com.kaycloud.frost.module.image.gank.data.GankViewModelFactory
 import com.kaycloud.frost.network.Status
-import com.kaycloud.frost.base.OnFragmentInteractionListener
 import com.orhanobut.logger.Logger
 
 
@@ -33,7 +30,6 @@ class GankListFragment : BaseFragment() {
 
     private var rootView: View? = null
     private var columnCount = 1
-    private var listener: OnFragmentInteractionListener? = null
     private val mItemList: MutableList<GankItemEntity> = mutableListOf()
 
     private var mAdapter: GankListAdapter? = null
@@ -97,7 +93,7 @@ class GankListFragment : BaseFragment() {
     }
 
     private fun subscribeUi() {
-        viewModel.getWelfare().observe(this, Observer {
+        viewModel.getWelfare().observeForever(Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     if (it.data != null) {
@@ -121,21 +117,6 @@ class GankListFragment : BaseFragment() {
         })
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(
-                "$context must implement OnListFragmentInteractionListener"
-            )
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
 
     companion object {
 

@@ -33,19 +33,21 @@ import com.kaycloud.framework.executor.AppTaskExecutor
 </RequestType></ResultType> */
 abstract class NetworkBoundResource<ResultType, RequestType>
 @MainThread constructor(private val appTaskExecutor: AppTaskExecutor) {
-
+    //从多个数据来源接收结果
     private val result = MediatorLiveData<Resource<ResultType>>()
 
     init {
-        result.value = Resource.loading(null)
+        result.value = Resource.loading(null) //初始值loading
         @Suppress("LeakingThis")
         val dbSource = loadFromDb()
         result.addSource(dbSource) { data ->
-            result.removeSource(dbSource)
+            result.removeSource(dbSource) //一旦从数据库获取到数据之后就移除这个来源
+            //数据库中可能有缓存的数据，但是过期了需要更新
             if (shouldFetch(data)) {
                 fetchFromNetwork(dbSource)
             } else {
                 result.addSource(dbSource) { newData ->
+                    //不需要请求数据，后面的数据都从db获取，所以这里就只监听db
                     setValue(Resource.success(newData))
                 }
             }
@@ -60,8 +62,9 @@ abstract class NetworkBoundResource<ResultType, RequestType>
     }
 
     private fun fetchFromNetwork(dbSource: LiveData<ResultType>) {
-        val apiResponse = createCall()
+        val apiResponse = createCall() //开始请求数据
         // we re-attach dbSource as a new source, it will dispatch its latest value quickly
+        // 先用旧数据填充，拉到新的之后再替换
         result.addSource(dbSource) { newData ->
             setValue(Resource.loading(newData))
         }
@@ -70,12 +73,11 @@ abstract class NetworkBoundResource<ResultType, RequestType>
             result.removeSource(dbSource)
             when (response) {
                 is ApiSuccessResponse -> {
+                    //后台处理数据
                     appTaskExecutor.execute {
                         saveCallResult(processResponse(response))
                         appTaskExecutor.executeOnMainThread {
-                            // we specially request a new live data,
-                            // otherwise we will get immediately last cached value,
-                            // which may not be updated with latest results received from network.
+                            // 这里要遵循唯一可信来源，永远只从db获取可信数据
                             result.addSource(loadFromDb()) { newData ->
                                 setValue(Resource.success(newData))
                             }

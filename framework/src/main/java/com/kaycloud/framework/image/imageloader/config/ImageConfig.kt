@@ -1,4 +1,4 @@
-package com.kaycloud.framework.image.config
+package com.kaycloud.framework.image.imageloader.config
 
 import android.widget.ImageView
 

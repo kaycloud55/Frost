@@ -1,8 +1,8 @@
-package com.kaycloud.framework.image
+package com.kaycloud.framework.image.imageloader
 
 import android.content.Context
 import android.widget.ImageView
-import com.kaycloud.framework.image.config.ImageConfig
+import com.kaycloud.framework.image.imageloader.config.ImageConfig
 
 /**
  * author: jiangyunkai

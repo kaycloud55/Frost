@@ -20,11 +20,7 @@
         android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".module.MusicActivity"
-            android:label="@string/title_activity_music"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        android:theme="@style/Owl.Blue">
         <activity android:name=".base.WebviewActivity" />
         <activity android:name=".module.toplist.TopListActivity" />
         <activity
@@ -32,10 +28,9 @@
             android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Owl.Blue">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -51,13 +46,24 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity> <!-- value的值填写你在友盟后台申请的应用Appkey -->
+        </activity>
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5ddb5d1a0cafb249fe0003d5" /> <!-- value的值填写渠道名称，例如yingyongbao。这里设置动态渠道名称变量 -->
+            android:value="5ddb5d1a0cafb249fe0003d5" /> <!-- value的值填写你在友盟后台申请的应用Appkey -->
+
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="official" />
+            android:value="official" />         <!-- value的值填写渠道名称，例如yingyongbao。这里设置动态渠道名称变量 -->
+
+
+        <!--Preload custom fonts-->
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="fontProviderRequests"
+            android:value="Rubik" />
     </application>
+
 
 </manifest>

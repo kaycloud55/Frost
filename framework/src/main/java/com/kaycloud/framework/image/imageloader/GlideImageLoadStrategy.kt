@@ -1,17 +1,19 @@
-package com.kaycloud.framework.image
+package com.kaycloud.framework.image.imageloader
 
 import android.content.Context
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.kaycloud.framework.executor.AppTaskExecutor
-import com.kaycloud.framework.image.config.GlideImageConfig
+import com.kaycloud.framework.image.imageloader.BaseImageLoaderStrategy
+import com.kaycloud.framework.image.imageloader.config.GlideImageConfig
 import com.kaycloud.framework.util.Preconditions
 
 /**
  * author: jiangyunkai
  * Created_at: 2019-11-26
  */
-class GlideImageLoadStrategy : BaseImageLoaderStrategy<GlideImageConfig> {
+class GlideImageLoadStrategy :
+    BaseImageLoaderStrategy<GlideImageConfig> {
 
     override fun loadImage(context: Context, imageView: ImageView, url: String?) {
         Glide.with(context).load(url).into(imageView)
