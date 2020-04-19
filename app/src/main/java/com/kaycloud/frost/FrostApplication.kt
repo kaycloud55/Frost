@@ -31,10 +31,6 @@ class FrostApplication : Application() {
     }
 
 
-    fun test() {
-
-    }
-
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         AppGlobals.sApplicationContext = base
