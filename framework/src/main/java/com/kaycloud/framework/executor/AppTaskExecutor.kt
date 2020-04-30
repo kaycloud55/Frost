@@ -33,12 +33,12 @@ class AppTaskExecutor {
 
     companion object {
 
-        private val sMainThreadExecutor = Executor {
+        val sMainThreadExecutor = Executor {
             getInstance()
                 .postToMainThread(it)
         }
 
-        private val sIoThreadExecutor = Executor {
+        val sIoThreadExecutor = Executor {
             getInstance()
                 .execute(it)
         }
@@ -84,5 +84,9 @@ class AppTaskExecutor {
 
     fun postToMainThreadDelay(command: Runnable, delayMills: Long) {
         delegate.executeOnMainThreadDelay(command, delayMills)
+    }
+
+    fun getCpuExecutor(): Executor {
+        return delegate.getCpuThreadPoolExecutor()
     }
 }

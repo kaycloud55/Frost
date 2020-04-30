@@ -1,2 +1,3 @@
 include ':app', ':framework', ':network', ':toplist', ':audio', ':video', ':navannotation', ':navcompiler'
 include ':performance'
+include ':launchstarter'

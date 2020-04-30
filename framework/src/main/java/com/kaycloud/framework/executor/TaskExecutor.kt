@@ -1,6 +1,7 @@
 package com.kaycloud.framework.executor
 
 import androidx.annotation.NonNull
+import java.util.concurrent.Executor
 import javax.annotation.Nonnull
 
 /**
@@ -29,4 +30,6 @@ abstract class TaskExecutor {
     }
 
     abstract fun isMainThread(): Boolean
+
+    abstract fun getCpuThreadPoolExecutor(): Executor
 }
