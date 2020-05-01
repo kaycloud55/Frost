@@ -54,7 +54,6 @@ class DispatchRunnable(private val task: Task) : Runnable {
                         + "  needWait " + (task.needWait() || Looper.getMainLooper() == Looper.myLooper())
                         + "  ThreadId " + Thread.currentThread().id
                         + "  ThreadName " + Thread.currentThread().name
-                        + "  Situation  " + task.getCurrentSituation()
             )
         }
     }

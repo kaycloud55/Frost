@@ -73,7 +73,7 @@ class TaskDispatcher() {
             if (task.onlyRunInMainProcess()) {
                 markTaskDone(task)
             } else {
-                sendTaskReal()
+//                sendTaskReal()
             }
             task.isDispatched = true
         }
