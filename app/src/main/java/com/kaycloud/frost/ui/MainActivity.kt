@@ -24,7 +24,7 @@ class MainActivity : BaseActivity() {
             lifecycleScope.launchWhenResumed {
                 navController.addOnDestinationChangedListener { _, destination, _ ->
                     when (destination.id) {
-                        R.id.gank, R.id.wallhaven, R.id.toplist -> bottomNav.show()
+                        R.id.gank, R.id.wallhaven, R.id.topList -> bottomNav.show()
                         else -> bottomNav.hide()
                     }
                 }

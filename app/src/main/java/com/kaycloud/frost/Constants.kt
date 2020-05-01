@@ -16,4 +16,5 @@ object DatabaseConstant {
 
     const val TABLE_GANK = "gank_data"
     const val TABLE_WALLHAVEN = "wallhaven_data"
+    const val TABLE_TOP_LIST = "toplist_data"
 }

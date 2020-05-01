@@ -1,89 +1,94 @@
 package com.kaycloud.frost.module.toplist.ui.toplist
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.kaycloud.framework.executor.AppTaskExecutor
 import com.kaycloud.framework.log.KLog
-import com.kaycloud.frost.network.NetworkRequester
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Request
-import okhttp3.Response
-import java.io.IOException
+import com.kaycloud.frost.api.TOP_LIST_URL
+import com.kaycloud.frost.module.toplist.data.TopListDao
+import com.kaycloud.frost.module.toplist.data.TopListService
+import com.kaycloud.frost.network.*
 
 /**
  * author: jiangyunkai
  * Created_at: 2020-01-03
+ * 今日热榜数据请求
  */
 
 private const val TAG = "TopListRepository"
 
-private const val TOP_LIST_URL = "https://www.tophub.fun:8080/GetType"
-private const val TOP_LIST_ITEMS = "https://www.tophub.fun:8888/GetAllInfoGzip?id=%s"
+class TopListRepository private constructor(private val topListDao: TopListDao) {
 
-class TopListRepository private constructor() {
+    val topListType: MutableLiveData<List<TopListType>> = MutableLiveData()
+    val topListItems: MutableLiveData<List<TopListItem>> = MutableLiveData()
 
-    val topListCategory: MutableLiveData<List<TopListCategory>> = MutableLiveData()
-    val topListItems: MutableLiveData<List<ToplistItem>> = MutableLiveData()
+    private val topListService by lazy {
+        NetworkRequester.getRetrofitClient(TOP_LIST_URL).create(TopListService::class.java)
+    }
 
     companion object {
 
         @Volatile
         private var instance: TopListRepository? = null
 
-        fun getInstance(): TopListRepository = instance ?: synchronized(this) {
-            instance ?: TopListRepository().also {
-                instance = it
-            }
-        }
-    }
-
-    fun getTopListCategory() {
-        val request = Request.Builder().url(TOP_LIST_URL).build()
-        NetworkRequester.getOkhttpClient().newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                KLog.e(TAG, "getTopListCategory Error:$e")
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                KLog.i(TAG, "getTopListCategory success")
-                if (!response.isSuccessful) throw IOException("response error:$response")
-                val listType =
-                    object : TypeToken<TopListResponse<TopListCategory>>() {}.type
-                val result = Gson().fromJson<TopListResponse<TopListCategory>>(
-                    response.body!!.string(),
-                    listType
-                )
-                AppTaskExecutor.getInstance().postToMainThread {
-                    topListCategory.value = result.data
+        fun getInstance(topListDao: TopListDao): TopListRepository =
+            instance ?: synchronized(this) {
+                instance ?: TopListRepository(topListDao).also {
+                    instance = it
                 }
             }
-
-        })
     }
 
-    fun getTopListItems(id: String) {
-        val request = Request.Builder().url(String.format(TOP_LIST_ITEMS, id)).build()
-        NetworkRequester.getOkhttpClient().newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                KLog.e(TAG, "getTopListItems Error:$e")
+    fun getTopListCategory(): LiveData<Resource<List<TopListType>>> {
+        KLog.i(TAG, "getTopListCategory")
+
+        return object :
+            NetworkBoundResource<List<TopListType>, CommonTopListResponse<TopListTypeResponse>>() {
+            override fun saveCallResult(item: CommonTopListResponse<TopListTypeResponse>) {
+                topListDao.insertAllTypes(item.Data.map)
             }
 
-            override fun onResponse(call: Call, response: Response) {
-                KLog.i(TAG, "getTopListItems success")
-                if (!response.isSuccessful) throw IOException("response error:$response")
-                val listType =
-                    object : TypeToken<TopListResponse<ToplistItem>>() {}.type
-                val result = Gson().fromJson<TopListResponse<ToplistItem>>(
-                    response.body!!.string(),
-                    listType
-                )
-                AppTaskExecutor.getInstance().postToMainThread {
-                    topListItems.value = result.data
+            override fun shouldFetch(data: List<TopListType>?): Boolean {
+                return true
+            }
+
+            override fun loadFromDb(): LiveData<List<TopListType>> {
+                return topListDao.loadAllTypes()
+            }
+
+            override fun createCall(): LiveData<ApiResponse<CommonTopListResponse<TopListType>>> =
+                topListService.getAllType()
+
+        }.asLiveData()
+
+    }
+
+    fun getTopListItems(id: String, page: Int): LiveData<Resource<List<TopListItem>>> {
+        KLog.i(TAG, "getTopListItems")
+
+        return object : NetworkBoundResource<List<TopListItem>, List<TopListItem>>() {
+            override fun saveCallResult(item: List<TopListItem>) {
+                topListDao.insertAllItems(item)
+            }
+
+            override fun shouldFetch(data: List<TopListItem>?): Boolean {
+                return true
+            }
+
+            override fun loadFromDb(): LiveData<List<TopListItem>> {
+                return topListDao.loadItemsByType(id, 20, page)
+            }
+
+            override fun createCall(): LiveData<ApiResponse<List<TopListItem>>> =
+                topListService.getAllInfoByType(id, page)
+
+            override fun processResponse(response: ApiSuccessResponse<List<TopListItem>>): List<TopListItem> {
+                val result = response.body
+                result.forEach {
+                    it.typeId = id
                 }
+                return result
             }
 
-        })
+        }.asLiveData()
     }
 }

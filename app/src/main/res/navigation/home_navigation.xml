@@ -23,7 +23,7 @@
         android:name="com.kaycloud.frost.module.image.wallhaven.ui.WallhavenListFragment"
         android:label="WallhavenListFragment" />
     <fragment
-        android:id="@+id/toplist"
+        android:id="@+id/topList"
         android:name="com.kaycloud.frost.module.toplist.ui.toplist.TopListFragment"
         android:label="TopListFragment" />
 

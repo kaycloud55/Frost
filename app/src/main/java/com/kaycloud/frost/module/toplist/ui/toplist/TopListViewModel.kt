@@ -1,36 +1,29 @@
 package com.kaycloud.frost.module.toplist.ui.toplist
 
-import android.view.animation.Transformation
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.kaycloud.frost.FrostApplication
+import com.kaycloud.frost.data.AppDataBase
 
 /**
  * TopList今日热榜数据
  */
 class TopListViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
-    var toplistCategories: MediatorLiveData<List<TopListCategory>> = MediatorLiveData()
-    var toplistItems: MediatorLiveData<List<ToplistItem>> = MediatorLiveData()
 
-    fun getTopListCategory() {
-        toplistCategories.removeSource(TopListRepository.getInstance().topListCategory)
-        toplistCategories.addSource(TopListRepository.getInstance().topListCategory) {
-            toplistCategories.value = it
+    private val _topListCategories = MediatorLiveData<List<TopListType>>()
+    private val _topListItems = MediatorLiveData<List<TopListItem>>()
+
+    val topListCategories: LiveData<List<TopListType>> = _topListCategories
+    val topListItems: LiveData<List<TopListItem>> = _topListItems
+
+
+    fun getTopListTypes() {
+        _topListCategories.addSource(
+            TopListRepository.getInstance(AppDataBase.getInstance(FrostApplication.applicationContext()).topListDao())
+                .getTopListCategory()
+        ) {
+            _topListCategories.value = it.data
         }
-        TopListRepository.getInstance().getTopListCategory()
     }
-
-    fun getTopListItems(id: String) {
-        toplistItems.removeSource(TopListRepository.getInstance().topListItems)
-        toplistItems.addSource(TopListRepository.getInstance().topListItems) {
-            toplistItems.value = it
-        }
-        TopListRepository.getInstance().getTopListItems(id)
-    }
-
-
 }
 
 

@@ -34,9 +34,7 @@ class GankRepository private constructor(
     fun getGankData(page: Int): LiveData<Resource<List<GankItemEntity>>> {
         Logger.t(TAG).d("getGankData,page:$page")
         return object :
-            NetworkBoundResource<List<GankItemEntity>, List<GankItemEntity>>(
-                AppTaskExecutor.getInstance()
-            ) {
+            NetworkBoundResource<List<GankItemEntity>, List<GankItemEntity>>() {
             override fun saveCallResult(itemEntity: List<GankItemEntity>) {
                 Logger.t(TAG).d("%s", itemEntity)
                 gankDao.insertAll(itemEntity)

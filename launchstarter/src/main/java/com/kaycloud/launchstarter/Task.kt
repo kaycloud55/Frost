@@ -65,7 +65,8 @@ class Task : ITask {
 
 
     /**
-     * 对于异步任务：是否需要等待countDownLatch，默认不需要
+     * 对于异步任务：主线程的CountDownLatch是否要等待它，默认是不需要的，因为它本身就不在主线程执行
+     * 但是可能有某些任务，它必须要在onCreate执行完成，所以CountDownLatch也要等待它执行完成。
      */
     fun needWait() = false
 

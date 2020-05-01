@@ -6,3 +6,6 @@ package com.kaycloud.frost.api
 const val GANK_BASE_URL = "http://gank.io/api/"
 
 const val WALL_HAVEN_URL = "https://wallhaven.cc/api/v1/"
+
+const val TOP_LIST_URL = "https://www.tophub.fun:8080/"
+

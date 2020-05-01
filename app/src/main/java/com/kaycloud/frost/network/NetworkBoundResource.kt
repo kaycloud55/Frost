@@ -23,16 +23,18 @@ import androidx.annotation.WorkerThread
 import com.kaycloud.framework.executor.AppTaskExecutor
 
 /**
- * A generic class that can provide a resource backed by both the sqlite database and the network.
+ * 数据请求中心，处理流程如下：
+ *  一旦创建，就会开始新的请求；
+ *  1. 判断[shouldFetch]，如果为true，表示需要从网络请求数据；如果false，直接返回数据库中的数据
+ *  2. 如果需要请求数据，调用[createCall]发起请求
+ *  3. 请求成功之后调用[processResponse]处理请求，并把处理完成的结果通过[saveCallResult]保存到处理
+ *  4. 不管是否成功，从数据库更新数据
  *
- *
- * You can read more about it in the [Architecture
- * Guide](https://developer.android.com/arch).
- * @param <ResultType>
- * @param <RequestType>
-</RequestType></ResultType> */
+ * @param <ResultType> 最终UI需要的数据类型
+ * @param <RequestType> 请求返回的数据类型：可能是数据库的，也可能是网络直接返回的，这两个要保持一致；
+ */
 abstract class NetworkBoundResource<ResultType, RequestType>
-@MainThread constructor(private val appTaskExecutor: AppTaskExecutor) {
+@MainThread constructor() {
     //从多个数据来源接收结果
     private val result = MediatorLiveData<Resource<ResultType>>()
 
@@ -74,9 +76,9 @@ abstract class NetworkBoundResource<ResultType, RequestType>
             when (response) {
                 is ApiSuccessResponse -> {
                     //后台处理数据
-                    appTaskExecutor.execute {
+                    AppTaskExecutor.getInstance().execute {
                         saveCallResult(processResponse(response))
-                        appTaskExecutor.executeOnMainThread {
+                        AppTaskExecutor.getInstance().executeOnMainThread {
                             // 这里要遵循唯一可信来源，永远只从db获取可信数据
                             result.addSource(loadFromDb()) { newData ->
                                 setValue(Resource.success(newData))
@@ -85,7 +87,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
                     }
                 }
                 is ApiEmptyResponse -> {
-                    appTaskExecutor.executeOnMainThread {
+                    AppTaskExecutor.getInstance().executeOnMainThread {
                         // reload from disk whatever we had
                         result.addSource(loadFromDb()) { newData ->
                             setValue(Resource.success(newData))

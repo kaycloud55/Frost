@@ -38,9 +38,7 @@ class WallhavenRepository private constructor(private val wallhavenDao: Wallhave
             LiveData<Resource<List<WallhavenItemEntity>>> {
         Logger.t(TAG).d("getGankData,page:$searchOptions")
         return object :
-            NetworkBoundResource<List<WallhavenItemEntity>, List<WallhavenItemEntity>>(
-                AppTaskExecutor.getInstance()
-            ) {
+            NetworkBoundResource<List<WallhavenItemEntity>, List<WallhavenItemEntity>>() {
             override fun saveCallResult(itemEntity: List<WallhavenItemEntity>) {
                 Logger.t(TAG).d(itemEntity)
                 wallhavenDao.insertAll(itemEntity)

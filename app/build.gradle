@@ -77,14 +77,6 @@ dependencies {
 
     kapt project(":navcompiler")
 
-    //dagger2
-    api "com.google.dagger:dagger:${rootProject.versions.dagger}"
-    api "com.google.dagger:dagger-android:${rootProject.versions.dagger}"
-    api "com.google.dagger:dagger-android-support:${rootProject.versions.dagger}"
-    // if you use the support libraries
-    kapt "com.google.dagger:dagger-android-processor:${rootProject.versions.dagger}"
-    kapt "com.google.dagger:dagger-compiler:${rootProject.versions.dagger}"
-
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
 
     //jetpack-room

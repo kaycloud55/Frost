@@ -10,6 +10,9 @@ import com.kaycloud.frost.module.image.gank.data.GankDao
 import com.kaycloud.frost.module.image.wallhaven.data.db.WallhavenDao
 import com.kaycloud.frost.module.image.gank.data.GankItemEntity
 import com.kaycloud.frost.module.image.wallhaven.data.WallhavenItemEntity
+import com.kaycloud.frost.module.toplist.data.TopListDao
+import com.kaycloud.frost.module.toplist.ui.toplist.TopListItem
+import com.kaycloud.frost.module.toplist.ui.toplist.TopListType
 
 /**
  * Created by kaycloud on 2019-07-16
@@ -22,7 +25,7 @@ import com.kaycloud.frost.module.image.wallhaven.data.WallhavenItemEntity
  * Room不允许在主线程中访问数据库，除非在build的时候使用allowMainThreadQueries()方法
  */
 @Database(
-    entities = [GankItemEntity::class, WallhavenItemEntity::class],
+    entities = [GankItemEntity::class, WallhavenItemEntity::class, TopListType::class, TopListItem::class],
     version = 1,
     exportSchema = false
 )
@@ -31,6 +34,8 @@ abstract class AppDataBase : RoomDatabase() {
     abstract fun gankDao(): GankDao
 
     abstract fun wallhavenDao(): WallhavenDao
+
+    abstract fun topListDao(): TopListDao
 
     companion object {
 
