@@ -25,14 +25,14 @@ import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * A Retrofit adapter that converts the Call into a LiveData of ApiResponse.
- * @param <R>
+ * CallAdapter的作用在于将响应类型为R的call转化为T类型，也就是把Call<R>变成T。
 </R> */
 class LiveDataCallAdapter<R>(private val responseType: Type) :
     CallAdapter<R, LiveData<ApiResponse<R>>> {
 
     override fun responseType() = responseType
 
+    //输入的就是Call<R>，
     override fun adapt(call: Call<R>): LiveData<ApiResponse<R>> {
         return object : LiveData<ApiResponse<R>>() {
             private var started = AtomicBoolean(false)

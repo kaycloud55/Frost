@@ -1,11 +1,13 @@
 package com.kaycloud.frost.module.toplist.ui.toplist
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
 import com.kaycloud.frost.FrostApplication
 import com.kaycloud.frost.data.AppDataBase
 
 /**
- * TopList今日热榜数据
+ * TopList今日热榜数据控制类
  */
 class TopListViewModel : ViewModel() {
 
@@ -18,8 +20,10 @@ class TopListViewModel : ViewModel() {
 
     fun getTopListTypes() {
         _topListCategories.addSource(
-            TopListRepository.getInstance(AppDataBase.getInstance(FrostApplication.applicationContext()).topListDao())
-                .getTopListCategory()
+                TopListRepository.getInstance(
+                        AppDataBase.getInstance(FrostApplication.applicationContext()).topListDao()
+                )
+                        .getTopListCategory()
         ) {
             _topListCategories.value = it.data
         }

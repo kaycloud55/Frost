@@ -11,32 +11,35 @@ ext {
 
 
     jetpack = [
-            navigation: '2.3.0-alpha01'
+            navigation_version: '2.2.0',
+            lifecycle_version : '2.2.0',
+            work_manager      : '2.0.1',
+            room_version      : '2.2.5',
+            paging_version    : '2.1.2',
+            work_version      : '2.3.4'
     ]
 
-    versions = [
+    ui = [
+            ahBottomNavigation_version           : '2.3.4',
+            materialDialogs_version              : '3.1.0',
+            photoView_version                    : '2.3.0',
+            baseRecyclerViewAdapterHelper_version: '2.9.45-androidx',
+            spinkit_version                      : '1.4.0'
+    ]
 
-            stetho                       : '1.5.1',
-            ahBottomNavigation           : '2.3.4',
-            Retrofit                     : '2.6.0',
-            Koin                         : '2.0.1',
-            RxAndroid                    : '2.1.1',
-            Rxjava                       : '2.2.10',
-            RxPermissions                : '0.10.2',
-
-            Glide                        : '4.9.0',
-            Gson                         : '2.8.5',
-            dagger                       : '2.15',
-
-            MaterialDialogs              : '3.1.0',
-            PhotoView                    : '2.3.0',
-            logger                       : '2.2.0',
-            baseRecyclerViewAdapterHelper: '2.9.45-androidx',
-
-            work_manager                 : '2.0.1',
-            room                         : '2.1.0',
-            paging                       : '',
-            lifecycle                    : '2.0.0'
-
+    framework = [
+            glide_version                     : '4.11.0',
+            gson_version                      : '2.8.6',
+            retrofit_version                  : '2.9.0',
+            koin_version                      : '2.1.6',
+            rxAndroid_version                 : '2.1.1',
+            rxjava2_version                   : '2.2.19',
+            rxPermissions_version             : '0.10.2',
+            rxLifecycle_version               : '4.0.0',
+            bugly_version                     : '3.2.3',
+            logger_version                       : '2.2.0',
+            okhttp_logging_interceptor_version: '4.1.0',
+            umeng_analytics_version         : '8.0.0',
+            umeng_common_version            : '2.0.0'
     ]
 }

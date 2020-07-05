@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
@@ -25,77 +23,101 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.core:core-ktx:1.0.2'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.core:core-ktx:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    /**
+     * JetPack
+     */
+    // ViewModel
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.jetpack.lifecycle_version}"
+    // LiveData
+    api "androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.jetpack.lifecycle_version}"
+    // Annotation Processor for Java 8
+    api "androidx.lifecycle:lifecycle-common-java8:${rootProject.jetpack.lifecycle_version}"
+    // Room
+    api "androidx.room:room-runtime:${rootProject.jetpack.room_version}"
+    kapt "androidx.room:room-compiler:${rootProject.jetpack.room_version}"
+    // RxJava Support for Room
+    api "androidx.room:room-rxjava2:${rootProject.jetpack.room_version}"
+    // Kotlin Extensions and Coroutines support for Room
+    api "androidx.room:room-ktx:${rootProject.jetpack.room_version}"
+    // Navigation(for kotlin)
+    api "androidx.navigation:navigation-fragment-ktx:${rootProject.jetpack.navigation_version}"
+    api "androidx.navigation:navigation-ui-ktx:${rootProject.jetpack.navigation_version}"
+    // WorkManager(kotlin+coroutines)
+    api "androidx.work:work-runtime-ktx:${rootProject.jetpack.work_version}"
+    // WorkManager RxJava2 support
+    api "androidx.work:work-rxjava2:${rootProject.jetpack.work_version}"
 
-    //jetpack-workManager
-    api "androidx.work:work-runtime-ktx:${rootProject.versions.work_manager}"
-    api "androidx.work:work-rxjava2:${rootProject.versions.work_manager}"
 
-    //jetpack-lifecycle
-    api "androidx.lifecycle:lifecycle-extensions:${rootProject.versions.lifecycle}"
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.versions.lifecycle}"
-    api "androidx.lifecycle:lifecycle-reactivestreams:${rootProject.versions.lifecycle}"
-    kapt "androidx.lifecycle:lifecycle-compiler:${rootProject.versions.lifecycle}"
+    /**
+     * framework
+     */
+    // Retrofit
+    api "com.squareup.retrofit2:retrofit:${rootProject.framework.retrofit_version}"
+    api "com.squareup.retrofit2:converter-gson:${rootProject.framework.retrofit_version}"
+    // RxJava2
+    api "io.reactivex.rxjava2:rxjava:${rootProject.framework.rxjava2_version}"
+    // RxAndroid
+    api "io.reactivex.rxjava2:rxandroid:${rootProject.framework.rxAndroid_version}"
+    // RxPermissions
+    api "com.github.tbruyelle:rxpermissions:${rootProject.framework.rxPermissions_version}"
+    // RxLifecycle
+    api "com.trello.rxlifecycle4:rxlifecycle:${rootProject.framework.rxLifecycle_version}"
+    api "com.trello.rxlifecycle4:rxlifecycle-android:${rootProject.framework.rxLifecycle_version}"
+    api "com.trello.rxlifecycle4:rxlifecycle-components:${rootProject.framework.rxLifecycle_version}"
+    api "com.trello.rxlifecycle4:rxlifecycle-components-preference:${rootProject.framework.rxLifecycle_version}"
+    api "com.trello.rxlifecycle4:rxlifecycle-android-lifecycle:${rootProject.framework.rxLifecycle_version}"
+    api "com.trello.rxlifecycle4:rxlifecycle-kotlin:${rootProject.framework.rxLifecycle_version}"
+    api "com.trello.rxlifecycle4:rxlifecycle-android-lifecycle-kotlin:${rootProject.framework.rxLifecycle_version}"
+    // Glide
+    api "com.github.bumptech.glide:glide:${rootProject.framework.glide_version}"
+    kapt "com.github.bumptech.glide:compiler:${rootProject.framework.glide_version}"
+    // Gson
+    api "com.google.code.gson:gson:${rootProject.framework.gson_version}"
+    // koin
+    api "org.koin:koin-core:${rootProject.framework.koin_version}"
+    // logger
+    api "com.orhanobut:logger:${rootProject.framework.logger_version}"
+    // logger-okhttp3
+    api "com.squareup.okhttp3:logging-interceptor:${rootProject.framework.okhttp_logging_interceptor_version}"
+    // bugly
+    api "com.tencent.bugly:crashreport:${rootProject.framework.bugly_version}"
+    // umeng
+    api "com.umeng.umsdk:analytics:${rootProject.framework.umeng_analytics_version}"
+    api "com.umeng.umsdk:common:${rootProject.framework.umeng_common_version}"
 
-    //Retrofit
-    api "com.squareup.retrofit2:retrofit:${rootProject.versions.Retrofit}"
-    api "com.squareup.retrofit2:converter-gson:${rootProject.versions.Retrofit}"
+    /**
+     * ui
+     */
+    // Material Dialogs
+    api "com.afollestad.material-dialogs:core:${rootProject.ui.materialDialogs_version}"
+    api "com.afollestad.material-dialogs:input:${rootProject.ui.materialDialogs_version}"
+    // PhotoView
+    api "com.github.chrisbanes:PhotoView:${rootProject.ui.photoView_version}"
+    // BottomViewNavigation
+    api "com.aurelhubert:ahbottomnavigation:${rootProject.ui.ahBottomNavigation_version}"
+    // Recyclerview-Helper
+    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:${rootProject.ui.baseRecyclerViewAdapterHelper_version}"
+    // loading
+    api "com.github.ybq:Android-SpinKit:${rootProject.ui.spinkit_version}"
 
-    //Rx
-    api "io.reactivex.rxjava2:rxjava:${rootProject.versions.Rxjava}"
-    api "io.reactivex.rxjava2:rxandroid:${rootProject.versions.RxAndroid}"
-    api "com.github.tbruyelle:rxpermissions:${rootProject.versions.RxPermissions}"
-
-    //koin
-    api "org.koin:koin-core:${rootProject.versions.Koin}"
-
-    //glide
-    api "com.github.bumptech.glide:glide:${rootProject.versions.Glide}"
-
-    //gson
-    api "com.google.code.gson:gson:${rootProject.versions.Gson}"
-
-    //dialogs
-    api "com.afollestad.material-dialogs:core:${rootProject.versions.MaterialDialogs}"
-    api "com.afollestad.material-dialogs:input:${rootProject.versions.MaterialDialogs}"
-
-    //photoView
-    api "com.github.chrisbanes:PhotoView:${rootProject.versions.PhotoView}"
-
-    //log
-    api "com.orhanobut:logger:${rootProject.versions.logger}"
-
-    //stetho调试
-    api "com.facebook.stetho:stetho:${rootProject.versions.stetho}"
-    api "com.facebook.stetho:stetho-okhttp3:${rootProject.versions.stetho}"
-
-    //ui
-    api "com.aurelhubert:ahbottomnavigation:${rootProject.versions.ahBottomNavigation}"
-
-    //recyclerview
-    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:${rootProject.versions.baseRecyclerViewAdapterHelper}"
-
-    api "com.squareup.okhttp3:logging-interceptor:4.1.0"
-
-    api 'com.tencent.bugly:crashreport:latest.release'
-    //loading
-    api 'com.github.ybq:Android-SpinKit:1.4.0'
-
-    //viewpager indicator
-    implementation 'com.shizhefei:ViewPagerIndicator:1.1.9.androidx'
-
-    api "androidx.viewpager2:viewpager2:1.0.0"
-
+    /**
+     * debug
+     */
     debugApi 'com.amitshekhar.android:debug-db:1.0.6'
 
 }

@@ -7,9 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.kaycloud.frost.DATABASE_NAME
 import com.kaycloud.frost.module.image.gank.data.GankDao
-import com.kaycloud.frost.module.image.wallhaven.data.db.WallhavenDao
 import com.kaycloud.frost.module.image.gank.data.GankItemEntity
 import com.kaycloud.frost.module.image.wallhaven.data.WallhavenItemEntity
+import com.kaycloud.frost.module.image.wallhaven.data.db.WallhavenDao
 import com.kaycloud.frost.module.toplist.data.TopListDao
 import com.kaycloud.frost.module.toplist.ui.toplist.TopListItem
 import com.kaycloud.frost.module.toplist.ui.toplist.TopListType

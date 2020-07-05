@@ -2,15 +2,12 @@ package com.kaycloud.frost.base.loading
 
 import android.app.Activity
 import android.content.Context
-import android.net.MacAddress
 import android.os.Build
 import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import okhttp3.internal.platform.Platform
-import java.lang.Exception
-import java.lang.RuntimeException
 
 /**
  * author: jiangyunkai

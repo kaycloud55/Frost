@@ -8,8 +8,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.kaycloud.framework.image.imageloader.ImageLoader
 import com.kaycloud.frost.R
-import com.kaycloud.frost.module.image.gank.data.GankItemEntity
 import com.kaycloud.frost.module.image.PhotoDetailActivity
+import com.kaycloud.frost.module.image.gank.data.GankItemEntity
 
 /**
  * Created by kaycloud on 2019-07-17

@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -18,7 +18,6 @@ import com.kaycloud.frost.module.image.wallhaven.data.DisplayType
 import com.kaycloud.frost.module.image.wallhaven.data.WallHavenSearchOptions
 import com.kaycloud.frost.module.image.wallhaven.data.WallhavenViewModel
 import com.kaycloud.frost.network.Status
-import java.lang.Exception
 
 /**
  * author: kaycloud
@@ -42,7 +41,7 @@ class WallhavenListFragment : BaseFragment() {
         }
         //这里既是初始化，又需要返回值，所以使用run
         viewModel = activity?.run {
-            ViewModelProviders.of(this)[WallhavenViewModel::class.java]
+            ViewModelProvider(this).get(WallhavenViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
         viewModel.getSearchResult().observe(this, Observer {

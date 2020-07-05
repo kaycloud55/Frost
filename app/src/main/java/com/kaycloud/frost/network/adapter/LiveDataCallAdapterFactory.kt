@@ -16,9 +16,8 @@
 
 package com.kaycloud.frost.network.adapter
 
-import com.kaycloud.frost.network.ApiResponse
-
 import androidx.lifecycle.LiveData
+import com.kaycloud.frost.network.ApiResponse
 import retrofit2.CallAdapter
 import retrofit2.CallAdapter.Factory
 import retrofit2.Retrofit
@@ -35,6 +34,7 @@ class LiveDataCallAdapterFactory : Factory() {
         if (Factory.getRawType(returnType) != LiveData::class.java) {
             return null
         }
+        //返回returnType的第一个泛型参数，其实就是LiveData的泛型参数
         val observableType = Factory.getParameterUpperBound(0, returnType as ParameterizedType)
         val rawObservableType = Factory.getRawType(observableType)
         if (rawObservableType != ApiResponse::class.java) {

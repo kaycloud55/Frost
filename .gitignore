@@ -83,16 +83,6 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
-app/bugly/
-app/src/main/java/com/kaycloud/frost/image/
-app/src/main/java/com/kaycloud/frost/video/
-audio/libs/
-audio/src/main/java/
-audio/src/main/res/drawable/
-gradleplugin/
-network/libs/
-network/src/main/res/drawable/
-repo/
-video/libs/
-video/src/main/java/
-video/src/main/res/drawable/
+
+# Android Profiling
+*.hprof

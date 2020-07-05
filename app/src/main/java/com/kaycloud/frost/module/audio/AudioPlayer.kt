@@ -4,13 +4,12 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
-import com.kaycloud.framework.ext.TAG
 import com.kaycloud.framework.executor.AppTaskExecutor
-import com.kaycloud.frost.module.audio.IAudioHandler
+import com.kaycloud.framework.ext.TAG
 import com.kaycloud.frost.extension.isNotNullOrEmpty
+import com.kaycloud.frost.module.audio.IAudioHandler
 import java.io.IOException
-import java.util.Timer
-import java.util.TimerTask
+import java.util.*
 
 /**
  * author: jiangyunkai

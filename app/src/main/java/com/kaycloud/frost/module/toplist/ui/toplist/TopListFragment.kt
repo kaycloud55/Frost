@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.kaycloud.framework.ext.TAG
 import com.kaycloud.framework.log.KLog
 import com.kaycloud.frost.databinding.TopListFragmentBinding
@@ -16,7 +15,7 @@ class TopListFragment : Fragment() {
     private var binding: TopListFragmentBinding? = null
 
     private val viewModel: TopListViewModel by lazy {
-        ViewModelProviders.of(this).get(TopListViewModel::class.java)
+        ViewModelProvider(requireActivity()).get(TopListViewModel::class.java)
     }
 
     override fun onCreateView(

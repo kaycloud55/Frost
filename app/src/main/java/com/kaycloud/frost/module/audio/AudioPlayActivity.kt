@@ -11,17 +11,17 @@ import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
+import com.kaycloud.framework.executor.AppTaskExecutor
 import com.kaycloud.framework.ext.getFileNameFromUri
 import com.kaycloud.framework.ext.toast
-import com.kaycloud.framework.executor.AppTaskExecutor
 import com.kaycloud.framework.util.util.TimeUtils
 import com.kaycloud.frost.R
+import com.kaycloud.frost.base.BaseActivity
+import com.kaycloud.frost.extension.isNotNullOrEmpty
 import com.kaycloud.frost.module.audio.state.StateContext
 import com.kaycloud.frost.module.audio.util.AudioHelper
 import com.kaycloud.frost.module.audio.util.MusicUtils
 import com.kaycloud.frost.module.audio.util.RealPathUtil
-import com.kaycloud.frost.extension.isNotNullOrEmpty
-import com.kaycloud.frost.base.BaseActivity
 import com.orhanobut.logger.Logger
 import com.yy.hiyo.camera.audio.AudioPlayer
 import com.yy.hiyo.camera.audio.PlayCallback
@@ -44,6 +44,7 @@ class AudioPlayActivity : BaseActivity() {
     private var mPlayer: AudioPlayer? = null
 
     private var mIvPlay: ImageView? = null
+
     /**
      * 播放器回调
      */

@@ -3,8 +3,8 @@ package com.kaycloud.frost.module.toplist.data
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.kaycloud.frost.DatabaseConstant
-import com.kaycloud.frost.module.toplist.ui.toplist.TopListType
 import com.kaycloud.frost.module.toplist.ui.toplist.TopListItem
+import com.kaycloud.frost.module.toplist.ui.toplist.TopListType
 
 /**
  * Created by jiangyunkai on 2020/4/19

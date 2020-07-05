@@ -7,8 +7,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.kaycloud.framework.image.imageloader.ImageLoader
 import com.kaycloud.frost.R
-import com.kaycloud.frost.module.image.wallhaven.data.WallhavenItemEntity
 import com.kaycloud.frost.module.image.PhotoDetailActivity
+import com.kaycloud.frost.module.image.wallhaven.data.WallhavenItemEntity
 
 /**
  * author: kaycloud

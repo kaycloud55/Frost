@@ -1,9 +1,8 @@
 package com.kaycloud.frost.module.toplist.data
 
 import androidx.lifecycle.LiveData
-import com.kaycloud.frost.module.toplist.ui.toplist.TopListItem
 import com.kaycloud.frost.module.toplist.ui.toplist.CommonTopListResponse
-import com.kaycloud.frost.module.toplist.ui.toplist.TopListType
+import com.kaycloud.frost.module.toplist.ui.toplist.TopListItem
 import com.kaycloud.frost.module.toplist.ui.toplist.TopListTypeResponse
 import com.kaycloud.frost.network.ApiResponse
 import retrofit2.http.GET
@@ -24,5 +23,8 @@ interface TopListService {
      * 获取某个来源的具体内容
      */
     @GET("v2/GetAllInfoGzip?id={id}&{page}")
-    fun getAllInfoByType(@Path("id") id: String, @Path("page") page: Int): LiveData<ApiResponse<List<TopListItem>>>
+    fun getAllInfoByType(
+        @Path("id") id: String,
+        @Path("page") page: Int
+    ): LiveData<ApiResponse<List<TopListItem>>>
 }

@@ -22,7 +22,7 @@
         android:text="no data"
         android:textSize="20sp"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_load_fail"

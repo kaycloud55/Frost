@@ -1,7 +1,6 @@
 package com.kaycloud.frost.module.image.wallhaven.data
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.*
 import com.kaycloud.framework.ext.TAG
 import com.kaycloud.framework.log.KLog

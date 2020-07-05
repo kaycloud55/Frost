@@ -8,8 +8,8 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.kaycloud.frost.module.audio.PermissionCallback
 import com.kaycloud.frost.base.loading.LoadingManager
+import com.kaycloud.frost.module.audio.PermissionCallback
 import com.orhanobut.logger.Logger
 import com.umeng.analytics.MobclickAgent
 

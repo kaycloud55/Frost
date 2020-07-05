@@ -1,4 +1,15 @@
+// Gradle Enterprise plugin - for build scan
+plugins {
+    id "com.gradle.enterprise" version "3.3.4"
+}
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+    }
+}
+
 include ':app', ':framework', ':network', ':toplist', ':audio', ':video', ':navannotation', ':navcompiler'
 include ':performance'
 include ':launchstarter'
-include ':buildSrc'

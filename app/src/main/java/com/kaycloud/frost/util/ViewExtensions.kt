@@ -24,9 +24,7 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.view.View
-import android.view.View.GONE
-import android.view.View.MeasureSpec
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.annotation.AttrRes

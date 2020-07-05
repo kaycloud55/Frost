@@ -79,6 +79,7 @@ class MediaImageViewModel(application: Application) : AndroidViewModel(applicati
                     val id = cursor.getLong(idColumn)
                     val dateTaken = Date(cursor.getLong(dateTakenColumn))
                     val displayName = cursor.getString(displayNameColumn)
+
                     /**
                      * 由于已经使用了[MediaStore.Images.Media.EXTERNAL_CONTENT_URI]作为查询路径，所以可以作为基础uri拼接到ID前面
                      *
