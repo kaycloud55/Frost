@@ -99,6 +99,9 @@ dependencies {
     // umeng
     api "com.umeng.umsdk:analytics:${rootProject.framework.umeng_analytics_version}"
     api "com.umeng.umsdk:common:${rootProject.framework.umeng_common_version}"
+    // stetho
+    api "com.facebook.stetho:stetho:${rootProject.framework.stetho_version}"
+    api "com.facebook.stetho:stetho-okhttp3:${rootProject.framework.stetho_version}"
 
     /**
      * ui
@@ -110,8 +113,8 @@ dependencies {
     api "com.github.chrisbanes:PhotoView:${rootProject.ui.photoView_version}"
     // BottomViewNavigation
     api "com.aurelhubert:ahbottomnavigation:${rootProject.ui.ahBottomNavigation_version}"
-    // Recyclerview-Helper
-    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:${rootProject.ui.baseRecyclerViewAdapterHelper_version}"
+    // SmartRefreshLayout
+    api "com.scwang.smart:refresh-layout-kernel:${rootProject.ui.smartRefreshLayout_version}"
     // loading
     api "com.github.ybq:Android-SpinKit:${rootProject.ui.spinkit_version}"
 

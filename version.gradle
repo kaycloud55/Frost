@@ -20,11 +20,11 @@ ext {
     ]
 
     ui = [
-            ahBottomNavigation_version           : '2.3.4',
-            materialDialogs_version              : '3.1.0',
-            photoView_version                    : '2.3.0',
-            baseRecyclerViewAdapterHelper_version: '2.9.45-androidx',
-            spinkit_version                      : '1.4.0'
+            ahBottomNavigation_version: '2.3.4',
+            materialDialogs_version   : '3.1.0',
+            photoView_version         : '2.3.0',
+            spinkit_version           : '1.4.0',
+            smartRefreshLayout_version: '2.0.1'
     ]
 
     framework = [
@@ -37,9 +37,12 @@ ext {
             rxPermissions_version             : '0.10.2',
             rxLifecycle_version               : '4.0.0',
             bugly_version                     : '3.2.3',
-            logger_version                       : '2.2.0',
+            logger_version                    : '2.2.0',
             okhttp_logging_interceptor_version: '4.1.0',
-            umeng_analytics_version         : '8.0.0',
-            umeng_common_version            : '2.0.0'
+            umeng_analytics_version           : '8.0.0',
+            umeng_common_version              : '2.0.0',
+            stetho_version                    : '1.5.1'
     ]
+
+
 }
